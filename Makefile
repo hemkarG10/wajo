@@ -8,6 +8,8 @@ test:
 
 eval:
 	PYTHONPATH=. uv run python eval/runner.py
+	PYTHONPATH=. uv run python eval/harness.py
+	PYTHONPATH=. uv run python eval/report.py
 
 lint:
 	uv run ruff check .

@@ -3,14 +3,14 @@ from rich.console import Console
 from rich.panel import Panel
 import yaml
 
-from agent.ingest import FakeMailbox
-from agent.llm import LlmAdapter
-from agent.triage import extract_situation
-from agent.planner import propose_actions
-from agent.injection import scan
-from agent.decide import make_decision
-from agent.execute import Executor
-from agent.learn.learner import train_policy, save_policy, load_policy
+from src.agent.ingest import FakeMailbox
+from src.agent.llm import LlmAdapter
+from src.agent.triage import extract_situation
+from src.agent.planner import propose_actions
+from src.agent.injection import scan
+from src.agent.decide import make_decision
+from src.agent.execute import Executor
+from src.agent.learn.learner import train_policy, save_policy, load_policy
 
 app = typer.Typer()
 console = Console()

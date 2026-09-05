@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from agent.llm import LlmAdapter
-from agent.models import EmailMessage, Situation
+from src.agent.llm import LlmAdapter
+from src.agent.models import EmailMessage, Situation
 
 def extract_situation(
     email: EmailMessage,

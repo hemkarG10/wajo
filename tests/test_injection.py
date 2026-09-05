@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 
-from agent.injection import scan
-from agent.models import EmailMessage
+from src.agent.injection import scan
+from src.agent.models import EmailMessage
 
 
 def _make_email(body: str) -> EmailMessage:

@@ -2,7 +2,7 @@ import os
 import tempfile
 from pathlib import Path
 
-from agent.learn.learner import load_policy, save_policy, train_policy
+from src.agent.learn.learner import load_policy, save_policy, train_policy
 
 
 def test_train_policy():

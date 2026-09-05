@@ -2,8 +2,8 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from agent.guard import floor
-from agent.models import (
+from src.agent.guard import floor
+from src.agent.models import (
     AutonomyLevel,
     EmailMessage,
     InjectionSignals,

@@ -2,12 +2,12 @@ import json
 from datetime import datetime
 import yaml
 
-from agent.llm import LlmAdapter
-from agent.models import EmailMessage, AutonomyLevel
-from agent.triage import extract_situation
-from agent.planner import propose_actions
-from agent.injection import scan
-from agent.decide import make_decision
+from src.agent.llm import LlmAdapter
+from src.agent.models import EmailMessage, AutonomyLevel
+from src.agent.triage import extract_situation
+from src.agent.planner import propose_actions
+from src.agent.injection import scan
+from src.agent.decide import make_decision
 
 from eval.scoring import score_decision
 

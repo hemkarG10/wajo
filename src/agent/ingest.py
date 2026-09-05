@@ -3,7 +3,7 @@ import re
 from datetime import datetime, timezone
 from typing import Iterator, Protocol
 
-from agent.models import AttachmentMeta, EmailMessage
+from src.agent.models import AttachmentMeta, EmailMessage
 
 
 class MailProvider(Protocol):

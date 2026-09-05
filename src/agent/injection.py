@@ -4,8 +4,8 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-from agent.llm import LlmAdapter
-from agent.models import EmailMessage, InjectionSignals
+from src.agent.llm import LlmAdapter
+from src.agent.models import EmailMessage, InjectionSignals
 
 
 class InjectionLLMOutput(BaseModel):

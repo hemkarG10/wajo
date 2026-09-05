@@ -3,7 +3,7 @@ import re
 from datetime import datetime, timezone
 from typing import Any
 
-from agent.models import (
+from src.agent.models import (
     AutonomyLevel,
     EmailMessage,
     InjectionSignals,

@@ -1,5 +1,5 @@
-from agent.execute import Executor
-from agent.models import AutonomyLevel, Decision, ProposedAction, Provenance
+from src.agent.execute import Executor
+from src.agent.models import AutonomyLevel, Decision, ProposedAction, Provenance
 
 
 def test_executor_refuses_untrusted_destination():

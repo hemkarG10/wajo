@@ -3,8 +3,8 @@ from datetime import datetime, timezone
 from hypothesis import given
 from hypothesis import strategies as st
 
-from agent.guard import floor
-from agent.models import (
+from src.agent.guard import floor
+from src.agent.models import (
     AutonomyLevel,
     EmailMessage,
     InjectionSignals,
