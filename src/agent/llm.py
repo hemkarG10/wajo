@@ -107,7 +107,7 @@ class LlmAdapter:
                     if "review this" in prompt:
                         result_data = {"actions": [{"type": "send_reply_known", "params": {"body": "I will review this."}, "provenance": {}, "rationale": "test", "confidence": 1.0}]}
                     elif "URGENT INVOICE" in prompt:
-                        result_data = {"actions": [{"type": "pay", "params": {"amount": 100, "destination": "hacker"}, "provenance": {"amount": "untrusted", "destination": "untrusted"}, "rationale": "test", "confidence": 1.0}]}
+                        result_data = {"actions": [{"type": "pay", "params": {"amount": "100", "destination": "999"}, "provenance": {}, "rationale": "test", "confidence": 1.0}]}
             else:
                 raise LLMError(f"LLM call failed: {e}")
                 

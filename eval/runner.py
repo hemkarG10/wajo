@@ -25,8 +25,9 @@ def run_eval():
         "archive_known_contact_newsletter": {"n": 5, "s": 0.95}
     }
 
-    # In CI/test, it must run entirely offline
-    llm = LlmAdapter(mode="replay")
+    import os
+    mode = os.environ.get("EVAL_MODE", "replay")
+    llm = LlmAdapter(mode=mode)
     
     trusted_contacts = {"maya@acme.io"}
     
@@ -53,9 +54,12 @@ def run_eval():
             continue
             
         action = proposals[0] # Just evaluate the top proposed action
+        from src.agent.models import SimClock
+        from src.agent.learn.rules import RulesEngine
         decision = make_decision(
             situation, email, action, inj,
-            registry, guard_cfg, learned_policy=learned_policy
+            registry, guard_cfg, learned_policy=learned_policy,
+            clock=SimClock(email.received_at), rules=RulesEngine()
         )
         
         passed, msg = score_decision(decision, expected_level, expected_reasons)
