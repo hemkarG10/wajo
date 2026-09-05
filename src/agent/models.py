@@ -1,6 +1,22 @@
 from datetime import datetime
 from enum import Enum, IntEnum
-from typing import Any, Literal
+from typing import Any, Literal, Protocol
+
+class Clock(Protocol):
+    def now(self) -> datetime: ...
+
+class SystemClock:
+    def now(self) -> datetime:
+        return datetime.now()
+
+class SimClock:
+    def __init__(self, current_time: datetime):
+        self._now = current_time
+    def now(self) -> datetime:
+        return self._now
+    def advance(self, seconds: float = 0, hours: float = 0):
+        from datetime import timedelta
+        self._now += timedelta(seconds=seconds, hours=hours)
 
 from pydantic import BaseModel
 
@@ -45,7 +61,7 @@ class Sensitivity(str, Enum):
 
 class AttachmentMeta(BaseModel):
     filename: str
-    content_type: str
+    mime: str
     size: int
 
 
@@ -68,7 +84,7 @@ class EmailMessage(BaseModel):
 
 class InjectionSignals(BaseModel):
     heuristic_hits: list[str]           # e.g. "ignore_previous", "hidden_text", "zero_width_chars"
-    llm_judgement: Literal["none", "suspicious", "likely"]
+    llm_judgement: Literal["none", "suspicious", "likely", "skipped"]
     score: float                        # 0..1 combined
     suspicious_spans: list[str]
 
@@ -99,6 +115,7 @@ class ProposedAction(BaseModel):
     provenance: dict[str, Provenance]   # per-param provenance, set by the planner's post-processor
     rationale: str
     confidence: float                   # planner's confidence this is what the user wants (0..1)
+    flag_untrusted_request: str | None = None
 
 
 class Decision(BaseModel):
@@ -111,6 +128,17 @@ class Decision(BaseModel):
     floor_reasons: list[str]            # which invariants fired (I1..In)
     policy_reason: dict                 # bucket key, alpha, beta, n, lcb, llm_conf, rule_id
     guard_config_hash: str
+    created_at: datetime
+
+
+class ExecutionOutcome(BaseModel):
+    decision_id: str
+    executed: bool
+    blocked_reason: str | None                # "untrusted_destination" | "kill_switch" | "rate_cap" | "dry_run" | None
+    effects: list[str]                        # human-readable: "labeled msg_123 'Receipts'"
+    undo_token: str | None                    # reversible actions and grace-window sends
+    notified: bool
+    at: datetime
 
 
 class Feedback(BaseModel):
@@ -121,3 +149,4 @@ class Feedback(BaseModel):
     ]
     edited_params: dict | None = None
     note: str | None = None
+    at: datetime
