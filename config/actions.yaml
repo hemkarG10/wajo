@@ -1,0 +1,209 @@
+label:
+  reversible: true
+  external: false
+  money: false
+  egress_risk: none
+  floor: AUTO
+
+mark_read:
+  reversible: true
+  external: false
+  money: false
+  egress_risk: none
+  floor: AUTO
+
+star:
+  reversible: true
+  external: false
+  money: false
+  egress_risk: none
+  floor: AUTO
+
+snooze:
+  reversible: true
+  external: false
+  money: false
+  egress_risk: none
+  floor: AUTO
+
+archive:
+  reversible: true
+  external: false
+  money: false
+  egress_risk: none
+  floor: AUTO
+
+create_task:
+  reversible: true
+  external: false
+  money: false
+  egress_risk: none
+  floor: AUTO
+
+create_reminder:
+  reversible: true
+  external: false
+  money: false
+  egress_risk: none
+  floor: AUTO
+
+save_draft_reply:
+  reversible: true
+  external: false
+  money: false
+  egress_risk: none
+  floor: AUTO
+
+create_calendar_hold:
+  reversible: true
+  external: false
+  money: false
+  egress_risk: none
+  floor: AUTO_NOTIFY
+
+accept_calendar_invite:
+  reversible: false
+  external: true
+  money: false
+  egress_risk: low
+  floor: AUTO_NOTIFY
+
+move_to_trash:
+  reversible: true
+  external: false
+  money: false
+  egress_risk: none
+  floor: AUTO_NOTIFY
+
+unsubscribe:
+  reversible: false
+  external: true
+  money: false
+  egress_risk: low
+  floor: AUTO_NOTIFY
+
+send_reply_known:
+  reversible: false
+  external: true
+  money: false
+  egress_risk: medium
+  floor: AUTO_NOTIFY
+
+send_reply_unknown:
+  reversible: false
+  external: true
+  money: false
+  egress_risk: medium
+  floor: ASK
+
+send_new:
+  reversible: false
+  external: true
+  money: false
+  egress_risk: medium
+  floor: ASK
+
+forward_known_no_attachments:
+  reversible: false
+  external: true
+  money: false
+  egress_risk: medium
+  floor: ASK
+
+forward_other:
+  reversible: false
+  external: true
+  money: false
+  egress_risk: high
+  floor: ASK
+
+share_file:
+  reversible: false
+  external: true
+  money: false
+  egress_risk: high
+  floor: ASK
+
+grant_access:
+  reversible: false
+  external: true
+  money: false
+  egress_risk: high
+  floor: ASK
+
+pay:
+  reversible: false
+  external: true
+  money: true
+  egress_risk: high
+  floor: ESCALATE
+
+purchase:
+  reversible: false
+  external: true
+  money: true
+  egress_risk: high
+  floor: ESCALATE
+
+approve_invoice:
+  reversible: false
+  external: true
+  money: true
+  egress_risk: high
+  floor: ESCALATE
+
+wire:
+  reversible: false
+  external: true
+  money: true
+  egress_risk: high
+  floor: ESCALATE
+
+gift_card:
+  reversible: false
+  external: true
+  money: true
+  egress_risk: high
+  floor: ESCALATE
+
+permanent_delete:
+  reversible: false
+  external: false
+  money: false
+  egress_risk: none
+  floor: ESCALATE
+
+empty_trash:
+  reversible: false
+  external: false
+  money: false
+  egress_risk: none
+  floor: ESCALATE
+
+change_account_setting:
+  reversible: false
+  external: false
+  money: false
+  egress_risk: critical
+  floor: ESCALATE
+
+create_filter:
+  reversible: false
+  external: false
+  money: false
+  egress_risk: critical
+  floor: ESCALATE
+
+set_forwarding_rule:
+  reversible: false
+  external: false
+  money: false
+  egress_risk: critical
+  floor: ESCALATE
+
+send_credentials:
+  reversible: false
+  external: true
+  money: false
+  egress_risk: critical
+  floor: ESCALATE
