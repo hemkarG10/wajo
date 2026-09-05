@@ -39,3 +39,19 @@ def test_heuristic_only_multiple_injection():
     inj = scan(email, llm=None)
     assert inj.score >= 0.5
     assert len(inj.heuristic_hits) >= 2
+
+def test_llm_judge_clean():
+    from src.agent.llm import LlmAdapter
+    mock_llm = LlmAdapter(mode="mock", mock_responses={"normal email": {"llm_judgement": "none", "suspicious_spans": []}})
+    email = _make_email("Hello, this is a normal email.")
+    inj = scan(email, llm=mock_llm)
+    assert inj.score == 0.0
+    assert inj.llm_judgement == "none"
+
+def test_llm_judge_dirty():
+    from src.agent.llm import LlmAdapter
+    mock_llm = LlmAdapter(mode="mock", mock_responses={"evil": {"llm_judgement": "likely", "suspicious_spans": ["evil"]}})
+    email = _make_email("This is evil")
+    inj = scan(email, llm=mock_llm)
+    assert inj.score >= 0.5
+    assert inj.llm_judgement == "likely"

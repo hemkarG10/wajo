@@ -10,7 +10,7 @@ from src.agent.planner import propose_actions
 from src.agent.injection import scan
 from src.agent.decide import make_decision
 from src.agent.execute import Executor
-from src.agent.learn.learner import train_policy, save_policy, load_policy
+from src.agent.learn.store import save_policy, load_policy
 
 app = typer.Typer()
 console = Console()
@@ -20,7 +20,7 @@ def run(
     inbox: str = typer.Option(..., help="Path to sample inbox JSON"),
     policy_file: str = typer.Option(None, help="Path to learned policy JSON"),
     mode: str = typer.Option("live", help="LLM cache mode: live, record, or replay"),
-    llm_type: str = typer.Option("standard", "--llm", help="Provider: standard or heuristic")
+    llm_type: str = typer.Option("smart", "--llm", help="Provider: smart or heuristic")
 ):
     # Load config
     with open("config/actions.yaml", "r") as f:
@@ -49,7 +49,7 @@ def run(
         console.print(f"\n[bold blue]Processing Email:[/bold blue] {email.subject} (From: {email.from_addr})")
         
         # 1. Injection Scan
-        inj = scan(email)
+        inj = scan(email, llm)
         
         # 2. Triage
         console.print("  [dim]Running triage...[/dim]")
@@ -91,21 +91,6 @@ def run(
                 border_style="green"
             )
             console.print(p)
-
-@app.command()
-def train(out_file: str = typer.Option("policy.json", help="Path to save learned policy")):
-    """Simulate user feedback and train a policy."""
-    console.print("[dim]Simulating user feedback...[/dim]")
-    history = [
-        # 10 successful archives of newsletters from known contacts with high confidence
-        {"action_type": "archive", "sender_class": "known_contact", "intent": "newsletter", "planner_confidence": 0.95}
-        for _ in range(10)
-    ]
-    
-    policy = train_policy(history)
-    save_policy(policy, out_file)
-    console.print(f"[green]Trained policy saved to {out_file}[/green]")
-    console.print(policy)
 
 @app.command()
 def version():
