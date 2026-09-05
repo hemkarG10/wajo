@@ -1,6 +1,5 @@
 import json
 from src.agent.models import Situation, ProposedAction, Decision, AutonomyLevel, Feedback
-from src.agent.learn.learner import train_policy
 from eval.personas import Persona
 import random
 import uuid
@@ -11,8 +10,9 @@ def simulate_episode(persona: Persona, dataset: list[dict], decider_fn):
     decider_fn: Callable[[Situation, list[ProposedAction], dict], list[Decision]]
     """
     history_log = []
-    approved_actions = []
     current_policy = {}
+    from src.agent.learn.rules import RulesEngine
+    rules = RulesEngine()
     
     for case in dataset:
         sit_data = case.get("situation", {})
@@ -22,8 +22,9 @@ def simulate_episode(persona: Persona, dataset: list[dict], decider_fn):
         sit = Situation(**sit_data)
         actions = [ProposedAction(**a) for a in case.get("proposals", [])]
         
-        decisions = decider_fn(sit, actions, current_policy)
+        decisions = decider_fn(sit, actions, current_policy, rules)
         for dec in decisions:
+            print(f"DEBUG: Msg={sit.msg_id}, Action={dec.action.type}, Level={dec.level.name}")
             is_noise = random.random() < persona.noise
             
             feedback_kind = None
@@ -37,7 +38,7 @@ def simulate_episode(persona: Persona, dataset: list[dict], decider_fn):
                 else:
                     feedback_kind = "approve"
                     
-            elif dec.level == AutonomyLevel.ASK:
+            elif dec.level in {AutonomyLevel.ASK, AutonomyLevel.ESCALATE}:
                 policy_response = persona.approve_policy(sit, dec.action)
                 
                 if policy_response == "approve" and is_noise:
@@ -52,15 +53,14 @@ def simulate_episode(persona: Persona, dataset: list[dict], decider_fn):
                 elif policy_response == "edit":
                     feedback_kind = "edit"
             
-            if feedback_kind in {"approve", "edit"}:
-                approved_actions.append({
-                    "action_type": dec.action.type,
-                    "sender_class": sit.sender_class,
-                    "intent": sit.intent,
-                    "planner_confidence": dec.action.confidence
-                })
-                # Re-train
-                current_policy = train_policy(approved_actions)
+            if feedback_kind in {"approve", "edit", "reject", "undo", "stop_asking", "always_ask"}:
+                feedback_obj = Feedback(
+                    decision_id=dec.id,
+                    kind=feedback_kind,
+                    at=dec.created_at
+                )
+                from src.agent.learn.feedback import process_feedback
+                process_feedback(feedback_obj, dec, current_policy, rules, dec.created_at, {"half_life_days": 14.0})
                 
             history_log.append({
                 "msg_id": sit.msg_id,
@@ -69,4 +69,4 @@ def simulate_episode(persona: Persona, dataset: list[dict], decider_fn):
                 "feedback": feedback_kind
             })
             
-    return history_log
+    return history_log, current_policy

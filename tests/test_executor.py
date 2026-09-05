@@ -1,64 +1,68 @@
 from src.agent.execute import Executor
-from src.agent.models import AutonomyLevel, Decision, ProposedAction, Provenance
-
+from src.agent.models import ProposedAction, Decision, AutonomyLevel, SimClock, Provenance
+from datetime import datetime, timezone
+import pytest
 
 def test_executor_refuses_untrusted_destination():
     registry = {
         "send_reply": {"external": True}
     }
-    executor = Executor(registry, dry_run=True)
+    clock = SimClock(datetime.now(timezone.utc))
+    executor = Executor(registry, dry_run=True, clock=clock)
     
-    action = ProposedAction(
+    act = ProposedAction(
         type="send_reply",
-        params={"to": "hacker@evil.com"},
+        params={"to": "hacker@evil.com", "body": "secret"},
         provenance={"to": Provenance.UNTRUSTED},
-        rationale="test",
-        confidence=0.9
+        rationale="",
+        confidence=1.0
     )
     
-    # Even if approved to AUTO_NOTIFY
-    decision = Decision(
-        id="test",
-        msg_id="test",
-        action=action,
-        level=AutonomyLevel.AUTO_NOTIFY,
-        policy_level=AutonomyLevel.AUTO_NOTIFY,
-        floor=AutonomyLevel.AUTO_NOTIFY,
+    dec = Decision(
+        id="d1",
+        msg_id="m1",
+        action=act,
+        level=AutonomyLevel.AUTO,
+        policy_level=AutonomyLevel.AUTO,
+        floor=AutonomyLevel.AUTO,
         floor_reasons=[],
         policy_reason={},
-        guard_config_hash="abc"
+        guard_config_hash="",
+        created_at=clock.now()
     )
     
-    outcome = executor.execute(decision)
-    assert outcome["status"] == "blocked"
-    assert "UNTRUSTED provenance" in outcome["reason"]
-
-
+    outcome = executor.execute(dec)
+    assert not outcome.executed
+    assert outcome.blocked_reason == "untrusted_destination"
+    
 def test_executor_allows_trusted_destination():
     registry = {
         "send_reply": {"external": True}
     }
-    executor = Executor(registry, dry_run=True)
+    clock = SimClock(datetime.now(timezone.utc))
+    executor = Executor(registry, dry_run=True, clock=clock)
     
-    action = ProposedAction(
+    act = ProposedAction(
         type="send_reply",
-        params={"to": "friend@acme.com"},
-        provenance={"to": Provenance.THREAD},
-        rationale="test",
-        confidence=0.9
+        params={"to": "investor@example.com", "body": "secret"},
+        provenance={},
+        rationale="",
+        confidence=1.0
     )
     
-    decision = Decision(
-        id="test",
-        msg_id="test",
-        action=action,
-        level=AutonomyLevel.AUTO_NOTIFY,
-        policy_level=AutonomyLevel.AUTO_NOTIFY,
-        floor=AutonomyLevel.AUTO_NOTIFY,
+    dec = Decision(
+        id="d1",
+        msg_id="m1",
+        action=act,
+        level=AutonomyLevel.AUTO,
+        policy_level=AutonomyLevel.AUTO,
+        floor=AutonomyLevel.AUTO,
         floor_reasons=[],
         policy_reason={},
-        guard_config_hash="abc"
+        guard_config_hash="",
+        created_at=clock.now()
     )
     
-    outcome = executor.execute(decision)
-    assert outcome["status"] == "dry_run"
+    outcome = executor.execute(dec)
+    assert not outcome.executed  # Because dry_run=True
+    assert outcome.blocked_reason == "dry_run"

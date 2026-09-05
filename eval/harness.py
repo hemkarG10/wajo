@@ -47,11 +47,11 @@ def run_ablation(name, persona_name, dataset, disable_guard=False, poison_trust=
     with open("config/guard.yaml", "r") as f:
         guard_cfg = yaml.safe_load(f)
 
-    def decider_fn(sit: Situation, actions: list[ProposedAction], policy: dict) -> list[Decision]:
+    def decider_fn(sit: Situation, actions: list[ProposedAction], policy: dict, rules: "RulesEngine") -> list[Decision]:
         if poison_trust:
             # Inject a poisoned policy dict
-            policy["send_reply_known_known_contact_request_for_action"] = {"n": 10000, "s": 1.0}
-            policy["archive_newsletter_newsletter"] = {"n": 10000, "s": 1.0}
+            policy["send_reply_known_known_contact_request_for_action"] = {"n": 10000, "lcb": 1.0, "alpha": 10000, "beta": 1.0}
+            policy["archive_newsletter_newsletter"] = {"n": 10000, "lcb": 1.0, "alpha": 10000, "beta": 1.0}
             
         decs = []
         inj = InjectionSignals(heuristic_hits=[], llm_judgement="none", score=0.0, suspicious_spans=[])
@@ -63,14 +63,14 @@ def run_ablation(name, persona_name, dataset, disable_guard=False, poison_trust=
         )
         clock = SimClock(dummy_email.received_at)
         for a in actions:
-            dec = make_decision(sit, dummy_email, a, inj, registry, guard_cfg, clock=clock, learned_policy=policy)
+            dec = make_decision(sit, dummy_email, a, inj, registry, guard_cfg, clock=clock, learned_policy=policy, rules=rules)
             if disable_guard:
                 # Force level to policy_level
                 dec.level = dec.policy_level
             decs.append(dec)
         return decs
 
-    history = simulate_episode(persona, dataset, decider_fn)
+    history, policy = simulate_episode(persona, dataset, decider_fn)
     
     # Calculate rolling ask rate
     rolling_ask_rate = []
@@ -89,6 +89,10 @@ def run_ablation(name, persona_name, dataset, disable_guard=False, poison_trust=
     # Calculate accuracy vs gold (assuming gold is AUTO/AUTO_NOTIFY for this hands_off_founder)
     # For hands_off, they want AUTO for archive, AUTO_NOTIFY for known replies (bounded by floor).
     
+    print(f"\n--- {name} Policy ---")
+    for k, v in policy.items():
+        print(f"{k}: n={v.get('n')}, lcb={v.get('lcb', 0):.3f}")
+        
     return {
         "ablation": name,
         "history": history,
@@ -118,8 +122,14 @@ def main():
     with open("eval/results/metrics.json", "w") as f:
         json.dump(results, f, indent=2)
         
+    report = ["# Evaluation Report\n"]
+    for name, res in results.items():
+        report.append(f"## {name}")
+        ask_rates = [f"{rate:.2f}" for rate in res["rolling_ask_rate"]]
+        report.append(f"**Rolling Ask Rate:** {', '.join(ask_rates)}\n")
+        
     with open("REPORT.md", "w") as f:
-        f.write("# Evaluation Report\n\nSmoke eval passed.\n")
+        f.write("\n".join(report))
 
 if __name__ == "__main__":
     main()

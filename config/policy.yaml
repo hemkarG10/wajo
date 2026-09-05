@@ -1,0 +1,7 @@
+lcb_confidence: 0.95
+auto_threshold: 0.90
+auto_min_samples: 5
+auto_notify_threshold: 0.75
+auto_notify_min_samples: 2
+ask_threshold: 0.40
+half_life_days: 14.0

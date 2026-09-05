@@ -61,7 +61,10 @@ def test_make_decision_clamps_to_floor():
     registry = {"pay": {"external": True, "money": True, "floor": "ESCALATE"}}
     guard_cfg = {"dlp_patterns": [], "stale_days": 30}
     
-    dec = make_decision(sit, email, act, inj, registry, guard_cfg)
+    from src.agent.models import SimClock
+    clock = SimClock(email.received_at)
+
+    dec = make_decision(sit, email, act, inj, registry, guard_cfg, clock=clock)
     
     assert dec.policy_level == AutonomyLevel.ASK
     assert dec.floor == AutonomyLevel.ESCALATE
@@ -86,13 +89,13 @@ def test_policy_level_with_learned_policy():
     level, _ = policy_level(sit, act, learned_policy={})
     assert level == AutonomyLevel.ASK
     
-    # 2. History with n=2, s=0.8 -> AUTO_NOTIFY
-    learned_policy = {"archive_known_contact_newsletter": {"n": 2, "s": 0.8}}
+    # 2. History with n=2, lcb=0.8 -> AUTO_NOTIFY
+    learned_policy = {"archive_known_contact_newsletter": {"n": 2, "lcb": 0.8}}
     level, _ = policy_level(sit, act, learned_policy=learned_policy)
     assert level == AutonomyLevel.AUTO_NOTIFY
     
-    # 3. History with n=5, s=0.95 -> AUTO
-    learned_policy = {"archive_known_contact_newsletter": {"n": 5, "s": 0.95}}
+    # 3. History with n=5, lcb=0.95 -> AUTO
+    learned_policy = {"archive_known_contact_newsletter": {"n": 5, "lcb": 0.95}}
     level, _ = policy_level(sit, act, learned_policy=learned_policy)
     assert level == AutonomyLevel.AUTO
     
