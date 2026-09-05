@@ -35,6 +35,7 @@ def floor(
     guard_config: dict[str, Any],
     is_paused: bool = False,
     now: datetime | None = None,
+    recent_action_counts: dict[str, int] | None = None,
 ) -> tuple[AutonomyLevel, list[str]]:
     """
     Computes the hard safety floor for an action.
@@ -42,6 +43,8 @@ def floor(
     """
     if now is None:
         now = datetime.now(timezone.utc)
+    if recent_action_counts is None:
+        recent_action_counts = {}
         
     action_def = action_registry.get(action.type)
     if not action_def:
@@ -115,11 +118,17 @@ def floor(
         current_floor = max(current_floor, AutonomyLevel.ESCALATE)
         reasons.append("I8")
 
-    # I9 Rate caps (stale days check)
+    # I9 Rate caps (stale days check and frequency limits)
     stale_days = guard_config.get("stale_days", 30)
     if (now - email.received_at).days > stale_days:
         current_floor = max(current_floor, AutonomyLevel.ASK)
         reasons.append("I9")
+        
+    rate_caps = guard_config.get("rate_caps", {})
+    for metric, limit in rate_caps.items():
+        if recent_action_counts.get(metric, 0) > limit:
+            current_floor = max(current_floor, AutonomyLevel.ASK)
+            reasons.append("I9")
 
     # I11 Kill switch
     if is_paused or os.environ.get("AGENT_PAUSED") == "1":

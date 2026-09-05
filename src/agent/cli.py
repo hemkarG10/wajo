@@ -18,7 +18,8 @@ console = Console()
 @app.command()
 def run(
     inbox: str = typer.Option(..., help="Path to sample inbox JSON"),
-    policy_file: str = typer.Option(None, help="Path to learned policy JSON")
+    policy_file: str = typer.Option(None, help="Path to learned policy JSON"),
+    mode: str = typer.Option("live", help="LLM mode: live, record, or replay")
 ):
     # Load config
     with open("config/actions.yaml", "r") as f:
@@ -27,7 +28,7 @@ def run(
         guard_cfg = yaml.safe_load(f)
 
     mailbox = FakeMailbox(inbox)
-    llm = LlmAdapter(mode="live")
+    llm = LlmAdapter(mode=mode)
     executor = Executor(registry, dry_run=True)
     
     learned_policy = load_policy(policy_file) if policy_file else None

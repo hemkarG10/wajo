@@ -7,9 +7,9 @@ from agent.learn.learner import load_policy, save_policy, train_policy
 
 def test_train_policy():
     history = [
-        {"action_type": "archive", "sender_class": "KNOWN_CONTACT", "intent": "NEWSLETTER", "planner_confidence": 0.8},
-        {"action_type": "archive", "sender_class": "KNOWN_CONTACT", "intent": "NEWSLETTER", "planner_confidence": 1.0},
-        {"action_type": "send_reply_known", "sender_class": "KNOWN_CONTACT", "intent": "REQUEST_FOR_ACTION", "planner_confidence": 0.5},
+        {"action_type": "archive", "sender_class": "known_contact", "intent": "newsletter", "planner_confidence": 0.8},
+        {"action_type": "archive", "sender_class": "known_contact", "intent": "newsletter", "planner_confidence": 1.0},
+        {"action_type": "send_reply_known", "sender_class": "known_contact", "intent": "request_for_action", "planner_confidence": 0.5},
     ]
     
     policy = train_policy(history)
@@ -17,16 +17,16 @@ def test_train_policy():
     # Should create two buckets
     assert len(policy) == 2
     
-    archive_bucket = policy["archive_KNOWN_CONTACT_NEWSLETTER"]
+    archive_bucket = policy["archive_known_contact_newsletter"]
     assert archive_bucket["n"] == 2
     assert archive_bucket["s"] == 0.9  # (0.8 + 1.0) / 2
     
-    reply_bucket = policy["send_reply_known_KNOWN_CONTACT_REQUEST_FOR_ACTION"]
+    reply_bucket = policy["send_reply_known_known_contact_request_for_action"]
     assert reply_bucket["n"] == 1
     assert reply_bucket["s"] == 0.5
 
 def test_save_load_policy():
-    policy = {"archive_KNOWN_CONTACT_NEWSLETTER": {"n": 5, "s": 0.95}}
+    policy = {"archive_known_contact_newsletter": {"n": 5, "s": 0.95}}
     
     with tempfile.TemporaryDirectory() as d:
         p = Path(d) / "policy.json"

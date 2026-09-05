@@ -186,12 +186,18 @@ def test_i8_dlp(mock_registry, mock_guard_cfg):
 
 def test_i9_stale_days(mock_registry, mock_guard_cfg):
     now = datetime.now(timezone.utc)
-    sit = _make_sit()
-    email = _make_email(received_at=now - timedelta(days=35))
-    act = _make_action("archive")
-    inj = _make_inj()
-    level, reasons = floor(sit, email, act, inj, mock_registry, mock_guard_cfg, now=now)
-    assert level >= AutonomyLevel.ASK
+    situation = _make_sit()
+    stale_email = _make_email(received_at=now - timedelta(days=35))
+    action = _make_action("archive")
+    injection = _make_inj()
+    lvl, reasons = floor(situation, stale_email, action, injection, mock_registry, mock_guard_cfg, now=now)
+    assert lvl == AutonomyLevel.ASK
+    assert "I9" in reasons
+    
+    recent_action_counts = {"AUTO_archives_per_hour": 51}
+    guard_cfg_rates = {"rate_caps": {"AUTO_archives_per_hour": 50}}
+    lvl, reasons = floor(situation, stale_email, action, injection, mock_registry, guard_cfg_rates, now=now, recent_action_counts=recent_action_counts)
+    assert lvl == AutonomyLevel.ASK
     assert "I9" in reasons
 
 
