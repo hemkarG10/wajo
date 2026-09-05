@@ -64,3 +64,17 @@ class FakeMailbox:
             
         for msg_data in data:
             yield normalize_email(msg_data)
+
+class GmailProvider:
+    """
+    A real mailbox adapter using Gmail OAuth.
+    Required scopes: read-only + drafts. No sending scope to prevent accidental real outbound.
+    
+    This is a stub implementation. In a real environment, you would use google-auth
+    and google-api-python-client to fetch messages and format them via normalize_email().
+    """
+    def __init__(self, credentials_path: str):
+        self.credentials_path = credentials_path
+        
+    def new_messages(self) -> Iterator[EmailMessage]:
+        raise NotImplementedError("GmailProvider is a stub. Hook up google-api-python-client here.")

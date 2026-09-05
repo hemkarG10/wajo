@@ -5,6 +5,7 @@ from datetime import datetime
 from src.agent.guard import floor
 from src.agent.models import (
     AutonomyLevel,
+    Clock,
     Decision,
     EmailMessage,
     InjectionSignals,
@@ -20,21 +21,15 @@ def policy_level(situation: Situation, action: ProposedAction, learned_policy: d
         learned_policy = {}
         
     bucket = f"{action.type}_{situation.sender_class.value}_{situation.intent.value}"
-    policy_data = learned_policy.get(bucket, {"n": 0, "s": 0.0})
+    policy_data = learned_policy.get(bucket, {"n": 0, "alpha": 1, "beta": 1, "lcb": 0.0})
     
-    n = policy_data["n"]
-    learned_s = policy_data["s"]
+    n = policy_data.get("n", 0)
+    lcb = policy_data.get("lcb", 0.0)
     
-    # Final confidence is min(learned_s, planner_confidence * triage_confidence)
-    # If we have no history (n=0), learned_s is 0, so we default to planner confidence to allow ASK.
-    # Wait, if learned_s is 0, min() would be 0, which would force ESCALATE.
-    # The spec implies s = min(learned_s, S_plan * S_llm), but cold start needs to work.
-    # If n == 0, we should just use S_plan * S_llm so it defaults to ASK.
+    # Simple placeholder for the actual Beta LCB calculation we'll do in Day 3
+    # We use planner confidence * LLM confidence as a base if no history
     base_s = action.confidence * situation.llm_confidence
-    if n > 0:
-        s = min(learned_s, base_s)
-    else:
-        s = base_s
+    s = min(lcb, base_s) if n > 0 else base_s
 
     if s >= 0.90 and n >= 5:
         level = AutonomyLevel.AUTO
@@ -48,6 +43,7 @@ def policy_level(situation: Situation, action: ProposedAction, learned_policy: d
     reason = {
         "bucket": bucket,
         "n": n,
+        "lcb": lcb,
         "s": s
     }
     return level, reason
@@ -59,12 +55,25 @@ def make_decision(
     injection: InjectionSignals,
     registry: dict,
     guard_cfg: dict,
-    now: datetime | None = None,
+    clock: Clock,
     recent_action_counts: dict[str, int] | None = None,
     learned_policy: dict | None = None,
+    is_paused: bool = False,
 ) -> Decision:
     pol_level, pol_reason = policy_level(situation, action, learned_policy=learned_policy)
-    grd_level, grd_reasons = floor(situation, email, action, injection, registry, guard_cfg, now=now, recent_action_counts=recent_action_counts)
+    
+    now = clock.now()
+    grd_level, grd_reasons = floor(
+        situation, 
+        email, 
+        action, 
+        injection, 
+        registry, 
+        guard_cfg, 
+        is_paused=is_paused,
+        now=now, 
+        recent_action_counts=recent_action_counts
+    )
     
     final_level = max(pol_level, grd_level)
     
@@ -80,5 +89,6 @@ def make_decision(
         floor=grd_level,
         floor_reasons=grd_reasons,
         policy_reason=pol_reason,
-        guard_config_hash=cfg_hash
+        guard_config_hash=cfg_hash,
+        created_at=now
     )

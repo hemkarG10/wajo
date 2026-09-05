@@ -19,7 +19,8 @@ console = Console()
 def run(
     inbox: str = typer.Option(..., help="Path to sample inbox JSON"),
     policy_file: str = typer.Option(None, help="Path to learned policy JSON"),
-    mode: str = typer.Option("live", help="LLM mode: live, record, or replay")
+    mode: str = typer.Option("live", help="LLM cache mode: live, record, or replay"),
+    llm_type: str = typer.Option("standard", "--llm", help="Provider: standard or heuristic")
 ):
     # Load config
     with open("config/actions.yaml", "r") as f:
@@ -29,11 +30,20 @@ def run(
 
     mailbox = FakeMailbox(inbox)
     llm = LlmAdapter(mode=mode)
-    executor = Executor(registry, dry_run=True)
+    from src.agent.models import SystemClock
+    executor = Executor(registry, clock=SystemClock(), dry_run=True)
     
     learned_policy = load_policy(policy_file) if policy_file else None
     
     trusted_contacts = {"maya@acme.io"} # hardcoded for demo
+    
+    if llm_type == "heuristic":
+        from src.agent.heuristic import HeuristicTriage, TemplatePlanner
+        triage_provider = HeuristicTriage()
+        planner_provider = TemplatePlanner()
+    else:
+        triage_provider = None
+        planner_provider = None
 
     for email in mailbox.new_messages():
         console.print(f"\n[bold blue]Processing Email:[/bold blue] {email.subject} (From: {email.from_addr})")
@@ -43,22 +53,30 @@ def run(
         
         # 2. Triage
         console.print("  [dim]Running triage...[/dim]")
-        situation = extract_situation(email, llm)
+        if triage_provider:
+            situation = triage_provider.extract(email, {"self_domain": "acme.io", "contacts": trusted_contacts}, llm)
+        else:
+            situation = extract_situation(email, llm)
         console.print(f"  [green]Situation:[/green] {situation.intent.value}, urgency: {situation.urgency}")
         
         # 3. Planner
         console.print("  [dim]Running planner...[/dim]")
-        proposals = propose_actions(
-            situation, email, llm,
-            trusted_contacts=trusted_contacts,
-            action_registry_keys=list(registry.keys())
-        )
+        if planner_provider:
+            proposals = planner_provider.propose(situation, email, {"contacts": trusted_contacts}, llm)
+        else:
+            proposals = propose_actions(
+                situation, email, llm,
+                trusted_contacts=trusted_contacts,
+                action_registry_keys=list(registry.keys())
+            )
         
         for action in proposals:
             # 4. Decide
+            from src.agent.models import SystemClock
             decision = make_decision(
                 situation, email, action, inj,
                 registry, guard_cfg,
+                clock=SystemClock(),
                 learned_policy=learned_policy
             )
             
@@ -68,7 +86,7 @@ def run(
             p = Panel.fit(
                 f"Action: {action.type}\n"
                 f"Level: {decision.level.name} (Policy: {decision.policy_level.name}, Floor: {decision.floor.name})\n"
-                f"Outcome: {outcome['status']} - {outcome.get('reason', '')}",
+                f"Outcome: {outcome.blocked_reason or 'executed'} - {', '.join(outcome.effects)}",
                 title="Decision & Outcome",
                 border_style="green"
             )

@@ -15,11 +15,11 @@ class LLMError(Exception):
 
 
 class LlmAdapter:
-    def __init__(self, mode: Literal["live", "replay", "record"] = "live"):
+    def __init__(self, mode: Literal["live", "replay", "record", "mock"] = "live", mock_responses: dict | None = None):
         self.mode = mode
+        self.mock_responses = mock_responses or {}
         self.cache_dir = Path("eval/cache")
         self.cache_dir.mkdir(parents=True, exist_ok=True)
-        # In replay mode, we don't need a real key.
         api_key = os.environ.get("ANTHROPIC_API_KEY", "dummy_key_for_replay")
         self.client = anthropic.Anthropic(api_key=api_key)
         self.default_model = os.environ.get("AGENT_MODEL_MAIN", "claude-3-5-haiku-latest")
@@ -47,6 +47,12 @@ class LlmAdapter:
         req_hash = self._hash_request(model_name, system, prompt, schema)
         cache_file = self.cache_dir / f"{req_hash}.json"
 
+        if self.mode == "mock":
+            for matcher, resp in self.mock_responses.items():
+                if matcher in prompt or matcher in system:
+                    return response_model.model_validate(resp)
+            raise LLMError(f"No mock response found for prompt: {prompt[:100]}")
+
         # Check cache if in replay or live mode
         if self.mode in ("replay", "live") and cache_file.exists():
             with open(cache_file, "r") as f:
@@ -54,7 +60,7 @@ class LlmAdapter:
                 return response_model.model_validate(cached_data["response"])
 
         if self.mode == "replay":
-            raise LLMError(f"Cache miss in replay mode for hash {req_hash}")
+            raise LLMError(f"CacheMiss: No cache for {req_hash}")
 
         # Call Anthropic with tools to force structured output
         tool_name = "extract_" + response_model.__name__.lower()
