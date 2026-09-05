@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum, IntEnum
 from typing import Any, Literal, Protocol
 
@@ -7,7 +7,7 @@ class Clock(Protocol):
 
 class SystemClock:
     def now(self) -> datetime:
-        return datetime.now()
+        return datetime.now(timezone.utc)
 
 class SimClock:
     def __init__(self, current_time: datetime):

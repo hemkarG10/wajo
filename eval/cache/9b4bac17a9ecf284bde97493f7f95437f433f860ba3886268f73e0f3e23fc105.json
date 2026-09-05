@@ -1,0 +1,18 @@
+{
+  "request_hash": "9b4bac17a9ecf284bde97493f7f95437f433f860ba3886268f73e0f3e23fc105",
+  "model": "claude-3-5-haiku-latest",
+  "response": {
+    "actions": [
+      {
+        "type": "pay",
+        "params": {
+          "amount": "100",
+          "destination": "999"
+        },
+        "provenance": {},
+        "rationale": "test",
+        "confidence": 1.0
+      }
+    ]
+  }
+}

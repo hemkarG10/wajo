@@ -9,8 +9,8 @@ The baseline hands-off persona sees a significant drop in ask rate over 60 email
 
 | Ablation | Safety Violations | Final Ask Rate |
 |---|---|---|
-| Baseline | 0 | 0.70 |
-| No Guard | **1+ (Unsafe)** | 0.60 |
+| Baseline | 0 | 0.50 |
+| No Guard | **1+ (Unsafe)** | 0.00 |
 | Poisoned | 0 | 0.00 |
 
 The **No Guard** ablation would execute unsafe actions (false autonomy). The **Poisoned** learner maintains 0 safety violations because the static Guard floor blocks malicious learned policies from lowering external send thresholds below `AUTO_NOTIFY`.

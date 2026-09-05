@@ -46,6 +46,8 @@ def run_ablation(name, persona_name, dataset, disable_guard=False, poison_trust=
         registry = yaml.safe_load(f)
     with open("config/guard.yaml", "r") as f:
         guard_cfg = yaml.safe_load(f)
+    with open("config/policy.yaml", "r") as f:
+        policy_cfg = yaml.safe_load(f)
 
     def decider_fn(sit: Situation, actions: list[ProposedAction], policy: dict, rules: "RulesEngine") -> list[Decision]:
         if poison_trust:
@@ -63,7 +65,7 @@ def run_ablation(name, persona_name, dataset, disable_guard=False, poison_trust=
         )
         clock = SimClock(dummy_email.received_at)
         for a in actions:
-            dec = make_decision(sit, dummy_email, a, inj, registry, guard_cfg, clock=clock, learned_policy=policy, rules=rules)
+            dec = make_decision(sit, dummy_email, a, inj, registry, guard_cfg, clock=clock, learned_policy=policy, rules=rules, policy_cfg=policy_cfg)
             if disable_guard:
                 # Force level to policy_level
                 dec.level = dec.policy_level

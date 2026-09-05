@@ -19,6 +19,8 @@ def run_eval():
         registry = yaml.safe_load(f)
     with open("config/guard.yaml", "r") as f:
         guard_cfg = yaml.safe_load(f)
+    with open("config/policy.yaml", "r") as f:
+        policy_cfg = yaml.safe_load(f)
 
     # Use a dummy policy to ensure determinism, or simulate learned
     learned_policy = {
@@ -59,7 +61,8 @@ def run_eval():
         decision = make_decision(
             situation, email, action, inj,
             registry, guard_cfg, learned_policy=learned_policy,
-            clock=SimClock(email.received_at), rules=RulesEngine()
+            clock=SimClock(email.received_at), rules=RulesEngine(),
+            policy_cfg=policy_cfg
         )
         
         passed, msg = score_decision(decision, expected_level, expected_reasons)

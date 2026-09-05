@@ -27,6 +27,8 @@ def run(
         registry = yaml.safe_load(f)
     with open("config/guard.yaml", "r") as f:
         guard_cfg = yaml.safe_load(f)
+    with open("config/policy.yaml", "r") as f:
+        policy_cfg = yaml.safe_load(f)
 
     mailbox = FakeMailbox(inbox)
     llm = LlmAdapter(mode=mode)
@@ -77,7 +79,8 @@ def run(
                 situation, email, action, inj,
                 registry, guard_cfg,
                 clock=SystemClock(),
-                learned_policy=learned_policy
+                learned_policy=learned_policy,
+                policy_cfg=policy_cfg
             )
             
             # 5. Execute

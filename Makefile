@@ -15,4 +15,4 @@ lint:
 	uv run ruff check .
 
 transcripts:
-	uv run python src/agent/cli.py run --inbox sample_inbox.json --mode record
+	PYTHONPATH=. uv run python src/agent/cli.py run --inbox sample_inbox.json --mode record

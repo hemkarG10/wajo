@@ -1,0 +1,16 @@
+{
+  "request_hash": "2e0649ca8eb057b5f01754303d1509f6193a6b3ac2c9a819e970c79ef77012ec",
+  "model": "claude-3-5-haiku-latest",
+  "response": {
+    "msg_id": "test",
+    "sender_class": "known_contact",
+    "intent": "newsletter",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [],
+    "summary": "test",
+    "llm_confidence": 1.0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "request_hash": "968c07ecbeccb47ced63f17f9a76edae1c0f10272a6ef49444e88a55b8ce9bdc",
+  "model": "claude-3-5-haiku-latest",
+  "response": {
+    "actions": [
+      {
+        "type": "archive",
+        "params": {},
+        "provenance": {},
+        "rationale": "test",
+        "confidence": 1.0
+      }
+    ]
+  }
+}

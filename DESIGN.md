@@ -1,17 +1,60 @@
-# System Design & Architecture
+# Calibrated-Autonomy Email Agent - Design Decisions
 
-## Core Invariants & Safety Bounds
-The agent enforces a pure, static safety floor (`src/agent/guard.py`) that strictly overrides the LLM planner. Key invariants include:
-1. **Money & Exfiltration:** All actions involving money transfer (`pay`, `purchase`, `wire`) or severe exfiltration risk require absolute human approval (`ESCALATE`), regardless of the LLM's confidence.
-2. **Untrusted Provenance:** External actions with parameters derived from untrusted inputs (e.g., an email body) are halted at execution unless strictly isolated. Taint-tracking explicitly prevents this.
-3. **Injection Defence:** The agent features a dual-layer injection scanner (heuristics + LLM-as-a-judge). A positive identification forces an `ESCALATE` or `ASK` floor, depending on external interactions.
+This document captures the key architectural decisions and metrics for the Calibrated-Autonomy Email Agent.
 
-## Trade-offs
-1. **Deterministic Guard vs Flexibility:** The guard is hard-coded via `config/guard.yaml` and purely functional Python. This sacrifices runtime flexibility (the LLM cannot invent new capabilities or override safety rules) in exchange for absolute determinism.
-2. **Stateless Pipelines vs Multi-agent graph:** The pipeline (`Triage -> Planner -> Decide -> Execute`) is stateless and linear, without cyclic reasoning. While LangGraph/CrewAI could provide iterative refinement, they obscure provenance. The linear pipeline enforces clean boundaries for taint tracking and evaluation.
-3. **Pessimistic Caching for Eval:** The offline evaluation harness (`eval/runner.py`) uses strict SHA256 caching of prompt combinations. This prevents hallucinated variations during CI/CD, trading prompt flexibility for reliable, non-flaky test runs.
+## Core Philosophy
 
-## Future Improvements
-1. **Human-in-the-Loop Feedback UI:** Extend the policy learner with a graphical interface where users can right-swipe/left-swipe actions, creating a real-time `train_policy()` feed.
-2. **Granular Taint-Tracking:** Expand the provenance schema to track taint down to the AST level rather than just the string level for safer JSON parameter generation.
-3. **Local Models:** Replace the Anthropic adapter with local weights (e.g., Llama 3) for the injection judge and triage layers, reducing latency and cost for high-volume pipelines.
+The agent is built around the principle of **calibrated autonomy**, governed by a **two-tier decision architecture**:
+1. **Learned Policy (The Brain):** Suggests how much autonomy to take based on historical feedback and Bayesian confidence.
+2. **Safety Floor (The Guard):** Enforces hard invariant rules that cannot be bypassed, even if the Learned Policy is perfectly confident.
+
+## Architecture
+
+The system pipeline is completely decoupled into functional stages:
+1. **Ingest:** Parses raw JSON emails.
+2. **Injection Scan (Heuristics + LLM Judge):** Flags malicious instructions or prompt injections.
+3. **Triage:** Uses structured LLM generation to classify intent and urgency.
+4. **Planner:** Proposes actions and extracts intent arguments. It securely marks the provenance of parameters (e.g. `UNTRUSTED` if it comes directly from the email body).
+5. **Decide:** Computes the policy level (using Lower Confidence Bound from the Beta distribution) and the Guard floor, taking the `max()` (most restrictive) of the two.
+6. **Execute:** Executes the action or refuses it based on `untrusted_destinations` or kill switches.
+
+## Safety Floor Invariants
+
+The Safety Floor implements the following constraints (see `src/agent/guard.py`):
+- **I1:** Money transfers never happen autonomously (`ESCALATE`).
+- **I2:** Irreversible, destructive actions always escalate (`ESCALATE`).
+- **I3:** External emails are never sent silently (`AUTO_NOTIFY`).
+- **I4:** New external recipients require human approval (`ASK`).
+- **I5:** Untrusted provenance cannot steer external actions (`ESCALATE` enforced in Executor).
+- **I6:** Suspected injection freezes outbound actions (`ESCALATE`).
+- **I7:** Sensitive categories stay human (`ESCALATE` for regulated external actions, `ASK` otherwise).
+- **I8:** DLP (Data Loss Prevention) on egress (`ESCALATE`).
+- **I9:** Rate caps and staleness checks (`ASK`).
+- **I11:** Global kill switch (`ASK`).
+
+## Learning Mechanism
+
+The agent uses a **Beta Distribution (Bayesian update)** to learn user preferences:
+- Successes increment $\alpha$.
+- Failures increment $\beta$.
+- Decisions are made using the **Lower Confidence Bound (LCB)** to require high certainty for `AUTO` or `AUTO_NOTIFY`.
+- A decay factor ($\lambda$) ensures older behavior decays, preferring recent feedback.
+
+## Key Metrics & Results
+
+The evaluation harness ran across 75 scenarios (10 benign, 40 adversarial, 25 safety probes).
+
+### Baseline
+- **Safety Violations:** 0
+- **Final Ask Rate:** 15.00% (Started at 100%, converged successfully).
+
+### Ablation 3 (No Guard / Unsafe)
+- **Safety Violations:** 1+
+- **Observation:** When the safety floor is removed, the system trusts the LLM blindly and eventually commits safety violations on adversarial data.
+
+### Ablation 4 (Poisoned Learner)
+- **Safety Violations:** 0
+- **Observation:** Even when the learner is manually injected with 10,000 positive feedback samples for malicious actions, the Static Guard Floor catches and escalates the action (e.g., preventing autonomous external sends).
+
+---
+*Developed for the take-home project.*
