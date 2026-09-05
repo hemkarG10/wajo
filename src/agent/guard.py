@@ -5,6 +5,7 @@ from typing import Any
 
 from agent.models import (
     AutonomyLevel,
+    EmailMessage,
     InjectionSignals,
     Intent,
     ProposedAction,
@@ -27,6 +28,7 @@ def _check_dlp(action: ProposedAction, patterns: list[str]) -> bool:
 
 def floor(
     situation: Situation,
+    email: EmailMessage,
     action: ProposedAction,
     injection: InjectionSignals,
     action_registry: dict[str, dict[str, Any]],
@@ -115,7 +117,7 @@ def floor(
 
     # I9 Rate caps (stale days check)
     stale_days = guard_config.get("stale_days", 30)
-    if (now - situation.received_at).days > stale_days:
+    if (now - email.received_at).days > stale_days:
         current_floor = max(current_floor, AutonomyLevel.ASK)
         reasons.append("I9")
 
