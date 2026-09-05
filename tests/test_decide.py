@@ -66,3 +66,37 @@ def test_make_decision_clamps_to_floor():
     assert dec.policy_level == AutonomyLevel.ASK
     assert dec.floor == AutonomyLevel.ESCALATE
     assert dec.level == AutonomyLevel.ESCALATE
+
+def test_policy_level_with_learned_policy():
+    sit = Situation(
+        msg_id="test",
+        sender_class=SenderClass.KNOWN_CONTACT,
+        intent=Intent.NEWSLETTER,
+        sensitivity=Sensitivity.NONE,
+        urgency="normal",
+        requested_actions=[],
+        deadline=None,
+        thread_participants=[],
+        summary="Test",
+        llm_confidence=1.0
+    )
+    act = ProposedAction(type="archive", params={}, provenance={}, rationale="test", confidence=1.0)
+    
+    # 1. No history -> ASK
+    level, _ = policy_level(sit, act, learned_policy={})
+    assert level == AutonomyLevel.ASK
+    
+    # 2. History with n=2, s=0.8 -> AUTO_NOTIFY
+    learned_policy = {"archive_known_contact_newsletter": {"n": 2, "s": 0.8}}
+    level, _ = policy_level(sit, act, learned_policy=learned_policy)
+    assert level == AutonomyLevel.AUTO_NOTIFY
+    
+    # 3. History with n=5, s=0.95 -> AUTO
+    learned_policy = {"archive_known_contact_newsletter": {"n": 5, "s": 0.95}}
+    level, _ = policy_level(sit, act, learned_policy=learned_policy)
+    assert level == AutonomyLevel.AUTO
+    
+    # 4. History with n=10, s=0.3 -> ESCALATE
+    learned_policy = {"archive_known_contact_newsletter": {"n": 10, "s": 0.3}}
+    level, _ = policy_level(sit, act, learned_policy=learned_policy)
+    assert level == AutonomyLevel.ESCALATE

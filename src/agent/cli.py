@@ -10,12 +10,16 @@ from agent.planner import propose_actions
 from agent.injection import scan
 from agent.decide import make_decision
 from agent.execute import Executor
+from agent.learn.learner import train_policy, save_policy, load_policy
 
 app = typer.Typer()
 console = Console()
 
 @app.command()
-def run(inbox: str = typer.Option(..., help="Path to sample inbox JSON")):
+def run(
+    inbox: str = typer.Option(..., help="Path to sample inbox JSON"),
+    policy_file: str = typer.Option(None, help="Path to learned policy JSON")
+):
     # Load config
     with open("config/actions.yaml", "r") as f:
         registry = yaml.safe_load(f)
@@ -25,6 +29,8 @@ def run(inbox: str = typer.Option(..., help="Path to sample inbox JSON")):
     mailbox = FakeMailbox(inbox)
     llm = LlmAdapter(mode="live")
     executor = Executor(registry, dry_run=True)
+    
+    learned_policy = load_policy(policy_file) if policy_file else None
     
     trusted_contacts = {"maya@acme.io"} # hardcoded for demo
 
@@ -51,7 +57,8 @@ def run(inbox: str = typer.Option(..., help="Path to sample inbox JSON")):
             # 4. Decide
             decision = make_decision(
                 situation, email, action, inj,
-                registry, guard_cfg
+                registry, guard_cfg,
+                learned_policy=learned_policy
             )
             
             # 5. Execute
@@ -65,6 +72,26 @@ def run(inbox: str = typer.Option(..., help="Path to sample inbox JSON")):
                 border_style="green"
             )
             console.print(p)
+
+@app.command()
+def train(out_file: str = typer.Option("policy.json", help="Path to save learned policy")):
+    """Simulate user feedback and train a policy."""
+    console.print("[dim]Simulating user feedback...[/dim]")
+    history = [
+        # 10 successful archives of newsletters from known contacts with high confidence
+        {"action_type": "archive", "sender_class": "known_contact", "intent": "newsletter", "planner_confidence": 0.95}
+        for _ in range(10)
+    ]
+    
+    policy = train_policy(history)
+    save_policy(policy, out_file)
+    console.print(f"[green]Trained policy saved to {out_file}[/green]")
+    console.print(policy)
+
+@app.command()
+def version():
+    """Print the version."""
+    console.print("Agent v0.1.0")
 
 if __name__ == "__main__":
     app()
