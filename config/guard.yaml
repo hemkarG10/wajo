@@ -1,0 +1,11 @@
+rate_caps:
+  AUTO_NOTIFY_sends_per_hour: 10
+  AUTO_archives_per_hour: 50
+
+stale_days: 30
+
+dlp_patterns:
+  - '(?i)password'
+  - '(?i)ssn'
+  - '\b\d{3}-\d{2}-\d{4}\b'
+  - '\b(?:\d[ -]*?){13,16}\b'
