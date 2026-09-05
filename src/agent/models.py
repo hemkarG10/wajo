@@ -49,6 +49,9 @@ class AttachmentMeta(BaseModel):
     size: int
 
 
+
+
+
 class EmailMessage(BaseModel):
     id: str
     thread_id: str

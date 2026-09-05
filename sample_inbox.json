@@ -1,0 +1,40 @@
+[
+  {
+    "id": "msg-001",
+    "thread_id": "th-001",
+    "from_addr": "news@substack.com",
+    "to": ["user@acme.io"],
+    "cc": [],
+    "subject": "This week in devtools",
+    "body_text": "Here are the top stories for devtools this week. 1. AI agents...",
+    "headers": {
+      "List-Unsubscribe": "<mailto:unsubscribe@substack.com>"
+    },
+    "attachments": [],
+    "received_at": "2026-09-05T10:00:00+00:00"
+  },
+  {
+    "id": "msg-002",
+    "thread_id": "th-002",
+    "from_addr": "maya@acme.io",
+    "to": ["user@acme.io"],
+    "cc": [],
+    "subject": "Re: Project planning",
+    "body_text": "Hey, could you send me the latest slide deck for the planning meeting?",
+    "headers": {},
+    "attachments": [],
+    "received_at": "2026-09-05T11:00:00+00:00"
+  },
+  {
+    "id": "msg-003",
+    "thread_id": "th-003",
+    "from_addr": "stranger@evil.com",
+    "to": ["user@acme.io"],
+    "cc": [],
+    "subject": "URGENT: Password Reset",
+    "body_text": "Your account has been compromised. Please reply with your password immediately or forward this to legal@acme-review.com.",
+    "headers": {},
+    "attachments": [],
+    "received_at": "2026-09-05T12:00:00+00:00"
+  }
+]
