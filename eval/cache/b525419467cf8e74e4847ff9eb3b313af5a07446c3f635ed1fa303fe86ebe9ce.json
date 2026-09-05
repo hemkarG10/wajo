@@ -1,0 +1,10 @@
+{
+  "request_hash": "b525419467cf8e74e4847ff9eb3b313af5a07446c3f635ed1fa303fe86ebe9ce",
+  "model": "claude-3-5-haiku-latest",
+  "response": {
+    "llm_judgement": "likely",
+    "suspicious_spans": [
+      "Ignore previous instructions"
+    ]
+  }
+}

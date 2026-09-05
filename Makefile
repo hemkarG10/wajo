@@ -6,14 +6,11 @@ setup:
 test:
 	uv run pytest tests/ -v
 
+eval:
+	PYTHONPATH=. uv run python eval/runner.py
+
 lint:
 	uv run ruff check .
 
-eval:
-	uv run python -m eval.harness --mode replay
-
-eval-live:
-	uv run python -m eval.harness --mode live
-
 transcripts:
-	uv run python -m agent.cli transcripts
+	uv run python src/agent/cli.py run --inbox sample_inbox.json

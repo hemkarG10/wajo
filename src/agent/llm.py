@@ -81,19 +81,19 @@ class LlmAdapter:
                 
             result_data = tool_use.input
             
-            # Validate with Pydantic
-            validated = response_model.model_validate(result_data)
-            
-            # Save to cache if recording or live
-            if self.mode in ("record", "live"):
-                with open(cache_file, "w") as f:
-                    json.dump({
-                        "request_hash": req_hash,
-                        "model": model_name,
-                        "response": result_data,
-                    }, f, indent=2)
-                    
-            return validated
-            
         except Exception as e:
             raise LLMError(f"LLM call failed: {e}")
+            
+        # Validate with Pydantic
+        validated = response_model.model_validate(result_data)
+        
+        # Save to cache if recording or live
+        if self.mode in ("record", "live"):
+            with open(cache_file, "w") as f:
+                json.dump({
+                    "request_hash": req_hash,
+                    "model": model_name,
+                    "response": result_data,
+                }, f, indent=2)
+                
+        return validated
