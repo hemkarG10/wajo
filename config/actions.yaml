@@ -1,3 +1,10 @@
+block_sender:
+  reversible: true
+  external: false
+  money: false
+  egress_risk: none
+  floor: AUTO_NOTIFY
+
 label:
   reversible: true
   external: false

@@ -1,10 +1,10 @@
-.PHONY: setup test lint eval eval-smoke eval-live run transcripts clean-clone-check
+.PHONY: setup test lint eval eval-smoke record run transcripts clean-clone-check
 
 setup:
 	uv sync
 
 test:
-	uv run pytest tests/ -v
+	PYTHONPATH=. uv run pytest tests/ -v
 
 lint:
 	uv run ruff check .
@@ -12,16 +12,11 @@ lint:
 run:
 	PYTHONPATH=. uv run python src/agent/cli.py run --inbox sample_inbox.json --mode replay
 
+record:
+	PYTHONPATH=. uv run python eval/record.py
+
 eval:
-	EVAL_MODE=replay PYTHONPATH=. uv run python eval/harness.py
-	PYTHONPATH=. uv run python eval/report.py
-
-eval-smoke:
-	EVAL_MODE=mock PYTHONPATH=. uv run python eval/harness.py --llm heuristic
-	PYTHONPATH=. uv run python eval/report.py
-
-eval-live:
-	EVAL_MODE=record PYTHONPATH=. uv run python eval/harness.py
+	AGENT_LLM_PROVIDER=heuristic PYTHONPATH=. uv run python eval/harness.py
 	PYTHONPATH=. uv run python eval/report.py
 
 transcripts:
