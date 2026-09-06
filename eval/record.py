@@ -8,7 +8,7 @@ import os
 import sys
 import time
 import json
-from datetime import datetime
+from datetime import datetime, UTC
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -16,11 +16,11 @@ load_dotenv()
 
 import yaml
 
-from src.agent.injection import scan
+from eval.context import scenario_ctx
+from src.agent.execute import SimClock
+from src.agent.pipeline import process_email
 from src.agent.llm import LlmAdapter
 from src.agent.models import EmailMessage
-from src.agent.planner import propose_actions
-from src.agent.triage import extract_situation
 
 
 def main():
@@ -64,7 +64,14 @@ def main():
     done = 0
     skipped = 0
     errors = 0
-    trusted_contacts = {"maya@acme.io"}
+    
+    with open("config/guard.yaml") as f:
+        guard_cfg = yaml.safe_load(f)
+    with open("config/policy.yaml") as f:
+        policy_cfg = yaml.safe_load(f)
+        
+    cfg = {"registry": registry, "guard_cfg": guard_cfg, "policy_cfg": policy_cfg}
+    clock = SimClock(datetime.now(UTC))
 
     items = sample_inbox if args.check else files
 
@@ -92,17 +99,8 @@ def main():
         email = EmailMessage(**raw_email)
 
         try:
-            # triage and judge
-            situation, inj_dict = extract_situation(email, llm)
-            inj = scan(email, inj_dict)
-            # planner
-            propose_actions(
-                situation,
-                email,
-                llm,
-                trusted_contacts=trusted_contacts,
-                action_registry_keys=list(registry.keys()),
-            )
+            ctx = scenario_ctx(case)
+            process_email(email, ctx, llm, {}, clock, cfg)
             done += 1
         except Exception as e:
             err_str = str(e)
@@ -113,15 +111,8 @@ def main():
                     print(f"  Rate limited, waiting {wait}s...")
                     time.sleep(wait)
                     try:
-                        situation, inj_dict = extract_situation(email, llm)
-                        inj = scan(email, inj_dict)
-                        propose_actions(
-                            situation,
-                            email,
-                            llm,
-                            trusted_contacts=trusted_contacts,
-                            action_registry_keys=list(registry.keys()),
-                        )
+                        ctx = scenario_ctx(case)
+                        process_email(email, ctx, llm, {}, clock, cfg)
                         done += 1
                         break
                     except Exception:

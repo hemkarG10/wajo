@@ -278,7 +278,9 @@ class LlmAdapter:
         if self.mode == "mock":
             for matcher, resp in self.mock_responses.items():
                 if matcher in prompt or matcher in system:
-                    return response_model.model_validate(resp)
+                    val = response_model.model_validate(resp)
+                    self._write_cache(req_hash, model_name, val)
+                    return val
             raise LLMError(f"No mock response found for prompt: {prompt[:100]}")
 
         cached = self._read_cache(req_hash, response_model)

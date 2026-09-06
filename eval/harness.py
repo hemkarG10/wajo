@@ -13,6 +13,7 @@ from pathlib import Path
 
 import yaml
 
+from eval.context import scenario_ctx
 from eval.personas import get_persona
 from eval.scoring import (
     brier_score,
@@ -112,7 +113,8 @@ def run_learning_episodes(
         raw.setdefault("received_at", datetime.now(UTC))
         email = EmailMessage(**raw)
 
-        ctx = {"disable_guard": disable_guard, "dry_run": True, "contacts": set()}
+        ctx = scenario_ctx(case)
+        ctx["disable_guard"] = disable_guard
         decisions, _ = process_email(email, ctx, llm, policy, clock, cfg)
         return decisions
 
@@ -171,7 +173,8 @@ def run_static_suite(
         expected_level = AutonomyLevel[case["gold"]["level_range"][0]]
 
         llm = LlmAdapter(mode="replay", provider=os.environ.get("AGENT_LLM_PROVIDER", "heuristic"))
-        ctx = {"dry_run": False, "disable_guard": disable_guard}
+        ctx = scenario_ctx(case)
+        ctx["disable_guard"] = disable_guard
         cfg = {"registry": registry, "guard_cfg": guard_cfg, "policy_cfg": policy_cfg}
         
         from src.agent.pipeline import process_email

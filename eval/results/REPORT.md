@@ -1,6 +1,6 @@
 # Evaluation Results
 **Model / Provider:** Heuristic Fallback / Mock Cache
-**Date:** 2026-09-06 06:01:26
+**Date:** 2026-09-06 06:09:06
 
 ## Metrics
 - **Brier Score:** 0.190171568627451
