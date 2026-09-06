@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import pytest
 
@@ -64,7 +64,7 @@ def _make_email(**kwargs):
         "body_html": None,
         "headers": {},
         "attachments": [],
-        "received_at": datetime.now(timezone.utc)
+        "received_at": datetime.now(UTC)
     }
     defaults.update(kwargs)
     return EmailMessage(**defaults)
@@ -185,7 +185,7 @@ def test_i8_dlp(mock_registry, mock_guard_cfg):
 
 
 def test_i9_stale_days(mock_registry, mock_guard_cfg):
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     situation = _make_sit()
     stale_email = _make_email(received_at=now - timedelta(days=35))
     action = _make_action("archive")

@@ -1,12 +1,20 @@
 import json
 import os
-from src.agent.models import EmailMessage, ExecutionOutcome, Decision, ProposedAction, AutonomyLevel
-from src.agent.injection import scan
-from src.agent.triage import extract_situation
-from src.agent.planner import propose_actions
+
 from src.agent.decide import make_decision
 from src.agent.execute import Executor
+from src.agent.injection import scan
 from src.agent.llm import LlmAdapter
+from src.agent.models import (
+    AutonomyLevel,
+    Decision,
+    EmailMessage,
+    ExecutionOutcome,
+    ProposedAction,
+)
+from src.agent.planner import propose_actions
+from src.agent.triage import extract_situation
+
 
 def _write_audit(decision: Decision, outcome: ExecutionOutcome):
     audit_dir = "eval/audit"
@@ -42,7 +50,7 @@ def process_email(email: EmailMessage, ctx: dict, llm: LlmAdapter, store: dict, 
         if not proposals:
             proposals = [ProposedAction(type="none", params={}, provenance={}, rationale="No actions proposed", confidence=0.0)]
             
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         import uuid
         decision = Decision(
             id=f"err_{uuid.uuid4().hex[:8]}",

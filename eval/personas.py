@@ -1,7 +1,9 @@
-import random
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable, Literal
-from src.agent.models import Situation, ProposedAction, AutonomyLevel
+from typing import Literal
+
+from src.agent.models import ProposedAction, Situation
+
 
 @dataclass
 class Persona:

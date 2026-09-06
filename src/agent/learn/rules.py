@@ -1,7 +1,8 @@
 from typing import Literal
 
+
 class RulesEngine:
-    def __init__(self, rules: list[dict] = None):
+    def __init__(self, rules: list[dict] | None = None):
         self.rules = rules or []
 
     def add_rule(self, bucket: str, kind: Literal["stop_asking", "always_ask"]):

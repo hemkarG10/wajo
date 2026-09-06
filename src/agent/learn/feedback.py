@@ -1,7 +1,9 @@
 from datetime import datetime
-from src.agent.models import Decision, Feedback
-from src.agent.learn.trust import apply_decay, calculate_lcb
+
 from src.agent.learn.rules import RulesEngine
+from src.agent.learn.trust import apply_decay, calculate_lcb
+from src.agent.models import Decision, Feedback
+
 
 def process_feedback(
     feedback: Feedback, 

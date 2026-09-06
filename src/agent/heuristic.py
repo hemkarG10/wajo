@@ -1,6 +1,4 @@
 import re
-from datetime import datetime
-from typing import Any
 
 from src.agent.models import (
     Intent,
@@ -10,6 +8,7 @@ from src.agent.models import (
     Sensitivity,
     Situation,
 )
+
 
 class HeuristicTriage:
     def extract(self, email, ctx, llm_adapter) -> Situation:

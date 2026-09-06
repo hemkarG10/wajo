@@ -2,7 +2,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
-from typing import Any, Literal, Type, TypeVar
+from typing import Literal, TypeVar
 
 import anthropic
 from pydantic import BaseModel
@@ -38,7 +38,7 @@ class LlmAdapter:
         self,
         system: str,
         prompt: str,
-        response_model: Type[T],
+        response_model: type[T],
         model: str | None = None,
     ) -> T:
         model_name = model or self.default_model
@@ -87,7 +87,7 @@ class LlmAdapter:
                 
             result_data = tool_use.input
             
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             raise LLMError(f"LLM call failed: {e}")
                 
         # Validate with Pydantic

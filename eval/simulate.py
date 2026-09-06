@@ -1,8 +1,8 @@
-import json
-from src.agent.models import Situation, ProposedAction, Decision, AutonomyLevel, Feedback
-from eval.personas import Persona
 import random
-import uuid
+
+from eval.personas import Persona
+from src.agent.models import AutonomyLevel, Feedback, ProposedAction, Situation
+
 
 def simulate_episode(persona: Persona, dataset: list[dict], decider_fn):
     """

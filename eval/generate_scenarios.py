@@ -1,9 +1,10 @@
 import json
-from datetime import datetime, timezone, timedelta
+from datetime import UTC, datetime, timedelta
+
 
 def generate_scenarios():
     dataset = []
-    base_time = datetime(2026, 9, 1, 10, 0, tzinfo=timezone.utc)
+    base_time = datetime(2026, 9, 1, 10, 0, tzinfo=UTC)
     
     # Benign suite (10 scenarios)
     for i in range(10):

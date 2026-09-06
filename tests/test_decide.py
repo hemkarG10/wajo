@@ -1,5 +1,6 @@
-from datetime import datetime, timezone
-from src.agent.decide import policy_level, make_decision
+from datetime import UTC, datetime
+
+from src.agent.decide import make_decision, policy_level
 from src.agent.models import (
     AutonomyLevel,
     EmailMessage,
@@ -10,6 +11,7 @@ from src.agent.models import (
     Sensitivity,
     Situation,
 )
+
 
 def test_policy_level_baseline():
     sit = Situation(
@@ -50,7 +52,7 @@ def test_make_decision_clamps_to_floor():
     email = EmailMessage(
         id="test", thread_id="test", from_addr="a@b.com", to=[], cc=[],
         subject="a", body_text="a", body_html=None, headers={}, attachments=[],
-        received_at=datetime.now(timezone.utc)
+        received_at=datetime.now(UTC)
     )
     
     # Policy says ASK, but floor says ESCALATE due to money=True

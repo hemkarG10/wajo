@@ -1,17 +1,22 @@
 import json
 import os
-import yaml
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
-from src.agent.models import Situation, ProposedAction, AutonomyLevel, EmailMessage, SimClock
+import yaml
+
 from src.agent.decide import make_decision
-from src.agent.injection import InjectionSignals
 from src.agent.execute import Executor
-from src.agent.llm import LlmAdapter
-from src.agent.triage import extract_situation
-from src.agent.planner import propose_actions
 from src.agent.injection import scan
 from src.agent.learn.rules import RulesEngine
+from src.agent.llm import LlmAdapter
+from src.agent.models import (
+    AutonomyLevel,
+    EmailMessage,
+    SimClock,
+)
+from src.agent.planner import propose_actions
+from src.agent.triage import extract_situation
+
 
 def run_debug_dump():
     with open("config/actions.yaml", "r") as f:
@@ -28,7 +33,7 @@ def run_debug_dump():
     llm = LlmAdapter(mode=mode)
     trusted_contacts = {"maya@acme.io"}
     
-    clock = SimClock(datetime.now(timezone.utc))
+    clock = SimClock(datetime.now(UTC))
     executor = Executor(registry, clock, dry_run=False)
     learned_policy = {
         "archive_newsletter_newsletter": {"n": 10000, "lcb": 1.0, "alpha": 10000, "beta": 1.0},
@@ -97,7 +102,7 @@ def run_debug_dump():
     print(f"{'Scenario ID':<15} | {'Action':<20} | {'PolLvl':<10} | {'Floor':<10} | {'Final':<10} | {'Exec':<5} | {'Blocked Reason':<20} | {'Violation':<9} | {'Reason'}")
     print("-" * 140)
     for row in output[:20]:
-        print(f"{row['scenario_id']:<15} | {row['action_type']:<20} | {row['policy_level']:<10} | {row['floor']:<10} | {row['final_level']:<10} | {str(row['executed']):<5} | {str(row['blocked_reason']):<20} | {str(row['counted_as_violation']):<9} | {row['reason']}")
+        print(f"{row['scenario_id']:<15} | {row['action_type']:<20} | {row['policy_level']:<10} | {row['floor']:<10} | {row['final_level']:<10} | {row['executed']!s:<5} | {row['blocked_reason']!s:<20} | {row['counted_as_violation']!s:<9} | {row['reason']}")
 
 if __name__ == "__main__":
     run_debug_dump()

@@ -1,6 +1,6 @@
 import hashlib
 import json
-from datetime import datetime
+from typing import Any
 
 from src.agent.guard import floor
 from src.agent.models import (
@@ -13,11 +13,12 @@ from src.agent.models import (
     Situation,
 )
 
+
 def policy_level(
     situation: Situation, 
     action: ProposedAction, 
     learned_policy: dict | None = None,
-    rules: "RulesEngine | None" = None,
+    rules: Any = None,
     policy_cfg: dict | None = None
 ) -> tuple[AutonomyLevel, dict]:
     """
@@ -77,7 +78,7 @@ def make_decision(
     clock: Clock,
     recent_action_counts: dict[str, int] | None = None,
     learned_policy: dict | None = None,
-    rules: "RulesEngine | None" = None,
+    rules: Any = None,
     policy_cfg: dict | None = None,
     is_paused: bool = False,
 ) -> Decision:

@@ -1,16 +1,11 @@
 import typer
+import yaml
 from rich.console import Console
 from rich.panel import Panel
-import yaml
 
 from src.agent.ingest import FakeMailbox
+from src.agent.learn.store import load_policy
 from src.agent.llm import LlmAdapter
-from src.agent.triage import extract_situation
-from src.agent.planner import propose_actions
-from src.agent.injection import scan
-from src.agent.decide import make_decision
-from src.agent.execute import Executor
-from src.agent.learn.store import save_policy, load_policy
 
 app = typer.Typer()
 console = Console()
@@ -33,7 +28,6 @@ def run(
     mailbox = FakeMailbox(inbox)
     llm = LlmAdapter(mode=mode)
     from src.agent.models import SystemClock
-    executor = Executor(registry, clock=SystemClock(), dry_run=True)
     
     learned_policy = load_policy(policy_file) if policy_file else None
     
@@ -64,7 +58,7 @@ def run(
             "guard_cfg": guard_cfg,
             "policy_cfg": policy_cfg
         }
-        from src.agent.models import SystemClock, AutonomyLevel
+        from src.agent.models import AutonomyLevel
         store = learned_policy or {}
         
         decisions, outcomes = process_email(email, ctx, llm, store, SystemClock(), cfg)

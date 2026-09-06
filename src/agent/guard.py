@@ -1,6 +1,6 @@
 import os
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from src.agent.models import (
@@ -42,7 +42,7 @@ def floor(
     Returns (minimum_autonomy_level, list_of_invariant_ids_triggered).
     """
     if now is None:
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
     if recent_action_counts is None:
         recent_action_counts = {}
         

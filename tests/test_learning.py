@@ -1,17 +1,22 @@
-import os
 import tempfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
-from src.agent.learn.store import load_policy, save_policy
 from src.agent.learn.feedback import process_feedback
 from src.agent.learn.rules import RulesEngine
-from src.agent.models import Decision, Feedback, ProposedAction, AutonomyLevel, Situation, SenderClass, Intent, Sensitivity
+from src.agent.learn.store import load_policy, save_policy
+from src.agent.models import (
+    AutonomyLevel,
+    Decision,
+    Feedback,
+    ProposedAction,
+)
+
 
 def test_process_feedback():
     policy = {}
     rules = RulesEngine()
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     
     dec = Decision(
         id="d1", msg_id="m1",
@@ -36,7 +41,7 @@ def test_process_feedback():
 def test_process_feedback_rules():
     policy = {}
     rules = RulesEngine()
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     
     dec = Decision(
         id="d1", msg_id="m1",

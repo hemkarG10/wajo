@@ -1,13 +1,20 @@
+from datetime import UTC, datetime
+
 from src.agent.execute import Executor
-from src.agent.models import ProposedAction, Decision, AutonomyLevel, SimClock, Provenance
-from datetime import datetime, timezone
-import pytest
+from src.agent.models import (
+    AutonomyLevel,
+    Decision,
+    ProposedAction,
+    Provenance,
+    SimClock,
+)
+
 
 def test_executor_refuses_untrusted_destination():
     registry = {
         "send_reply": {"external": True}
     }
-    clock = SimClock(datetime.now(timezone.utc))
+    clock = SimClock(datetime.now(UTC))
     executor = Executor(registry, dry_run=True, clock=clock)
     
     act = ProposedAction(
@@ -39,7 +46,7 @@ def test_executor_allows_trusted_destination():
     registry = {
         "send_reply": {"external": True}
     }
-    clock = SimClock(datetime.now(timezone.utc))
+    clock = SimClock(datetime.now(UTC))
     executor = Executor(registry, dry_run=True, clock=clock)
     
     act = ProposedAction(

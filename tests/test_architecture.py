@@ -1,4 +1,5 @@
 import ast
+from datetime import UTC
 from pathlib import Path
 
 
@@ -18,19 +19,20 @@ def test_guard_does_not_import_learn():
             for alias in node.names:
                 assert "learn" not in alias.name, f"guard.py must not import {alias.name}"
                 
-        elif isinstance(node, ast.ImportFrom):
-            if node.module:
-                assert "learn" not in node.module, f"guard.py must not import from {node.module}"
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            assert "learn" not in node.module, f"guard.py must not import from {node.module}"
 
 
 def test_pipeline_e2e_heuristic():
+    from datetime import datetime
+
     import yaml
-    from src.agent.heuristic import HeuristicTriage, TemplatePlanner
-    from src.agent.injection import scan
+
     from src.agent.decide import make_decision
     from src.agent.execute import Executor
+    from src.agent.heuristic import HeuristicTriage, TemplatePlanner
+    from src.agent.injection import scan
     from src.agent.models import EmailMessage, SystemClock
-    from datetime import datetime, timezone
     
     with open("config/actions.yaml", "r") as f:
         registry = yaml.safe_load(f)
@@ -40,7 +42,7 @@ def test_pipeline_e2e_heuristic():
     email = EmailMessage(
         id="t1", thread_id="t1", from_addr="maya@acme.io", to=["agent@acme.io"], cc=[],
         subject="Hello", body_text="Hi", body_html=None, headers={}, attachments=[],
-        received_at=datetime.now(timezone.utc)
+        received_at=datetime.now(UTC)
     )
     
     inj = scan(email, llm=None)
@@ -62,15 +64,17 @@ def test_pipeline_e2e_heuristic():
 
 
 def test_pipeline_e2e_mock_llm():
+    from datetime import datetime
+
     import yaml
-    from src.agent.llm import LlmAdapter
-    from src.agent.triage import extract_situation
-    from src.agent.planner import propose_actions
-    from src.agent.injection import scan
+
     from src.agent.decide import make_decision
     from src.agent.execute import Executor
+    from src.agent.injection import scan
+    from src.agent.llm import LlmAdapter
     from src.agent.models import EmailMessage, SystemClock
-    from datetime import datetime, timezone
+    from src.agent.planner import propose_actions
+    from src.agent.triage import extract_situation
     
     with open("config/actions.yaml", "r") as f:
         registry = yaml.safe_load(f)
@@ -80,10 +84,35 @@ def test_pipeline_e2e_mock_llm():
     email = EmailMessage(
         id="t1", thread_id="t1", from_addr="maya@acme.io", to=["agent@acme.io"], cc=[],
         subject="Hello", body_text="review this", body_html=None, headers={}, attachments=[],
-        received_at=datetime.now(timezone.utc)
+        received_at=datetime.now(UTC)
     )
     
-    mock_llm = LlmAdapter(mode="record") # record mode falls back to mock schema generation offline
+    mock_responses = {
+        "extract structured facts": {
+            "msg_id": "t1",
+            "sender_class": "known_contact",
+            "intent": "request_for_action",
+            "sensitivity": "none",
+            "urgency": "normal",
+            "requested_actions": ["review"],
+            "deadline": None,
+            "thread_participants": [],
+            "summary": "Review",
+            "llm_confidence": 1.0
+        },
+        "Situation:": {
+            "actions": [
+                {
+                    "type": "send_reply",
+                    "params": {"body": "done"},
+                    "provenance": {},
+                    "rationale": "mock",
+                    "confidence": 1.0
+                }
+            ]
+        }
+    }
+    mock_llm = LlmAdapter(mode="mock", mock_responses=mock_responses)
     
     inj = scan(email, llm=mock_llm)
     

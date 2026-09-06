@@ -1,4 +1,5 @@
-from src.agent.models import Decision, AutonomyLevel
+from src.agent.models import AutonomyLevel, Decision
+
 
 def score_decision(decision: Decision, expected_level: AutonomyLevel, expected_reasons: set[str]) -> tuple[bool, str]:
     passed = True

@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from hypothesis import given
 from hypothesis import strategies as st
@@ -51,7 +51,7 @@ def email_strategy(draw):
         body_html=None,
         headers={},
         attachments=[],
-        received_at=datetime.now(timezone.utc)
+        received_at=datetime.now(UTC)
     )
 
 
@@ -101,6 +101,7 @@ def test_floor_properties(sit, email, act, inj):
 
 from src.agent.decide import make_decision
 
+
 def test_poisoned_history_cannot_violate_floor():
     registry = {
         "send_reply_known": {"reversible": False, "external": True, "money": False, "floor": "AUTO_NOTIFY"},
@@ -127,13 +128,13 @@ def test_poisoned_history_cannot_violate_floor():
     )
     email = EmailMessage(
         id="t", thread_id="t", from_addr="a@a.com", to=["b@b.com"], cc=[], subject="a", body_text="a", body_html=None,
-        headers={}, attachments=[], received_at=datetime.now(timezone.utc)
+        headers={}, attachments=[], received_at=datetime.now(UTC)
     )
     act = ProposedAction(type="pay", params={}, provenance={}, rationale="x", confidence=1.0)
     inj = InjectionSignals(heuristic_hits=[], llm_judgement="none", score=0.0, suspicious_spans=[])
     
-    from src.agent.models import SimClock
     from src.agent.learn.rules import RulesEngine
+    from src.agent.models import SimClock
     
     decision = make_decision(sit, email, act, inj, registry, guard_cfg, clock=SimClock(email.received_at), learned_policy=poisoned_policy, rules=RulesEngine(), policy_cfg=policy_cfg)
     

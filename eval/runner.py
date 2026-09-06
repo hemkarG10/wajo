@@ -1,15 +1,16 @@
 import json
 from datetime import datetime
+
 import yaml
 
-from src.agent.llm import LlmAdapter
-from src.agent.models import EmailMessage, AutonomyLevel
-from src.agent.triage import extract_situation
-from src.agent.planner import propose_actions
-from src.agent.injection import scan
-from src.agent.decide import make_decision
-
 from eval.scoring import score_decision
+from src.agent.decide import make_decision
+from src.agent.injection import scan
+from src.agent.llm import LlmAdapter
+from src.agent.models import AutonomyLevel, EmailMessage
+from src.agent.planner import propose_actions
+from src.agent.triage import extract_situation
+
 
 def run_eval():
     with open("eval/dataset.json", "r") as f:
@@ -28,6 +29,7 @@ def run_eval():
     }
 
     import os
+    import sys
     mode = os.environ.get("EVAL_MODE", "replay")
     llm = LlmAdapter(mode=mode)
     
@@ -56,8 +58,8 @@ def run_eval():
             continue
             
         action = proposals[0] # Just evaluate the top proposed action
-        from src.agent.models import SimClock
         from src.agent.learn.rules import RulesEngine
+        from src.agent.models import SimClock
         decision = make_decision(
             situation, email, action, inj,
             registry, guard_cfg, learned_policy=learned_policy,
@@ -76,7 +78,7 @@ def run_eval():
         print(f"{status} | {eid} | {msg}")
         
     if not all_passed:
-        exit(1)
+        sys.exit(1)
 
 if __name__ == "__main__":
     run_eval()

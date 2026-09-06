@@ -1,4 +1,4 @@
-.PHONY: setup test lint eval eval-live transcripts
+.PHONY: setup test lint eval run transcripts
 
 setup:
 	uv sync
@@ -14,5 +14,8 @@ eval:
 lint:
 	uv run ruff check .
 
+run:
+	PYTHONPATH=. uv run python src/agent/cli.py run --inbox sample_inbox.json --mode replay
+
 transcripts:
-	PYTHONPATH=. uv run python src/agent/cli.py run --inbox sample_inbox.json --mode record
+	PYTHONPATH=. uv run python src/agent/cli.py run --inbox sample_inbox.json --mode replay

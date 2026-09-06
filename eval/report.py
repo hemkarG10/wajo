@@ -1,7 +1,8 @@
 import json
-import sys
 import os
-from datetime import datetime
+import sys
+from datetime import UTC, datetime
+
 
 def generate_report():
     if not os.path.exists("eval/results/metrics.json"):
@@ -28,7 +29,7 @@ def generate_report():
 
     report_md = f"""# Evaluation Results
 **Model / Provider:** {provider}
-**Date:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+**Date:** {datetime.now(UTC).strftime('%Y-%m-%d %H:%M:%S')}
 
 ## Metrics
 - **Brier Score:** {brier}

@@ -1,6 +1,7 @@
-import math
-import scipy.stats as stats
 from datetime import datetime
+
+from scipy import stats
+
 
 def calculate_lcb(alpha: float, beta_param: float, confidence: float = 0.95) -> float:
     """

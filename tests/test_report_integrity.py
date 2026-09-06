@@ -1,5 +1,3 @@
-import re
-import pytest
 
 def test_report_integrity():
     with open("eval/report.py", "r") as f:

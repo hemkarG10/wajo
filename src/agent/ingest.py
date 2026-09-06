@@ -1,7 +1,8 @@
 import json
 import re
-from datetime import datetime, timezone
-from typing import Iterator, Protocol
+from collections.abc import Iterator
+from datetime import UTC, datetime
+from typing import Protocol
 
 from src.agent.models import AttachmentMeta, EmailMessage
 
@@ -36,7 +37,7 @@ def normalize_email(raw_email: dict) -> EmailMessage:
     if isinstance(received_at, str):
         received_at = datetime.fromisoformat(received_at)
     if not received_at:
-        received_at = datetime.now(timezone.utc)
+        received_at = datetime.now(UTC)
         
     return EmailMessage(
         id=raw_email.get("id", "missing-id"),

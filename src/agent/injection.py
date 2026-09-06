@@ -53,7 +53,7 @@ def scan(email: EmailMessage, llm: LlmAdapter | None = None) -> InjectionSignals
             )
             judgement = llm_out.llm_judgement
             spans = llm_out.suspicious_spans
-        except Exception:
+        except Exception:  # noqa: BLE001
             # If LLM fails, we fall back to heuristics safely
             judgement = "error"
             

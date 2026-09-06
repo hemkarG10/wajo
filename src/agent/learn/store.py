@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+
 def save_policy(policy: dict[str, dict], path: str | Path):
     with open(path, "w") as f:
         json.dump(policy, f, indent=2)

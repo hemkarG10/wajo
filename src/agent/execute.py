@@ -1,5 +1,13 @@
 import os
-from src.agent.models import AutonomyLevel, Clock, Decision, ExecutionOutcome, Provenance
+
+from src.agent.models import (
+    AutonomyLevel,
+    Clock,
+    Decision,
+    ExecutionOutcome,
+    Provenance,
+)
+
 
 class Executor:
     def __init__(self, action_registry: dict, clock: Clock, dry_run: bool = True):

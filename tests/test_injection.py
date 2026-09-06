@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from src.agent.injection import scan
 from src.agent.models import EmailMessage
@@ -16,7 +16,7 @@ def _make_email(body: str) -> EmailMessage:
         body_html=None,
         headers={},
         attachments=[],
-        received_at=datetime.now(timezone.utc)
+        received_at=datetime.now(UTC)
     )
 
 
