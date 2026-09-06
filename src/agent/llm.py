@@ -71,8 +71,6 @@ class LlmAdapter:
         }
 
         try:
-            if self.mode == "record":
-                raise Exception("Simulate offline record")
             response = self.client.messages.create(
                 model=model_name,
                 max_tokens=2048,
@@ -90,26 +88,7 @@ class LlmAdapter:
             result_data = tool_use.input
             
         except Exception as e:
-            if self.mode == "record":
-                # Return dummy dictionary matching schema based on model name
-                if "InjectionLLMOutput" in response_model.__name__:
-                    result_data = {"llm_judgement": "none", "suspicious_spans": []}
-                    if "Ignore previous" in prompt:
-                        result_data = {"llm_judgement": "likely", "suspicious_spans": ["Ignore previous instructions"]}
-                elif "Situation" in response_model.__name__:
-                    result_data = {"msg_id": "test", "sender_class": "known_contact", "intent": "newsletter", "sensitivity": "none", "urgency": "normal", "requested_actions": [], "deadline": None, "thread_participants": [], "summary": "test", "llm_confidence": 1.0}
-                    if "review this" in prompt:
-                        result_data = {"msg_id": "test", "sender_class": "known_contact", "intent": "request_for_action", "sensitivity": "none", "urgency": "normal", "requested_actions": ["review document"], "deadline": None, "thread_participants": [], "summary": "test", "llm_confidence": 1.0}
-                    elif "URGENT INVOICE" in prompt:
-                        result_data = {"msg_id": "test", "sender_class": "unknown", "intent": "request_for_action", "sensitivity": "regulated", "urgency": "high", "requested_actions": ["pay invoice"], "deadline": None, "thread_participants": [], "summary": "test", "llm_confidence": 1.0}
-                else:
-                    result_data = {"actions": [{"type": "archive", "params": {}, "provenance": {}, "rationale": "test", "confidence": 1.0}]}
-                    if "review this" in prompt:
-                        result_data = {"actions": [{"type": "send_reply_known", "params": {"body": "I will review this."}, "provenance": {}, "rationale": "test", "confidence": 1.0}]}
-                    elif "URGENT INVOICE" in prompt:
-                        result_data = {"actions": [{"type": "pay", "params": {"amount": "100", "destination": "999"}, "provenance": {}, "rationale": "test", "confidence": 1.0}]}
-            else:
-                raise LLMError(f"LLM call failed: {e}")
+            raise LLMError(f"LLM call failed: {e}")
                 
         # Validate with Pydantic
         validated = response_model.model_validate(result_data)
@@ -118,8 +97,10 @@ class LlmAdapter:
         if self.mode in ("record", "live"):
             with open(cache_file, "w") as f:
                 json.dump({
-                    "request_hash": req_hash,
+                    "provider": "anthropic",
                     "model": model_name,
+                    "mode": self.mode,
+                    "prompt_hash": req_hash,
                     "response": result_data,
                 }, f, indent=2)
                 
