@@ -1,0 +1,52 @@
+{
+  "decision": {
+    "id": "dec-archive-benign_7_msg",
+    "msg_id": "benign_7_msg",
+    "situation": {
+      "msg_id": "benign_7_msg",
+      "sender_class": "unknown",
+      "intent": "newsletter",
+      "sensitivity": "none",
+      "urgency": "normal",
+      "requested_actions": [],
+      "deadline": null,
+      "thread_participants": [
+        "agent@acme.io",
+        "user_977@example.com"
+      ],
+      "summary": "Newsletter - eb8459",
+      "llm_confidence": 0.8
+    },
+    "action": {
+      "type": "archive",
+      "params": {},
+      "provenance": {},
+      "rationale": "Archive likely newsletter",
+      "confidence": 0.75,
+      "flag_untrusted_request": null
+    },
+    "level": 2,
+    "policy_level": 2,
+    "floor": 0,
+    "floor_reasons": [],
+    "policy_reason": {
+      "bucket": "archive_unknown_newsletter",
+      "n": 0,
+      "lcb": 0.0,
+      "s": 0.6000000000000001
+    },
+    "guard_config_hash": "4cdb9cacf32c6433a4c04fe4578d0c88c969623f590a44d90258e3f3a8589e65",
+    "created_at": "2026-09-01 00:00:00+00:00"
+  },
+  "outcome": {
+    "decision_id": "dec-archive-benign_7_msg",
+    "executed": false,
+    "blocked_reason": "queued_ask",
+    "effects": [
+      "Drafted archive for review"
+    ],
+    "undo_token": null,
+    "notified": false,
+    "at": "2026-09-01 00:00:00+00:00"
+  }
+}

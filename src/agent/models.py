@@ -122,6 +122,7 @@ class ProposedAction(BaseModel):
 class Decision(BaseModel):
     id: str
     msg_id: str
+    situation: Situation | None = None
     action: ProposedAction
     level: AutonomyLevel                # final = max(policy_level, floor)
     policy_level: AutonomyLevel         # what the learned policy wanted

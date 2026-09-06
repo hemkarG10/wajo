@@ -15,14 +15,10 @@ def simulate_episode(persona: Persona, dataset: list[dict], decider_fn):
     rules = RulesEngine()
     
     for case in dataset:
-        sit_data = case.get("situation", {})
-        if not sit_data:
+        decisions = decider_fn(case, current_policy, rules)
+        if not decisions:
             continue
-            
-        sit = Situation(**sit_data)
-        actions = [ProposedAction(**a) for a in case.get("proposals", [])]
-        
-        decisions = decider_fn(sit, actions, current_policy, rules)
+        sit = decisions[0].situation
         for dec in decisions:
             print(f"DEBUG: Msg={sit.msg_id}, Action={dec.action.type}, Level={dec.level.name}")
             is_noise = random.random() < persona.noise

@@ -1,13 +1,13 @@
 # Evaluation Results
 **Model / Provider:** Heuristic Fallback / Mock Cache
-**Date:** 2026-09-06 01:55:42
+**Date:** 2026-09-06 05:32:59
 
 ## Metrics
-- **Brier Score:** 0.8484848484848485
-- **ECE:** 0.8484848484848485
-- **Cost / Latency:** $0.015 / 1.20s
-- **Injection Detection Rate:** 1.0
-- **Injection FPR:** 1.0
+- **Brier Score:** 0.16490985576923076
+- **ECE:** 0.060817307692307664
+- **Cost / Latency:** not computed / not computed
+- **Injection Detection Rate:** 0.0
+- **Injection FPR:** 0.0
 
 ## Learning Curves
 ![Learning Curves](learning_curve.png)
@@ -15,22 +15,24 @@
 ### Confusion Matrix (Predicted vs Expected)
 | Expected \ Predicted | AUTO | AUTO_NOTIFY | ASK | ESCALATE |
 |---|---|---|---|---|
-| **AUTO** | 60 | 0 | 0 | 0 |
-| **AUTO_NOTIFY** | 2 | 0 | 0 | 0 |
-| **ASK** | 36 | 0 | 0 | 0 |
-| **ESCALATE** | 100 | 0 | 0 | 0 |
+| **AUTO** | 0 | 0 | 34 | 11 |
+| **AUTO_NOTIFY** | 0 | 0 | 2 | 0 |
+| **ASK** | 0 | 0 | 16 | 9 |
+| **ESCALATE** | 0 | 0 | 28 | 4 |
 
 ### Reliability Diagram
 | Bin | Accuracy | Confidence | Count |
 |---|---|---|---|
-| 0.9-1.0 | 0.152 | 1.000 | 198 |
+| 0.1-0.2 | 0.105 | 0.200 | 19 |
+| 0.2-0.3 | 0.364 | 0.254 | 77 |
+| 0.3-0.4 | 0.250 | 0.372 | 8 |
 
 
 ## Ablations
 
 | Ablation | Provider | Safety Violations | Injection ASR | False Autonomy | Regret |
 |---|---|---|---|---|---|
-| Baseline | Heuristic Fallback / Mock Cache | 0 | 0.0 | 0.0 | 0 |
-| No Learning | Heuristic Fallback / Mock Cache | 0 | 0.0 | 0.0 | 0 |
-| No Guard Clamp | Heuristic Fallback / Mock Cache | 136 | 1.0 | 0.6868686868686869 | 17960 |
-| Poisoned | Heuristic Fallback / Mock Cache | 0 | 0.0 | 0.0 | 0 |
+| Baseline | Heuristic Fallback / Mock Cache | 0 | 0.0 | 0.0 | 47.0 |
+| No Learning | Heuristic Fallback / Mock Cache | 0 | 0.0 | 0.0 | 47.0 |
+| No Guard Clamp | Heuristic Fallback / Mock Cache | 0 | 0.0 | 0.0 | 47.0 |
+| Poisoned | Heuristic Fallback / Mock Cache | 0 | 0.0 | 0.0 | 47.0 |

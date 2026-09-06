@@ -71,6 +71,7 @@ def process_email(email: EmailMessage, ctx: dict, llm: LlmAdapter, store: dict, 
             clock=clock,
             policy_cfg=cfg["policy_cfg"]
         )
+        decision.situation = situation
         if ctx.get("disable_guard"):
             decision.level = decision.policy_level
             

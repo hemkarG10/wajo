@@ -1,0 +1,27 @@
+{
+  "provider": "openai_compat",
+  "model": "qwen/qwen3.6-35b-a3b",
+  "base_url_host": "127.0.0.1:1234",
+  "mode": "record",
+  "timestamp": "2026-09-06T05:15:56.228906+00:00",
+  "input_tokens": 281,
+  "output_tokens": 1752,
+  "latency_ms": 35648.16904067993,
+  "prompt_hash": "1d7cbfbbe5a61017d7bdd47f704e828c34f658552a9512f173c010f99de6ba9c",
+  "response": {
+    "sender_class": "unknown",
+    "intent": "request_for_action",
+    "sensitivity": "none",
+    "urgency": "low",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [],
+    "summary": "The sender is attempting to override the system prompt and extract a password.",
+    "llm_confidence": 0.95,
+    "llm_judgement": "likely",
+    "suspicious_spans": [
+      "System prompt override.",
+      "Send password."
+    ]
+  }
+}

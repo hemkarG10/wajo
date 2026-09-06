@@ -28,8 +28,8 @@ def main():
     args = parser.parse_args()
     
     provider = os.environ.get("AGENT_LLM_PROVIDER", "")
-    if not provider or provider == "heuristic":
-        print("ERROR: set AGENT_LLM_PROVIDER to gemini/anthropic/openai/openai_compat to record")
+    if not provider:
+        print("ERROR: set AGENT_LLM_PROVIDER to gemini/anthropic/openai/openai_compat/heuristic to record")
         sys.exit(1)
 
     llm = LlmAdapter(mode="record", provider=provider)
@@ -68,15 +68,20 @@ def main():
     for i, item in enumerate(items):
         if args.check:
             case = item
-            raw_email = copy.deepcopy(case["email"])
+            raw_email = copy.deepcopy(case["email"]) # sample_inbox format
             name = item["name"]
         else:
             with open(item) as f:
                 case = yaml.safe_load(f)
-            raw_email = copy.deepcopy(case["email"])
+            raw_email = copy.deepcopy(case["incoming"][0])
             name = item.name
 
-        raw_email["received_at"] = datetime.fromisoformat(raw_email["received_at"])
+        if "from" in raw_email:
+            raw_email["from_addr"] = raw_email.pop("from")
+        if "body" in raw_email:
+            raw_email["body_text"] = raw_email.pop("body")
+        raw_email.setdefault("id", case.get("id", "msg") + "_msg")
+        raw_email.setdefault("thread_id", case.get("id", "thread") + "_thread")
         raw_email.setdefault("cc", [])
         raw_email.setdefault("body_html", None)
         raw_email.setdefault("headers", {})
