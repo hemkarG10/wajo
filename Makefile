@@ -3,6 +3,9 @@
 setup:
 	uv sync
 
+include .env
+export
+
 test:
 	PYTHONPATH=. uv run pytest tests/ -v
 
@@ -14,6 +17,9 @@ run:
 
 record:
 	PYTHONPATH=. uv run python eval/record.py
+
+record-check:
+	PYTHONPATH=. uv run python eval/record.py --check
 
 eval:
 	AGENT_LLM_PROVIDER=heuristic PYTHONPATH=. uv run python eval/harness.py

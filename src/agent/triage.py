@@ -9,7 +9,6 @@ from src.agent.models import EmailMessage, Situation, SenderClass, Intent, Sensi
 
 
 class TriageOut(BaseModel):
-    msg_id: str
     sender_class: SenderClass
     intent: Intent
     sensitivity: Sensitivity
@@ -19,13 +18,15 @@ class TriageOut(BaseModel):
     thread_participants: list[str]
     summary: str
     llm_confidence: float
+    llm_judgement: Literal["none", "possible", "likely"]
+    suspicious_spans: list[str]
 
 
 def extract_situation(
     email: EmailMessage,
     llm: LlmAdapter,
     domain: str = "acme.io"
-) -> Situation:
+) -> tuple[Situation, dict]:
     prompt_path = Path(__file__).parent / "prompts" / "triage.md"
     with open(prompt_path, "r") as f:
         system = f.read().format(domain=domain)
@@ -49,13 +50,12 @@ Body:
     parsed_deadline = None
     if t_out.deadline:
         try:
-            # We assume ISO format from LLM
             parsed_deadline = datetime.fromisoformat(t_out.deadline.replace('Z', '+00:00'))
         except ValueError:
             parsed_deadline = None
             
-    return Situation(
-        msg_id=t_out.msg_id,
+    sit = Situation(
+        msg_id=email.id,
         sender_class=t_out.sender_class,
         intent=t_out.intent,
         sensitivity=t_out.sensitivity,
@@ -66,3 +66,9 @@ Body:
         summary=t_out.summary,
         llm_confidence=t_out.llm_confidence
     )
+    
+    inj_dict = {
+        "llm_judgement": t_out.llm_judgement,
+        "suspicious_spans": t_out.suspicious_spans
+    }
+    return sit, inj_dict

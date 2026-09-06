@@ -19,7 +19,6 @@ class PlannerAction(BaseModel):
     subject: str | None = None
     rationale: str
     confidence: float
-    flag_untrusted_request: str | None = None
 
 
 class PlannerOut(BaseModel):
@@ -93,6 +92,9 @@ Body: {email.body_text}
     
     # Post-processor: map back to ProposedAction
     for plan_act in result.actions:
+        if plan_act.type not in action_registry_keys:
+            continue
+            
         params = {}
         if plan_act.to is not None: params["to"] = plan_act.to
         if plan_act.cc is not None: params["cc"] = plan_act.cc
@@ -106,7 +108,6 @@ Body: {email.body_text}
         prov = {}
         for k, v in params.items():
             if isinstance(v, list):
-                # evaluate first item for provenance, or default to SYSTEM
                 if len(v) > 0:
                     prov[k] = _derive_provenance(v[0], email, trusted_contacts, set(situation.thread_participants))
                 else:
@@ -114,13 +115,15 @@ Body: {email.body_text}
             else:
                 prov[k] = _derive_provenance(v, email, trusted_contacts, set(situation.thread_participants))
             
+        untrusted = any(p == Provenance.UNTRUSTED for p in prov.values())
+        
         proposed = ProposedAction(
             type=plan_act.type,
             params=params,
             provenance=prov,
             rationale=plan_act.rationale,
             confidence=plan_act.confidence,
-            flag_untrusted_request=plan_act.flag_untrusted_request
+            flag_untrusted_request="Parameters contain untrusted data" if untrusted else None
         )
         actions.append(proposed)
             

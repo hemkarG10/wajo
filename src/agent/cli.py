@@ -33,14 +33,6 @@ def run(
     
     trusted_contacts = {"maya@acme.io"} # hardcoded for demo
     
-    if llm_type == "heuristic":
-        from src.agent.heuristic import HeuristicTriage, TemplatePlanner
-        triage_provider = HeuristicTriage()
-        planner_provider = TemplatePlanner()
-    else:
-        triage_provider = None
-        planner_provider = None
-
     for email in mailbox.new_messages():
         console.print(f"\n[bold blue]Processing Email:[/bold blue] {email.subject} (From: {email.from_addr})")
         
@@ -49,8 +41,6 @@ def run(
         ctx = {
             "contacts": trusted_contacts,
             "self_domain": "acme.io",
-            "triage_provider": triage_provider,
-            "planner_provider": planner_provider,
             "dry_run": True
         }
         cfg = {

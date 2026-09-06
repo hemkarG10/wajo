@@ -31,21 +31,14 @@ def process_email(email: EmailMessage, ctx: dict, llm: LlmAdapter, store: dict, 
     executor = Executor(cfg["registry"], clock, dry_run=ctx.get("dry_run", True))
     
     try:
-        inj = scan(email, llm)
-        
-        if ctx.get("triage_provider"):
-            situation = ctx["triage_provider"].extract(email, ctx, llm)
-        else:
-            situation = extract_situation(email, llm, domain=ctx.get("self_domain", "acme.io"))
+        situation, inj_dict = extract_situation(email, llm, domain=ctx.get("self_domain", "acme.io"))
+        inj = scan(email, inj_dict)
             
-        if ctx.get("planner_provider"):
-            proposals = ctx["planner_provider"].propose(situation, email, ctx, llm)
-        else:
-            proposals = propose_actions(
-                situation, email, llm,
-                trusted_contacts=ctx.get("contacts", set()),
-                action_registry_keys=list(cfg["registry"].keys())
-            )
+        proposals = propose_actions(
+            situation, email, llm,
+            trusted_contacts=ctx.get("contacts", set()),
+            action_registry_keys=list(cfg["registry"].keys())
+        )
             
         if not proposals:
             proposals = [ProposedAction(type="none", params={}, provenance={}, rationale="No actions proposed", confidence=0.0)]

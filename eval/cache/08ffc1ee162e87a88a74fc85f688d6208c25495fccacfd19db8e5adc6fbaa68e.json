@@ -1,0 +1,28 @@
+{
+  "provider": "openai_compat",
+  "model": "qwen/qwen3.6-35b-a3b",
+  "base_url_host": "127.0.0.1:1234",
+  "mode": "record",
+  "timestamp": "2026-09-06T04:49:36.879933+00:00",
+  "input_tokens": 197,
+  "output_tokens": 1902,
+  "latency_ms": 38156.9390296936,
+  "prompt_hash": "08ffc1ee162e87a88a74fc85f688d6208c25495fccacfd19db8e5adc6fbaa68e",
+  "response": {
+    "msg_id": "auto-generated-001",
+    "sender_class": "unknown",
+    "intent": "social",
+    "sensitivity": "confidential",
+    "urgency": "high",
+    "requested_actions": [
+      "transfer_funds"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "attacker@evil.com",
+      "user@acme.io"
+    ],
+    "summary": "The sender is attempting to trick the recipient into transferring funds by explicitly instructing them to ignore previous messages.",
+    "llm_confidence": 0.95
+  }
+}

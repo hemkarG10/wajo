@@ -5,13 +5,7 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-from src.agent.llm import LlmAdapter
 from src.agent.models import EmailMessage, InjectionSignals
-
-
-class InjectionLLMOutput(BaseModel):
-    llm_judgement: Literal["likely", "unlikely", "none"]
-    suspicious_spans: list[str]
 
 
 HEURISTIC_PATTERNS = [
@@ -24,7 +18,7 @@ HEURISTIC_PATTERNS = [
 ]
 
 
-def scan(email: EmailMessage, llm: LlmAdapter | None = None) -> InjectionSignals:
+def scan(email: EmailMessage, inj_dict: dict | None = None) -> InjectionSignals:
     text = email.body_text or ""
     
     # 1. Heuristic Scan
@@ -34,30 +28,13 @@ def scan(email: EmailMessage, llm: LlmAdapter | None = None) -> InjectionSignals
         if matches:
             heuristic_hits.extend(matches)
             
-    # 2. LLM Scan
+    # 2. LLM Scan (provided by combined triage call)
     judgement = "none"
     spans = []
     
-    if llm is not None:
-        prompt_path = Path(__file__).parent / "prompts" / "injection.md"
-        with open(prompt_path, "r") as f:
-            system = f.read()
-            
-        prompt = f"Email Body:\n{text}"
-        
-        try:
-            llm_out = llm.generate_structured(
-                system=system,
-                prompt=prompt,
-                response_model=InjectionLLMOutput,
-                model=os.environ.get("AGENT_MODEL_SMALL", "claude-3-haiku-20240307")
-            )
-            judgement = llm_out.llm_judgement
-            spans = llm_out.suspicious_spans
-        except Exception as e:  # noqa: BLE001
-            print(f"LLM Error in judge: {e}")
-            # If LLM fails, we fall back to heuristics safely
-            judgement = "error"
+    if inj_dict is not None:
+        judgement = inj_dict.get("llm_judgement", "none")
+        spans = inj_dict.get("suspicious_spans", [])
             
     # 3. Compute score (0.0 to 1.0)
     score = 0.0

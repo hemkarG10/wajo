@@ -1,16 +1,17 @@
 """LLM adapter with multi-provider support.
 
-Providers: gemini, anthropic, openai, heuristic.
+Providers: openai_compat, gemini, anthropic, openai, heuristic.
 Modes: live, replay, record, mock.
 """
 import hashlib
 import json
 import os
+import re
 import time
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal, TypeVar
-
+from urllib.parse import urlparse
 from pydantic import BaseModel, ValidationError
 
 T = TypeVar("T", bound=BaseModel)
@@ -37,15 +38,16 @@ class LlmAdapter:
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
         self.provider = provider or os.environ.get("AGENT_LLM_PROVIDER", "heuristic")
+        assert self.provider in {"openai_compat", "gemini", "anthropic", "openai", "heuristic"}, f"Unknown provider {self.provider}"
+        
         self.model_small = os.environ.get("AGENT_MODEL_SMALL", "heuristic")
         self.model_main = os.environ.get("AGENT_MODEL_MAIN", "heuristic")
 
-        # Lazy-init clients only when needed
+        # Lazy-init clients
         self._gemini_client = None
         self._anthropic_client = None
         self._openai_client = None
-
-    # ---- provider clients (lazy) ----
+        self._openai_compat_client = None
 
     def _get_gemini(self):
         if self._gemini_client is None:
@@ -73,8 +75,14 @@ class LlmAdapter:
                 raise LLMError("OPENAI_API_KEY not set")
             self._openai_client = openai.OpenAI(api_key=key)
         return self._openai_client
-
-    # ---- cache ----
+        
+    def _get_openai_compat(self):
+        if self._openai_compat_client is None:
+            import openai
+            key = os.environ.get("OPENAI_API_KEY", "lm-studio")
+            base_url = os.environ.get("OPENAI_BASE_URL", "http://127.0.0.1:1234/v1")
+            self._openai_compat_client = openai.OpenAI(api_key=key, base_url=base_url)
+        return self._openai_compat_client
 
     @staticmethod
     def _hash_request(provider: str, model: str, system: str, prompt: str, schema: dict) -> str:
@@ -102,17 +110,25 @@ class LlmAdapter:
         model_name: str,
         validated: BaseModel,
         latency_ms: float = 0.0,
+        input_tokens: int = 0,
+        output_tokens: int = 0,
     ):
+        base_url_host = "local"
+        if self.provider == "openai_compat":
+            base_url = os.environ.get("OPENAI_BASE_URL", "http://127.0.0.1:1234/v1")
+            base_url_host = urlparse(base_url).netloc
+
         cache_file = self.cache_dir / f"{req_hash}.json"
         with open(cache_file, "w") as f:
             json.dump(
                 {
                     "provider": self.provider,
                     "model": model_name,
+                    "base_url_host": base_url_host,
                     "mode": self.mode,
                     "timestamp": datetime.now(UTC).isoformat(),
-                    "input_tokens": 0,
-                    "output_tokens": 0,
+                    "input_tokens": input_tokens,
+                    "output_tokens": output_tokens,
                     "latency_ms": latency_ms,
                     "prompt_hash": req_hash,
                     "response": validated.model_dump(),
@@ -121,50 +137,79 @@ class LlmAdapter:
                 indent=2,
             )
 
-    # ---- provider call implementations ----
+    def _strip_think(self, text: str) -> str:
+        """Strip <think>...</think> blocks from output."""
+        return re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
 
-    def _call_gemini(self, model_name: str, system: str, prompt: str, response_model: type[T]) -> T:
-        from google.genai import types
-
-        client = self._get_gemini()
+    def _call_openai_compat(self, model_name: str, system: str, prompt: str, response_model: type[T]) -> tuple[T, int, int]:
+        client = self._get_openai_compat()
+        schema_def = response_model.model_json_schema()
+        
         current_prompt = prompt
-
-        for attempt in range(5):
+        
+        for attempt in range(2):
             try:
-                response = client.models.generate_content(
+                response = client.chat.completions.create(
                     model=model_name,
-                    contents=current_prompt,
-                    config=types.GenerateContentConfig(
-                        system_instruction=system,
-                        response_mime_type="application/json",
-                        response_schema=response_model,
-                        temperature=0,
-                    ),
+                    messages=[
+                        {"role": "system", "content": system},
+                        {"role": "user", "content": current_prompt},
+                    ],
+                    temperature=0,
+                    response_format={
+                        "type": "json_schema",
+                        "json_schema": {
+                            "name": response_model.__name__,
+                            "strict": True,
+                            "schema": schema_def
+                        }
+                    }
                 )
-                if response.parsed:
-                    return response.parsed
-                if response.text:
-                    return response_model.model_validate_json(response.text)
-                raise LLMError("Empty response from Gemini")
+                
+                raw_text = response.choices[0].message.content or ""
+                clean_text = self._strip_think(raw_text)
+                
+                in_tokens = response.usage.prompt_tokens if response.usage else 0
+                out_tokens = response.usage.completion_tokens if response.usage else 0
+                
+                return response_model.model_validate_json(clean_text), in_tokens, out_tokens
+                
             except ValidationError as e:
-                if attempt > 0 and "Validation failed previously" in current_prompt:
+                if attempt == 1:
                     raise LLMError(f"Validation failed twice: {e}")
                 current_prompt += f"\n\nValidation failed previously with: {e}. Please fix."
                 continue
-            except LLMError:
-                raise
             except Exception as e:
                 err_str = str(e)
                 if "429" in err_str or "503" in err_str or "Quota" in err_str:
-                    if attempt == 4:
-                        raise LLMError(f"Gemini call failed after 5 retries: {e}")
-                    time.sleep(2**attempt)
-                    continue
-                raise LLMError(f"Gemini call failed: {e}")
+                    raise  # let the record script handle backoff
+                raise LLMError(f"OpenAI compat call failed: {e}")
+                
+        raise LLMError("Exhausted retries in OpenAI compat provider")
 
-        raise LLMError("Exhausted retries in Gemini provider")
+    def _call_gemini(self, model_name: str, system: str, prompt: str, response_model: type[T]) -> tuple[T, int, int]:
+        from google.genai import types
+        client = self._get_gemini()
+        try:
+            response = client.models.generate_content(
+                model=model_name,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    system_instruction=system,
+                    response_mime_type="application/json",
+                    response_schema=response_model,
+                    temperature=0,
+                ),
+            )
+            if response.parsed:
+                return response.parsed, 0, 0
+            if response.text:
+                return response_model.model_validate_json(response.text), 0, 0
+            raise LLMError("Empty response from Gemini")
+        except Exception as e:
+            raise LLMError(f"Gemini call failed: {e}")
 
-    def _call_anthropic(self, model_name: str, system: str, prompt: str, response_model: type[T]) -> T:
+    def _call_anthropic(self, model_name: str, system: str, prompt: str, response_model: type[T]) -> tuple[T, int, int]:
         client = self._get_anthropic()
         schema = response_model.model_json_schema()
         tool_name = "extract_" + response_model.__name__.lower()
@@ -185,13 +230,11 @@ class LlmAdapter:
             tool_use = next((b for b in response.content if b.type == "tool_use"), None)
             if not tool_use:
                 raise LLMError("Model did not return the requested tool call.")
-            return response_model.model_validate(tool_use.input)
-        except LLMError:
-            raise
+            return response_model.model_validate(tool_use.input), response.usage.input_tokens, response.usage.output_tokens
         except Exception as e:
             raise LLMError(f"Anthropic call failed: {e}")
 
-    def _call_openai(self, model_name: str, system: str, prompt: str, response_model: type[T]) -> T:
+    def _call_openai(self, model_name: str, system: str, prompt: str, response_model: type[T]) -> tuple[T, int, int]:
         client = self._get_openai()
         try:
             completion = client.beta.chat.completions.parse(
@@ -205,17 +248,13 @@ class LlmAdapter:
             parsed = completion.choices[0].message.parsed
             if parsed is None:
                 raise LLMError("OpenAI returned no parsed output")
-            return parsed
-        except LLMError:
-            raise
+            return parsed, completion.usage.prompt_tokens, completion.usage.completion_tokens
         except Exception as e:
             raise LLMError(f"OpenAI call failed: {e}")
 
-    def _call_heuristic(self, system: str, prompt: str, response_model: type[T]) -> T:
+    def _call_heuristic(self, system: str, prompt: str, response_model: type[T]) -> tuple[T, int, int]:
         from src.agent.heuristic import heuristic_generate
-        return heuristic_generate(system, prompt, response_model)
-
-    # ---- public API ----
+        return heuristic_generate(system, prompt, response_model), 0, 0
 
     def generate_structured(
         self,
@@ -226,42 +265,41 @@ class LlmAdapter:
     ) -> T:
         """Generate structured output. Raises LLMError on any failure; never returns a default."""
         if self.provider == "heuristic":
-            return self._call_heuristic(system, prompt, response_model)
+            val, _, _ = self._call_heuristic(system, prompt, response_model)
+            return val
 
         model_name = model or self.model_main
         schema = response_model.model_json_schema()
         req_hash = self._hash_request(self.provider, model_name, system, prompt, schema)
 
-        # Mock mode
         if self.mode == "mock":
             for matcher, resp in self.mock_responses.items():
                 if matcher in prompt or matcher in system:
                     return response_model.model_validate(resp)
             raise LLMError(f"No mock response found for prompt: {prompt[:100]}")
 
-        # Check cache for replay/record/live
         cached = self._read_cache(req_hash, response_model)
         if cached is not None:
             return cached
 
-        # replay mode: cache miss is fatal
         if self.mode == "replay":
             raise CacheMiss(f"CacheMiss: {req_hash}")
 
-        # live or record: call provider
         t0 = time.time()
-        if self.provider == "gemini":
-            validated = self._call_gemini(model_name, system, prompt, response_model)
+        in_tok, out_tok = 0, 0
+        if self.provider == "openai_compat":
+            validated, in_tok, out_tok = self._call_openai_compat(model_name, system, prompt, response_model)
+        elif self.provider == "gemini":
+            validated, in_tok, out_tok = self._call_gemini(model_name, system, prompt, response_model)
         elif self.provider == "anthropic":
-            validated = self._call_anthropic(model_name, system, prompt, response_model)
+            validated, in_tok, out_tok = self._call_anthropic(model_name, system, prompt, response_model)
         elif self.provider == "openai":
-            validated = self._call_openai(model_name, system, prompt, response_model)
+            validated, in_tok, out_tok = self._call_openai(model_name, system, prompt, response_model)
         else:
             raise LLMError(f"Unknown provider: {self.provider}")
         latency_ms = (time.time() - t0) * 1000
 
-        # Save to cache
         if self.mode in ("record", "live"):
-            self._write_cache(req_hash, model_name, validated, latency_ms)
+            self._write_cache(req_hash, model_name, validated, latency_ms, in_tok, out_tok)
 
         return validated

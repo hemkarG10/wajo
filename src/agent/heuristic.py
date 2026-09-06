@@ -228,7 +228,6 @@ def heuristic_triage(email: EmailMessage, self_domain: str = "acme.io", contacts
     urgency = classify_urgency(email)
 
     return {
-        "msg_id": email.id,
         "sender_class": sender_class.value,
         "intent": intent.value,
         "sensitivity": sensitivity.value,
@@ -238,6 +237,8 @@ def heuristic_triage(email: EmailMessage, self_domain: str = "acme.io", contacts
         "thread_participants": list({email.from_addr} | set(email.to)),
         "summary": email.subject[:100],
         "llm_confidence": 0.80,
+        "llm_judgement": "none",
+        "suspicious_spans": [],
     }
 
 
@@ -337,19 +338,11 @@ def heuristic_generate(system: str, prompt: str, response_model: type[T]) -> T:
 
     email = _parse_email_from_prompt(prompt)
 
-    if model_name == "InjectionLLMOutput":
-        if email:
-            result = heuristic_scan(email)
-        else:
-            result = {"llm_judgement": "none", "suspicious_spans": []}
-        return response_model.model_validate(result)
-
-    elif model_name == "TriageOut":
+    if model_name == "TriageOut":
         if email:
             result = heuristic_triage(email)
         else:
             result = {
-                "msg_id": "unknown",
                 "sender_class": "unknown",
                 "intent": "other",
                 "sensitivity": "none",
@@ -359,6 +352,8 @@ def heuristic_generate(system: str, prompt: str, response_model: type[T]) -> T:
                 "thread_participants": [],
                 "summary": "Unknown",
                 "llm_confidence": 0.50,
+                "llm_judgement": "none",
+                "suspicious_spans": [],
             }
         return response_model.model_validate(result)
 

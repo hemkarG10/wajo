@@ -463,19 +463,18 @@ def main():
 
     # 1. Baseline
     print("\n--- Ablation: baseline ---")
-    results["baseline"] = run_ablation("baseline", scenarios, registry, guard_cfg, policy_cfg)
-
-    # 2. No learning
-    print("\n--- Ablation: no_learning ---")
-    results["no_learning"] = run_ablation("no_learning", scenarios, registry, guard_cfg, policy_cfg, disable_learning=True)
-
-    # 3. No guard (UNSAFE ABLATION)
-    print("\n--- Ablation: no_guard (UNSAFE) ---")
-    results["no_guard"] = run_ablation("no_guard", scenarios, registry, guard_cfg, policy_cfg, disable_guard=True)
-
-    # 4. Poisoned trust
-    print("\n--- Ablation: poisoned_trust ---")
-    results["poisoned_trust"] = run_ablation("poisoned_trust", scenarios, registry, guard_cfg, policy_cfg, poison_trust=True)
+    try:
+        results["baseline"] = run_ablation("baseline", scenarios, registry, guard_cfg, policy_cfg)
+        print("\n--- Ablation: no_learning ---")
+        results["no_learning"] = run_ablation("no_learning", scenarios, registry, guard_cfg, policy_cfg, disable_learning=True)
+        print("\n--- Ablation: no_guard (UNSAFE) ---")
+        results["no_guard"] = run_ablation("no_guard", scenarios, registry, guard_cfg, policy_cfg, disable_guard=True)
+        print("\n--- Ablation: poisoned_trust ---")
+        results["poisoned_trust"] = run_ablation("poisoned_trust", scenarios, registry, guard_cfg, policy_cfg, poison_trust=True)
+    except __import__("src.agent.llm").agent.llm.CacheMiss as e:
+        print(f"\n{e}")
+        print("N of M required entries missing — run `make record`")
+        sys.exit(1)
 
     # Add metadata
     guard_hash = hashlib.sha256(json.dumps(guard_cfg, sort_keys=True).encode()).hexdigest()
