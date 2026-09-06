@@ -236,7 +236,7 @@ def heuristic_triage(email: EmailMessage, self_domain: str = "acme.io", contacts
         "deadline": None,
         "thread_participants": list({email.from_addr} | set(email.to)),
         "summary": email.subject[:100],
-        "llm_confidence": 0.80,
+        "llm_confidence": 1.0,
         "llm_judgement": "none",
         "suspicious_spans": [],
     }
@@ -274,7 +274,7 @@ def heuristic_plan(situation_dict: dict, body_text: str = "") -> dict:
             "url": None,
             "subject": None,
             "rationale": f"Requested forward to {email_addr}",
-            "confidence": 0.9,
+            "confidence": 1.0,
             "flag_untrusted_request": True,
             "prov": {"to": "untrusted_request"}
         })
@@ -294,7 +294,7 @@ def heuristic_plan(situation_dict: dict, body_text: str = "") -> dict:
             "url": None,
             "subject": None,
             "rationale": f"Requested payment of {amount_val}",
-            "confidence": 0.9,
+            "confidence": 1.0,
             "flag_untrusted_request": True,
             "prov": {"amount": "untrusted_request"}
         })
@@ -313,7 +313,7 @@ def heuristic_plan(situation_dict: dict, body_text: str = "") -> dict:
             "url": None,
             "subject": None,
             "rationale": "Requested sensitive info",
-            "confidence": 0.9,
+            "confidence": 1.0,
             "flag_untrusted_request": True,
             "prov": {"body": "untrusted_request"}
         })
