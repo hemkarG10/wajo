@@ -53,24 +53,38 @@ def run(
         # 1. Injection Scan
         inj = scan(email, llm)
         
-        # 2. Triage
-        console.print("  [dim]Running triage...[/dim]")
-        if triage_provider:
-            situation = triage_provider.extract(email, {"self_domain": "acme.io", "contacts": trusted_contacts}, llm)
-        else:
-            situation = extract_situation(email, llm)
-        console.print(f"  [green]Situation:[/green] {situation.intent.value}, urgency: {situation.urgency}")
-        
-        # 3. Planner
-        console.print("  [dim]Running planner...[/dim]")
-        if planner_provider:
-            proposals = planner_provider.propose(situation, email, {"contacts": trusted_contacts}, llm)
-        else:
-            proposals = propose_actions(
-                situation, email, llm,
-                trusted_contacts=trusted_contacts,
-                action_registry_keys=list(registry.keys())
+        # 2. Triage & Planner
+        console.print("  [dim]Running triage and planner...[/dim]")
+        try:
+            if triage_provider:
+                situation = triage_provider.extract(email, {"self_domain": "acme.io", "contacts": trusted_contacts}, llm)
+            else:
+                situation = extract_situation(email, llm)
+            console.print(f"  [green]Situation:[/green] {situation.intent.value}, urgency: {situation.urgency}")
+            
+            if planner_provider:
+                proposals = planner_provider.propose(situation, email, {"contacts": trusted_contacts}, llm)
+            else:
+                proposals = propose_actions(
+                    situation, email, llm,
+                    trusted_contacts=trusted_contacts,
+                    action_registry_keys=list(registry.keys())
+                )
+        except Exception as e:
+            console.print(f"  [red]Triage/Planner Failed:[/red] {e}")
+            from src.agent.models import Decision, ProposedAction, AutonomyLevel
+            import datetime
+            decision = Decision(
+                id="err", msg_id=email.id, 
+                action=ProposedAction(type="none", params={}, provenance={}, rationale="Error", confidence=0.0),
+                level=AutonomyLevel.ESCALATE, policy_level=AutonomyLevel.ESCALATE, floor=AutonomyLevel.ESCALATE, floor_reasons=["error"],
+                policy_reason={"error": "planner_invalid"}, guard_config_hash="",
+                created_at=datetime.datetime.now(datetime.timezone.utc)
             )
+            outcome = executor.execute(decision)
+            p = Panel.fit("Action: none\nLevel: ESCALATE\nOutcome: executed (fail closed)", title="Decision & Outcome", border_style="red")
+            console.print(p)
+            continue
         
         for action in proposals:
             # 4. Decide
