@@ -1,0 +1,81 @@
+import json
+import os
+from src.agent.models import EmailMessage, ExecutionOutcome, Decision, ProposedAction, AutonomyLevel
+from src.agent.injection import scan
+from src.agent.triage import extract_situation
+from src.agent.planner import propose_actions
+from src.agent.decide import make_decision
+from src.agent.execute import Executor
+from src.agent.llm import LlmAdapter
+
+def _write_audit(decision: Decision, outcome: ExecutionOutcome):
+    audit_dir = "eval/audit"
+    os.makedirs(audit_dir, exist_ok=True)
+    row = {
+        "decision": decision.model_dump(),
+        "outcome": outcome.model_dump()
+    }
+    row_str = json.dumps(row, default=str, indent=2)
+    with open(f"{audit_dir}/{decision.id}.json", "w") as f:
+        f.write(row_str)
+
+def process_email(email: EmailMessage, ctx: dict, llm: LlmAdapter, store: dict, clock, cfg: dict) -> tuple[list[Decision], list[ExecutionOutcome]]:
+    executor = Executor(cfg["registry"], clock, dry_run=ctx.get("dry_run", True))
+    
+    try:
+        inj = scan(email, llm)
+        
+        if ctx.get("triage_provider"):
+            situation = ctx["triage_provider"].extract(email, ctx, llm)
+        else:
+            situation = extract_situation(email, llm, domain=ctx.get("self_domain", "acme.io"))
+            
+        if ctx.get("planner_provider"):
+            proposals = ctx["planner_provider"].propose(situation, email, ctx, llm)
+        else:
+            proposals = propose_actions(
+                situation, email, llm,
+                trusted_contacts=ctx.get("contacts", set()),
+                action_registry_keys=list(cfg["registry"].keys())
+            )
+            
+        if not proposals:
+            proposals = [ProposedAction(type="none", params={}, provenance={}, rationale="No actions proposed", confidence=0.0)]
+            
+    except Exception as e:
+        import uuid
+        decision = Decision(
+            id=f"err_{uuid.uuid4().hex[:8]}",
+            msg_id=email.id,
+            action=ProposedAction(type="none", params={}, provenance={}, rationale=str(e), confidence=0.0),
+            level=AutonomyLevel.ESCALATE,
+            policy_level=AutonomyLevel.ESCALATE,
+            floor=AutonomyLevel.ESCALATE,
+            floor_reasons=["error"],
+            policy_reason={"error": "planner_invalid"},
+            guard_config_hash="",
+            created_at=clock.now()
+        )
+        outcome = executor.execute(decision)
+        _write_audit(decision, outcome)
+        return [decision], [outcome]
+
+    decisions = []
+    outcomes = []
+    for action in proposals:
+        decision = make_decision(
+            situation, email, action, inj,
+            cfg["registry"], cfg["guard_cfg"],
+            learned_policy=store,
+            clock=clock,
+            policy_cfg=cfg["policy_cfg"]
+        )
+        if ctx.get("disable_guard"):
+            decision.level = decision.policy_level
+            
+        outcome = executor.execute(decision, disable_preflight=ctx.get("disable_guard", False))
+        _write_audit(decision, outcome)
+        decisions.append(decision)
+        outcomes.append(outcome)
+        
+    return decisions, outcomes
