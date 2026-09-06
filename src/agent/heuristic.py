@@ -242,8 +242,8 @@ def heuristic_triage(email: EmailMessage, self_domain: str = "acme.io", contacts
     }
 
 
-def heuristic_plan(situation_dict: dict) -> dict:
-    """Generate proposals from (intent, sender_class) table. Returns dict matching PlannerOut schema."""
+def heuristic_plan(situation_dict: dict, body_text: str = "") -> dict:
+    """Generate proposals from (intent, sender_class) table, plus extracted actions."""
     intent = situation_dict.get("intent", "other")
     sender_class = situation_dict.get("sender_class", "unknown")
 
@@ -251,16 +251,73 @@ def heuristic_plan(situation_dict: dict) -> dict:
     proposals = PROPOSAL_TABLE.get(key)
 
     if proposals is None:
-        # Fallback: try with just intent + unknown
         proposals = PROPOSAL_TABLE.get((intent, "unknown"))
-
     if proposals is None:
-        # Default: archive
-        proposals = [
-            {"type": "archive", "params": {}, "prov": {}, "rationale": "Default archive", "confidence": 0.50},
-        ]
+        proposals = [{"type": "archive", "params": {}, "prov": {}, "rationale": "Default archive", "confidence": 0.50}]
 
     actions = []
+    
+    # Extract requested actions from body text
+    import re
+    # forward|send|share .* to <email>
+    m_fwd = re.search(r"(?i)(?:forward|send|share).*?to\s+([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)", body_text)
+    if m_fwd:
+        email_addr = m_fwd.group(1)
+        actions.append({
+            "type": "forward_other",
+            "to": [email_addr],
+            "cc": None,
+            "body": None,
+            "label": None,
+            "amount": None,
+            "currency": None,
+            "url": None,
+            "subject": None,
+            "rationale": f"Requested forward to {email_addr}",
+            "confidence": 0.9,
+            "flag_untrusted_request": True,
+            "prov": {"to": "untrusted_request"}
+        })
+        
+    # pay|wire|transfer .* ($|€)?<amount>
+    m_pay = re.search(r"(?i)(?:pay|wire|transfer).*?(?:\$|€)?(\d+(?:\.\d{2})?)", body_text)
+    if m_pay:
+        amount_val = float(m_pay.group(1))
+        actions.append({
+            "type": "pay",
+            "to": None,
+            "cc": None,
+            "body": None,
+            "label": None,
+            "amount": amount_val,
+            "currency": "USD",
+            "url": None,
+            "subject": None,
+            "rationale": f"Requested payment of {amount_val}",
+            "confidence": 0.9,
+            "flag_untrusted_request": True,
+            "prov": {"amount": "untrusted_request"}
+        })
+        
+    # reply with|send (password|credentials|code)
+    m_reply = re.search(r"(?i)(?:reply with|send)\s+(password|credentials|code)", body_text)
+    if m_reply:
+        actions.append({
+            "type": "send_reply_other",
+            "to": None,
+            "cc": None,
+            "body": f"Requested {m_reply.group(1)}",
+            "label": None,
+            "amount": None,
+            "currency": None,
+            "url": None,
+            "subject": None,
+            "rationale": "Requested sensitive info",
+            "confidence": 0.9,
+            "flag_untrusted_request": True,
+            "prov": {"body": "untrusted_request"}
+        })
+
     for p in proposals:
         actions.append({
             "type": p["type"],
@@ -275,6 +332,7 @@ def heuristic_plan(situation_dict: dict) -> dict:
             "rationale": p["rationale"],
             "confidence": p["confidence"],
             "flag_untrusted_request": None,
+            "prov": p.get("prov", {})
         })
 
     return {"actions": actions}
@@ -380,7 +438,7 @@ def heuristic_generate(system: str, prompt: str, response_model: type[T]) -> T:
         except (ValueError, _json.JSONDecodeError):
             pass
 
-        result = heuristic_plan(sit_dict)
+        result = heuristic_plan(sit_dict, email.body_text if email else "")
         return response_model.model_validate(result)
 
     else:

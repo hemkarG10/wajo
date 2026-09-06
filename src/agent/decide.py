@@ -41,7 +41,7 @@ def policy_level(
     
     # We use planner confidence * LLM confidence as a base if no history
     base_s = action.confidence * situation.llm_confidence
-    s = min(lcb, base_s) if n > 0 else base_s
+    s = max(lcb, base_s) if n > 0 else base_s
 
     # Check explicit rules first
     rule_status = rules.check(bucket) if rules else "none"
