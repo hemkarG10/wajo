@@ -35,6 +35,28 @@ class Executor:
                 at=now
             )
 
+        if decision.level == AutonomyLevel.ESCALATE:
+            return ExecutionOutcome(
+                decision_id=decision.id,
+                executed=False,
+                blocked_reason="held_escalate",
+                effects=[],
+                undo_token=None,
+                notified=False,
+                at=now
+            )
+
+        if decision.level == AutonomyLevel.ASK:
+            return ExecutionOutcome(
+                decision_id=decision.id,
+                executed=False,
+                blocked_reason="queued_ask",
+                effects=[f"Drafted {decision.action.type} for review"],
+                undo_token=None,
+                notified=False,
+                at=now
+            )
+
         # Pre-flight check: Untrusted provenance on external actions
         if is_external and not disable_preflight:
             for k, p in decision.action.provenance.items():
@@ -48,28 +70,6 @@ class Executor:
                         notified=False,
                         at=now
                     )
-
-        if decision.level == AutonomyLevel.ESCALATE:
-            return ExecutionOutcome(
-                decision_id=decision.id,
-                executed=False,
-                blocked_reason="escalated",
-                effects=[],
-                undo_token=None,
-                notified=False,
-                at=now
-            )
-
-        if decision.level == AutonomyLevel.ASK:
-            return ExecutionOutcome(
-                decision_id=decision.id,
-                executed=False,
-                blocked_reason="ask",
-                effects=[f"Drafted {decision.action.type} for review"],
-                undo_token=None,
-                notified=False,
-                at=now
-            )
 
         if self.dry_run:
             return ExecutionOutcome(

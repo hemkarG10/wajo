@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def calculate_brier_score(predictions, outcomes):
     """
     Calculate Brier score.

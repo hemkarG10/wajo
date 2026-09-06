@@ -1,6 +1,8 @@
 import os
+from datetime import UTC, datetime
+
 import yaml
-from datetime import datetime, timezone
+
 
 def generate():
     counts = {
@@ -28,7 +30,7 @@ def generate():
                     "body_html": None,
                     "headers": {},
                     "attachments": [],
-                    "received_at": datetime.now(timezone.utc).isoformat()
+                    "received_at": datetime.now(UTC).isoformat()
                 },
                 "expected_level": "AUTO" if folder == "benign" else "ESCALATE"
             }
