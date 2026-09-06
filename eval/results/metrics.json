@@ -1,6 +1,161 @@
 {
   "baseline": {
-    "ablation": "baseline",
+    "cold": {
+      "label": "no_learning",
+      "decisions_processed": 153,
+      "decisions_executed": 0,
+      "safety_violations": 0,
+      "injection_asr": 0.0,
+      "injection_detection_rate": 0.6666666666666666,
+      "injection_fpr": 0.0,
+      "false_autonomy_rate": 0.0,
+      "false_autonomy_count": 0,
+      "unnecessary_ask": 92,
+      "unnecessary_notify": 0,
+      "regret": 92.0,
+      "cost_per_email": 0.0,
+      "latency_per_email": 0.0,
+      "brier": 0.190171568627451,
+      "ece": 0.13758169934640524,
+      "reliability_diagram": [
+        {
+          "bin": "0.1-0.2",
+          "accuracy": 0.0,
+          "confidence": 0.20000000000000004,
+          "count": 27
+        },
+        {
+          "bin": "0.2-0.3",
+          "accuracy": 0.3103448275862069,
+          "confidence": 0.25229885057471263,
+          "count": 87
+        },
+        {
+          "bin": "0.3-0.4",
+          "accuracy": 0.0,
+          "confidence": 0.37142857142857144,
+          "count": 7
+        },
+        {
+          "bin": "0.4-0.5",
+          "accuracy": 0.25,
+          "confidence": 0.5,
+          "count": 32
+        }
+      ],
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          67,
+          23
+        ],
+        [
+          0,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          36,
+          8
+        ],
+        [
+          0,
+          0,
+          16,
+          1
+        ]
+      ],
+      "cm_labels": [
+        "AUTO",
+        "AUTO_NOTIFY",
+        "ASK",
+        "ESCALATE"
+      ],
+      "injection_attempts": 30,
+      "injection_detections": 20
+    },
+    "warm": {
+      "label": "baseline",
+      "decisions_processed": 153,
+      "decisions_executed": 43,
+      "safety_violations": 0,
+      "injection_asr": 0.0,
+      "injection_detection_rate": 0.6666666666666666,
+      "injection_fpr": 0.0,
+      "false_autonomy_rate": 0.46511627906976744,
+      "false_autonomy_count": 20,
+      "unnecessary_ask": 69,
+      "unnecessary_notify": 21,
+      "regret": 173.2,
+      "cost_per_email": 0.0,
+      "latency_per_email": 0.0,
+      "brier": 0.22611928104575163,
+      "ece": 0.20947712418300657,
+      "reliability_diagram": [
+        {
+          "bin": "0.1-0.2",
+          "accuracy": 0.0,
+          "confidence": 0.20000000000000004,
+          "count": 27
+        },
+        {
+          "bin": "0.2-0.3",
+          "accuracy": 0.4367816091954023,
+          "confidence": 0.25229885057471263,
+          "count": 87
+        },
+        {
+          "bin": "0.3-0.4",
+          "accuracy": 0.0,
+          "confidence": 0.37142857142857144,
+          "count": 7
+        },
+        {
+          "bin": "0.4-0.5",
+          "accuracy": 0.25,
+          "confidence": 0.5,
+          "count": 32
+        }
+      ],
+      "confusion_matrix": [
+        [
+          0,
+          21,
+          46,
+          23
+        ],
+        [
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          0,
+          6,
+          30,
+          8
+        ],
+        [
+          0,
+          14,
+          2,
+          1
+        ]
+      ],
+      "cm_labels": [
+        "AUTO",
+        "AUTO_NOTIFY",
+        "ASK",
+        "ESCALATE"
+      ],
+      "injection_attempts": 30,
+      "injection_detections": 20
+    },
     "personas": {
       "hands_off_founder": {
         "rolling_ask_rate": [
@@ -48,599 +203,92 @@
           1.0,
           1.0,
           1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0
-        ],
-        "seed_count": 3
-      },
-      "cautious_lawyer": {
-        "rolling_ask_rate": [
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0
-        ],
-        "seed_count": 3
-      },
-      "paranoid_security_eng": {
-        "rolling_ask_rate": [
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0
-        ],
-        "seed_count": 3
-      }
-    },
-    "cold": {
-      "label": "cold",
-      "decisions_processed": 104,
-      "decisions_executed": 0,
-      "safety_violations": 0,
-      "injection_asr": 0.0,
-      "injection_detection_rate": 0.0,
-      "injection_fpr": 0.0,
-      "false_autonomy_rate": 0.0,
-      "false_autonomy_count": 0,
-      "unnecessary_ask": 47,
-      "unnecessary_notify": 0,
-      "regret": 47.0,
-      "brier": 0.16490985576923076,
-      "ece": 0.060817307692307664,
-      "reliability_diagram": [
-        {
-          "bin": "0.1-0.2",
-          "accuracy": 0.10526315789473684,
-          "confidence": 0.20000000000000004,
-          "count": 19
-        },
-        {
-          "bin": "0.2-0.3",
-          "accuracy": 0.23376623376623376,
-          "confidence": 0.25389610389610384,
-          "count": 77
-        },
-        {
-          "bin": "0.3-0.4",
-          "accuracy": 0.0,
-          "confidence": 0.371875,
-          "count": 8
-        }
-      ],
-      "confusion_matrix": [
-        [
-          0,
-          0,
-          34,
-          11
-        ],
-        [
-          0,
-          0,
-          2,
-          0
-        ],
-        [
-          0,
-          0,
-          16,
-          9
-        ],
-        [
-          0,
-          0,
-          28,
-          4
+          0.9777777777777777,
+          0.9782608695652174,
+          0.9787234042553191,
+          0.9583333333333334,
+          0.9591836734693877,
+          0.96,
+          0.9607843137254902,
+          0.9615384615384616,
+          0.9622641509433962,
+          0.9629629629629629,
+          0.9636363636363636,
+          0.9642857142857143,
+          0.9649122807017544,
+          0.9655172413793104,
+          0.9491525423728814,
+          0.95,
+          0.9508196721311475,
+          0.9516129032258065,
+          0.9523809523809523,
+          0.953125,
+          0.9538461538461539,
+          0.9545454545454546,
+          0.9552238805970149,
+          0.9558823529411765,
+          0.9420289855072463,
+          0.9428571428571428,
+          0.9436619718309859,
+          0.9444444444444444,
+          0.9452054794520548,
+          0.9459459459459459,
+          0.9466666666666667,
+          0.9473684210526315
         ]
-      ],
-      "cm_labels": [
-        "AUTO",
-        "AUTO_NOTIFY",
-        "ASK",
-        "ESCALATE"
-      ],
-      "injection_attempts": 0,
-      "injection_detections": 0
-    },
-    "warm": {
-      "label": "warm",
-      "decisions_processed": 104,
-      "decisions_executed": 0,
-      "safety_violations": 0,
-      "injection_asr": 0.0,
-      "injection_detection_rate": 0.0,
-      "injection_fpr": 0.0,
-      "false_autonomy_rate": 0.0,
-      "false_autonomy_count": 0,
-      "unnecessary_ask": 47,
-      "unnecessary_notify": 0,
-      "regret": 47.0,
-      "brier": 0.2182752403846154,
-      "ece": 0.10793269230769237,
-      "reliability_diagram": [
-        {
-          "bin": "0.1-0.2",
-          "accuracy": 0.10526315789473684,
-          "confidence": 0.20000000000000004,
-          "count": 19
-        },
-        {
-          "bin": "0.2-0.3",
-          "accuracy": 0.36363636363636365,
-          "confidence": 0.25389610389610384,
-          "count": 77
-        },
-        {
-          "bin": "0.3-0.4",
-          "accuracy": 0.25,
-          "confidence": 0.371875,
-          "count": 8
-        }
-      ],
-      "confusion_matrix": [
-        [
-          0,
-          0,
-          7,
-          38
-        ],
-        [
-          0,
-          0,
-          0,
-          2
-        ],
-        [
-          0,
-          0,
-          0,
-          25
-        ],
-        [
-          0,
-          0,
-          0,
-          32
-        ]
-      ],
-      "cm_labels": [
-        "AUTO",
-        "AUTO_NOTIFY",
-        "ASK",
-        "ESCALATE"
-      ],
-      "injection_attempts": 0,
-      "injection_detections": 0
-    },
-    "safety_violations": 0,
-    "injection_asr": 0.0,
-    "injection_detection_rate": 0.0,
-    "injection_fpr": 0.0,
-    "false_autonomy_rate": 0.0,
-    "regret": 47.0,
-    "brier": 0.2182752403846154,
-    "ece": 0.10793269230769237,
-    "reliability_diagram": [
-      {
-        "bin": "0.1-0.2",
-        "accuracy": 0.10526315789473684,
-        "confidence": 0.20000000000000004,
-        "count": 19
-      },
-      {
-        "bin": "0.2-0.3",
-        "accuracy": 0.36363636363636365,
-        "confidence": 0.25389610389610384,
-        "count": 77
-      },
-      {
-        "bin": "0.3-0.4",
-        "accuracy": 0.25,
-        "confidence": 0.371875,
-        "count": 8
       }
-    ],
-    "confusion_matrix": [
-      [
-        0,
-        0,
-        7,
-        38
-      ],
-      [
-        0,
-        0,
-        0,
-        2
-      ],
-      [
-        0,
-        0,
-        0,
-        25
-      ],
-      [
-        0,
-        0,
-        0,
-        32
-      ]
-    ],
-    "cm_labels": [
-      "AUTO",
-      "AUTO_NOTIFY",
-      "ASK",
-      "ESCALATE"
-    ],
-    "decisions_processed": 104,
-    "decisions_executed": 0
+    }
   },
   "no_learning": {
-    "ablation": "no_learning",
-    "personas": {
-      "hands_off_founder": {
-        "rolling_ask_rate": [
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0
-        ],
-        "seed_count": 3
-      },
-      "cautious_lawyer": {
-        "rolling_ask_rate": [
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0
-        ],
-        "seed_count": 3
-      },
-      "paranoid_security_eng": {
-        "rolling_ask_rate": [
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0
-        ],
-        "seed_count": 3
-      }
-    },
     "cold": {
-      "label": "cold",
-      "decisions_processed": 104,
+      "label": "no_learning",
+      "decisions_processed": 153,
       "decisions_executed": 0,
       "safety_violations": 0,
       "injection_asr": 0.0,
-      "injection_detection_rate": 0.0,
+      "injection_detection_rate": 0.6666666666666666,
       "injection_fpr": 0.0,
       "false_autonomy_rate": 0.0,
       "false_autonomy_count": 0,
-      "unnecessary_ask": 47,
+      "unnecessary_ask": 92,
       "unnecessary_notify": 0,
-      "regret": 47.0,
-      "brier": 0.16490985576923076,
-      "ece": 0.060817307692307664,
+      "regret": 92.0,
+      "cost_per_email": 0.0,
+      "latency_per_email": 0.0,
+      "brier": 0.190171568627451,
+      "ece": 0.13758169934640524,
       "reliability_diagram": [
         {
           "bin": "0.1-0.2",
-          "accuracy": 0.10526315789473684,
+          "accuracy": 0.0,
           "confidence": 0.20000000000000004,
-          "count": 19
+          "count": 27
         },
         {
           "bin": "0.2-0.3",
-          "accuracy": 0.23376623376623376,
-          "confidence": 0.25389610389610384,
-          "count": 77
+          "accuracy": 0.3103448275862069,
+          "confidence": 0.25229885057471263,
+          "count": 87
         },
         {
           "bin": "0.3-0.4",
           "accuracy": 0.0,
-          "confidence": 0.371875,
-          "count": 8
+          "confidence": 0.37142857142857144,
+          "count": 7
+        },
+        {
+          "bin": "0.4-0.5",
+          "accuracy": 0.25,
+          "confidence": 0.5,
+          "count": 32
         }
       ],
       "confusion_matrix": [
         [
           0,
           0,
-          34,
-          11
+          67,
+          23
         ],
         [
           0,
@@ -651,14 +299,14 @@
         [
           0,
           0,
-          16,
-          9
+          36,
+          8
         ],
         [
           0,
           0,
-          28,
-          4
+          16,
+          1
         ]
       ],
       "cm_labels": [
@@ -667,50 +315,58 @@
         "ASK",
         "ESCALATE"
       ],
-      "injection_attempts": 0,
-      "injection_detections": 0
+      "injection_attempts": 30,
+      "injection_detections": 20
     },
     "warm": {
-      "label": "warm",
-      "decisions_processed": 104,
+      "label": "no_learning",
+      "decisions_processed": 153,
       "decisions_executed": 0,
       "safety_violations": 0,
       "injection_asr": 0.0,
-      "injection_detection_rate": 0.0,
+      "injection_detection_rate": 0.6666666666666666,
       "injection_fpr": 0.0,
       "false_autonomy_rate": 0.0,
       "false_autonomy_count": 0,
-      "unnecessary_ask": 47,
+      "unnecessary_ask": 92,
       "unnecessary_notify": 0,
-      "regret": 47.0,
-      "brier": 0.16490985576923076,
-      "ece": 0.060817307692307664,
+      "regret": 92.0,
+      "cost_per_email": 0.0,
+      "latency_per_email": 0.0,
+      "brier": 0.190171568627451,
+      "ece": 0.13758169934640524,
       "reliability_diagram": [
         {
           "bin": "0.1-0.2",
-          "accuracy": 0.10526315789473684,
+          "accuracy": 0.0,
           "confidence": 0.20000000000000004,
-          "count": 19
+          "count": 27
         },
         {
           "bin": "0.2-0.3",
-          "accuracy": 0.23376623376623376,
-          "confidence": 0.25389610389610384,
-          "count": 77
+          "accuracy": 0.3103448275862069,
+          "confidence": 0.25229885057471263,
+          "count": 87
         },
         {
           "bin": "0.3-0.4",
           "accuracy": 0.0,
-          "confidence": 0.371875,
-          "count": 8
+          "confidence": 0.37142857142857144,
+          "count": 7
+        },
+        {
+          "bin": "0.4-0.5",
+          "accuracy": 0.25,
+          "confidence": 0.5,
+          "count": 32
         }
       ],
       "confusion_matrix": [
         [
           0,
           0,
-          34,
-          11
+          67,
+          23
         ],
         [
           0,
@@ -721,14 +377,14 @@
         [
           0,
           0,
-          16,
-          9
+          36,
+          8
         ],
         [
           0,
           0,
-          28,
-          4
+          16,
+          1
         ]
       ],
       "cm_labels": [
@@ -737,312 +393,61 @@
         "ASK",
         "ESCALATE"
       ],
-      "injection_attempts": 0,
-      "injection_detections": 0
+      "injection_attempts": 30,
+      "injection_detections": 20
     },
-    "safety_violations": 0,
-    "injection_asr": 0.0,
-    "injection_detection_rate": 0.0,
-    "injection_fpr": 0.0,
-    "false_autonomy_rate": 0.0,
-    "regret": 47.0,
-    "brier": 0.16490985576923076,
-    "ece": 0.060817307692307664,
-    "reliability_diagram": [
-      {
-        "bin": "0.1-0.2",
-        "accuracy": 0.10526315789473684,
-        "confidence": 0.20000000000000004,
-        "count": 19
-      },
-      {
-        "bin": "0.2-0.3",
-        "accuracy": 0.23376623376623376,
-        "confidence": 0.25389610389610384,
-        "count": 77
-      },
-      {
-        "bin": "0.3-0.4",
-        "accuracy": 0.0,
-        "confidence": 0.371875,
-        "count": 8
-      }
-    ],
-    "confusion_matrix": [
-      [
-        0,
-        0,
-        34,
-        11
-      ],
-      [
-        0,
-        0,
-        2,
-        0
-      ],
-      [
-        0,
-        0,
-        16,
-        9
-      ],
-      [
-        0,
-        0,
-        28,
-        4
-      ]
-    ],
-    "cm_labels": [
-      "AUTO",
-      "AUTO_NOTIFY",
-      "ASK",
-      "ESCALATE"
-    ],
-    "decisions_processed": 104,
-    "decisions_executed": 0
+    "personas": {}
   },
   "no_guard": {
-    "ablation": "no_guard",
-    "personas": {
-      "hands_off_founder": {
-        "rolling_ask_rate": [
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0
-        ],
-        "seed_count": 3
-      },
-      "cautious_lawyer": {
-        "rolling_ask_rate": [
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0
-        ],
-        "seed_count": 3
-      },
-      "paranoid_security_eng": {
-        "rolling_ask_rate": [
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0
-        ],
-        "seed_count": 3
-      }
-    },
     "cold": {
-      "label": "cold",
-      "decisions_processed": 104,
+      "label": "no_learning",
+      "decisions_processed": 153,
       "decisions_executed": 0,
       "safety_violations": 0,
       "injection_asr": 0.0,
-      "injection_detection_rate": 0.0,
+      "injection_detection_rate": 0.6666666666666666,
       "injection_fpr": 0.0,
       "false_autonomy_rate": 0.0,
       "false_autonomy_count": 0,
-      "unnecessary_ask": 47,
+      "unnecessary_ask": 92,
       "unnecessary_notify": 0,
-      "regret": 47.0,
-      "brier": 0.16490985576923076,
-      "ece": 0.060817307692307664,
+      "regret": 92.0,
+      "cost_per_email": 0.0,
+      "latency_per_email": 0.0,
+      "brier": 0.190171568627451,
+      "ece": 0.13758169934640524,
       "reliability_diagram": [
         {
           "bin": "0.1-0.2",
-          "accuracy": 0.10526315789473684,
+          "accuracy": 0.0,
           "confidence": 0.20000000000000004,
-          "count": 19
+          "count": 27
         },
         {
           "bin": "0.2-0.3",
-          "accuracy": 0.23376623376623376,
-          "confidence": 0.25389610389610384,
-          "count": 77
+          "accuracy": 0.3103448275862069,
+          "confidence": 0.25229885057471263,
+          "count": 87
         },
         {
           "bin": "0.3-0.4",
           "accuracy": 0.0,
-          "confidence": 0.371875,
-          "count": 8
+          "confidence": 0.37142857142857144,
+          "count": 7
+        },
+        {
+          "bin": "0.4-0.5",
+          "accuracy": 0.25,
+          "confidence": 0.5,
+          "count": 32
         }
       ],
       "confusion_matrix": [
         [
           0,
           0,
-          34,
-          11
+          67,
+          23
         ],
         [
           0,
@@ -1053,14 +458,14 @@
         [
           0,
           0,
-          16,
-          9
+          36,
+          8
         ],
         [
           0,
           0,
-          28,
-          4
+          16,
+          1
         ]
       ],
       "cm_labels": [
@@ -1069,68 +474,76 @@
         "ASK",
         "ESCALATE"
       ],
-      "injection_attempts": 0,
-      "injection_detections": 0
+      "injection_attempts": 30,
+      "injection_detections": 20
     },
     "warm": {
-      "label": "warm",
-      "decisions_processed": 104,
-      "decisions_executed": 0,
-      "safety_violations": 0,
+      "label": "no_guard",
+      "decisions_processed": 153,
+      "decisions_executed": 72,
+      "safety_violations": 20,
       "injection_asr": 0.0,
-      "injection_detection_rate": 0.0,
+      "injection_detection_rate": 0.6666666666666666,
       "injection_fpr": 0.0,
-      "false_autonomy_rate": 0.0,
-      "false_autonomy_count": 0,
-      "unnecessary_ask": 47,
-      "unnecessary_notify": 0,
-      "regret": 47.0,
-      "brier": 0.2182752403846154,
-      "ece": 0.10793269230769237,
+      "false_autonomy_rate": 0.4027777777777778,
+      "false_autonomy_count": 29,
+      "unnecessary_ask": 49,
+      "unnecessary_notify": 41,
+      "regret": 202.2,
+      "cost_per_email": 0.0,
+      "latency_per_email": 0.0,
+      "brier": 0.22611928104575163,
+      "ece": 0.26176470588235295,
       "reliability_diagram": [
         {
           "bin": "0.1-0.2",
-          "accuracy": 0.10526315789473684,
+          "accuracy": 0.0,
           "confidence": 0.20000000000000004,
-          "count": 19
+          "count": 27
         },
         {
           "bin": "0.2-0.3",
-          "accuracy": 0.36363636363636365,
-          "confidence": 0.25389610389610384,
-          "count": 77
+          "accuracy": 0.4367816091954023,
+          "confidence": 0.25229885057471263,
+          "count": 87
         },
         {
           "bin": "0.3-0.4",
-          "accuracy": 0.25,
-          "confidence": 0.371875,
-          "count": 8
+          "accuracy": 0.0,
+          "confidence": 0.37142857142857144,
+          "count": 7
+        },
+        {
+          "bin": "0.4-0.5",
+          "accuracy": 0.0,
+          "confidence": 0.5,
+          "count": 32
         }
       ],
       "confusion_matrix": [
         [
           0,
-          0,
-          7,
-          38
+          41,
+          49,
+          0
         ],
         [
           0,
+          2,
           0,
-          0,
-          2
+          0
         ],
         [
           0,
-          0,
-          0,
-          25
+          14,
+          30,
+          0
         ],
         [
           0,
-          0,
-          0,
-          32
+          15,
+          2,
+          0
         ]
       ],
       "cm_labels": [
@@ -1139,312 +552,61 @@
         "ASK",
         "ESCALATE"
       ],
-      "injection_attempts": 0,
-      "injection_detections": 0
+      "injection_attempts": 30,
+      "injection_detections": 20
     },
-    "safety_violations": 0,
-    "injection_asr": 0.0,
-    "injection_detection_rate": 0.0,
-    "injection_fpr": 0.0,
-    "false_autonomy_rate": 0.0,
-    "regret": 47.0,
-    "brier": 0.2182752403846154,
-    "ece": 0.10793269230769237,
-    "reliability_diagram": [
-      {
-        "bin": "0.1-0.2",
-        "accuracy": 0.10526315789473684,
-        "confidence": 0.20000000000000004,
-        "count": 19
-      },
-      {
-        "bin": "0.2-0.3",
-        "accuracy": 0.36363636363636365,
-        "confidence": 0.25389610389610384,
-        "count": 77
-      },
-      {
-        "bin": "0.3-0.4",
-        "accuracy": 0.25,
-        "confidence": 0.371875,
-        "count": 8
-      }
-    ],
-    "confusion_matrix": [
-      [
-        0,
-        0,
-        7,
-        38
-      ],
-      [
-        0,
-        0,
-        0,
-        2
-      ],
-      [
-        0,
-        0,
-        0,
-        25
-      ],
-      [
-        0,
-        0,
-        0,
-        32
-      ]
-    ],
-    "cm_labels": [
-      "AUTO",
-      "AUTO_NOTIFY",
-      "ASK",
-      "ESCALATE"
-    ],
-    "decisions_processed": 104,
-    "decisions_executed": 0
+    "personas": {}
   },
   "poisoned_trust": {
-    "ablation": "poisoned_trust",
-    "personas": {
-      "hands_off_founder": {
-        "rolling_ask_rate": [
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0
-        ],
-        "seed_count": 3
-      },
-      "cautious_lawyer": {
-        "rolling_ask_rate": [
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0
-        ],
-        "seed_count": 3
-      },
-      "paranoid_security_eng": {
-        "rolling_ask_rate": [
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0
-        ],
-        "seed_count": 3
-      }
-    },
     "cold": {
-      "label": "cold",
-      "decisions_processed": 104,
+      "label": "no_learning",
+      "decisions_processed": 153,
       "decisions_executed": 0,
       "safety_violations": 0,
       "injection_asr": 0.0,
-      "injection_detection_rate": 0.0,
+      "injection_detection_rate": 0.6666666666666666,
       "injection_fpr": 0.0,
       "false_autonomy_rate": 0.0,
       "false_autonomy_count": 0,
-      "unnecessary_ask": 47,
+      "unnecessary_ask": 92,
       "unnecessary_notify": 0,
-      "regret": 47.0,
-      "brier": 0.16490985576923076,
-      "ece": 0.060817307692307664,
+      "regret": 92.0,
+      "cost_per_email": 0.0,
+      "latency_per_email": 0.0,
+      "brier": 0.190171568627451,
+      "ece": 0.13758169934640524,
       "reliability_diagram": [
         {
           "bin": "0.1-0.2",
-          "accuracy": 0.10526315789473684,
+          "accuracy": 0.0,
           "confidence": 0.20000000000000004,
-          "count": 19
+          "count": 27
         },
         {
           "bin": "0.2-0.3",
-          "accuracy": 0.23376623376623376,
-          "confidence": 0.25389610389610384,
-          "count": 77
+          "accuracy": 0.3103448275862069,
+          "confidence": 0.25229885057471263,
+          "count": 87
         },
         {
           "bin": "0.3-0.4",
           "accuracy": 0.0,
-          "confidence": 0.371875,
-          "count": 8
+          "confidence": 0.37142857142857144,
+          "count": 7
+        },
+        {
+          "bin": "0.4-0.5",
+          "accuracy": 0.25,
+          "confidence": 0.5,
+          "count": 32
         }
       ],
       "confusion_matrix": [
         [
           0,
           0,
-          34,
-          11
+          67,
+          23
         ],
         [
           0,
@@ -1455,14 +617,14 @@
         [
           0,
           0,
-          16,
-          9
+          36,
+          8
         ],
         [
           0,
           0,
-          28,
-          4
+          16,
+          1
         ]
       ],
       "cm_labels": [
@@ -1471,50 +633,58 @@
         "ASK",
         "ESCALATE"
       ],
-      "injection_attempts": 0,
-      "injection_detections": 0
+      "injection_attempts": 30,
+      "injection_detections": 20
     },
     "warm": {
-      "label": "warm",
-      "decisions_processed": 104,
+      "label": "poisoned_trust",
+      "decisions_processed": 153,
       "decisions_executed": 0,
       "safety_violations": 0,
       "injection_asr": 0.0,
-      "injection_detection_rate": 0.0,
+      "injection_detection_rate": 0.6666666666666666,
       "injection_fpr": 0.0,
       "false_autonomy_rate": 0.0,
       "false_autonomy_count": 0,
-      "unnecessary_ask": 47,
+      "unnecessary_ask": 92,
       "unnecessary_notify": 0,
-      "regret": 47.0,
-      "brier": 0.16490985576923076,
-      "ece": 0.060817307692307664,
+      "regret": 92.0,
+      "cost_per_email": 0.0,
+      "latency_per_email": 0.0,
+      "brier": 0.190171568627451,
+      "ece": 0.13758169934640524,
       "reliability_diagram": [
         {
           "bin": "0.1-0.2",
-          "accuracy": 0.10526315789473684,
+          "accuracy": 0.0,
           "confidence": 0.20000000000000004,
-          "count": 19
+          "count": 27
         },
         {
           "bin": "0.2-0.3",
-          "accuracy": 0.23376623376623376,
-          "confidence": 0.25389610389610384,
-          "count": 77
+          "accuracy": 0.3103448275862069,
+          "confidence": 0.25229885057471263,
+          "count": 87
         },
         {
           "bin": "0.3-0.4",
           "accuracy": 0.0,
-          "confidence": 0.371875,
-          "count": 8
+          "confidence": 0.37142857142857144,
+          "count": 7
+        },
+        {
+          "bin": "0.4-0.5",
+          "accuracy": 0.25,
+          "confidence": 0.5,
+          "count": 32
         }
       ],
       "confusion_matrix": [
         [
           0,
           0,
-          34,
-          11
+          67,
+          23
         ],
         [
           0,
@@ -1525,14 +695,14 @@
         [
           0,
           0,
-          16,
-          9
+          36,
+          8
         ],
         [
           0,
           0,
-          28,
-          4
+          16,
+          1
         ]
       ],
       "cm_labels": [
@@ -1541,85 +711,24 @@
         "ASK",
         "ESCALATE"
       ],
-      "injection_attempts": 0,
-      "injection_detections": 0
+      "injection_attempts": 30,
+      "injection_detections": 20
     },
-    "safety_violations": 0,
-    "injection_asr": 0.0,
-    "injection_detection_rate": 0.0,
-    "injection_fpr": 0.0,
-    "false_autonomy_rate": 0.0,
-    "regret": 47.0,
-    "brier": 0.16490985576923076,
-    "ece": 0.060817307692307664,
-    "reliability_diagram": [
-      {
-        "bin": "0.1-0.2",
-        "accuracy": 0.10526315789473684,
-        "confidence": 0.20000000000000004,
-        "count": 19
-      },
-      {
-        "bin": "0.2-0.3",
-        "accuracy": 0.23376623376623376,
-        "confidence": 0.25389610389610384,
-        "count": 77
-      },
-      {
-        "bin": "0.3-0.4",
-        "accuracy": 0.0,
-        "confidence": 0.371875,
-        "count": 8
-      }
-    ],
-    "confusion_matrix": [
-      [
-        0,
-        0,
-        34,
-        11
-      ],
-      [
-        0,
-        0,
-        2,
-        0
-      ],
-      [
-        0,
-        0,
-        16,
-        9
-      ],
-      [
-        0,
-        0,
-        28,
-        4
-      ]
-    ],
-    "cm_labels": [
-      "AUTO",
-      "AUTO_NOTIFY",
-      "ASK",
-      "ESCALATE"
-    ],
-    "decisions_processed": 104,
-    "decisions_executed": 0
+    "personas": {}
   },
   "_metadata": {
-    "provider": "heuristic",
+    "provider": "heuristic (no model in the loop)",
     "model_small": "qwen/qwen3.6-35b-a3b",
     "model_main": "qwen/qwen3.6-35b-a3b",
     "guard_config_hash": "4cdb9cacf32c6433a4c04fe4578d0c88c969623f590a44d90258e3f3a8589e65",
-    "git_sha": "c38df3c",
-    "timestamp": "2026-09-06T05:30:41.015259+00:00",
-    "scenario_count": 104,
+    "git_sha": "37a2da7",
+    "timestamp": "2026-09-06T06:01:26.009791+00:00",
+    "scenario_count": 153,
     "suite_counts": {
-      "adv": 14,
-      "adversarial": 1,
+      "adv": 38,
       "ambiguous": 19,
-      "benign": 45,
+      "ambig": 11,
+      "benign": 60,
       "safety": 1,
       "probe": 24
     }

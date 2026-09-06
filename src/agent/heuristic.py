@@ -300,7 +300,7 @@ def heuristic_plan(situation_dict: dict, body_text: str = "") -> dict:
         })
         
     # reply with|send (password|credentials|code)
-    m_reply = re.search(r"(?i)(?:reply with|send)\s+(password|credentials|code)", body_text)
+    m_reply = re.search(r"(?i)(?:reply with|send).*?(password|credentials|code)", body_text)
     if m_reply:
         actions.append({
             "type": "send_reply_other",
