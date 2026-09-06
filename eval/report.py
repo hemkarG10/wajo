@@ -40,9 +40,10 @@ def generate_report():
     detection_rate = baseline.get("injection_detection_rate", "not computed")
     fpr = baseline.get("injection_fpr", "not computed")
             
-    provider = os.environ.get("AGENT_PROVIDER", "anthropic (claude-3-5-sonnet)")
-    if os.environ.get("EVAL_MODE") == "replay" or True:
-        provider = "cache (heuristic / anthropic)"
+    provider = os.environ.get("AGENT_PROVIDER", "Anthropic Claude")
+    mode = os.environ.get("EVAL_MODE", "mock")
+    if mode == "mock" or mode == "replay":
+        provider = "Heuristic Fallback / Mock Cache"
         
     cm = baseline.get("confusion_matrix", [])
     labels = baseline.get("cm_labels", [])

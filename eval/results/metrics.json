@@ -254,7 +254,7 @@
             "msg_id": "msg_r_41",
             "action": "send_reply_known",
             "level": "AUTO_NOTIFY",
-            "feedback": "approve"
+            "feedback": "undo"
           },
           {
             "msg_id": "msg_n_42",
@@ -265,7 +265,7 @@
           {
             "msg_id": "msg_r_43",
             "action": "send_reply_known",
-            "level": "AUTO_NOTIFY",
+            "level": "ESCALATE",
             "feedback": "approve"
           },
           {
@@ -277,7 +277,7 @@
           {
             "msg_id": "msg_r_45",
             "action": "send_reply_known",
-            "level": "AUTO_NOTIFY",
+            "level": "ESCALATE",
             "feedback": "approve"
           },
           {
@@ -289,7 +289,7 @@
           {
             "msg_id": "msg_r_47",
             "action": "send_reply_known",
-            "level": "AUTO_NOTIFY",
+            "level": "ESCALATE",
             "feedback": "approve"
           },
           {
@@ -301,7 +301,7 @@
           {
             "msg_id": "msg_r_49",
             "action": "send_reply_known",
-            "level": "AUTO_NOTIFY",
+            "level": "ESCALATE",
             "feedback": "approve"
           },
           {
@@ -313,7 +313,7 @@
           {
             "msg_id": "msg_r_51",
             "action": "send_reply_known",
-            "level": "AUTO_NOTIFY",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
@@ -325,7 +325,7 @@
           {
             "msg_id": "msg_r_53",
             "action": "send_reply_known",
-            "level": "AUTO_NOTIFY",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
@@ -337,7 +337,7 @@
           {
             "msg_id": "msg_r_55",
             "action": "send_reply_known",
-            "level": "AUTO_NOTIFY",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
@@ -349,7 +349,7 @@
           {
             "msg_id": "msg_r_57",
             "action": "send_reply_known",
-            "level": "AUTO_NOTIFY",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
@@ -361,7 +361,7 @@
           {
             "msg_id": "msg_r_59",
             "action": "send_reply_known",
-            "level": "AUTO_NOTIFY",
+            "level": "ASK",
             "feedback": "approve"
           }
         ],
@@ -409,23 +409,23 @@
           0.0,
           0.0,
           0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0
+          0.1,
+          0.1,
+          0.2,
+          0.2,
+          0.3,
+          0.3,
+          0.4,
+          0.4,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
         ]
       },
       "cautious_lawyer": {
@@ -542,7 +542,7 @@
             "msg_id": "msg_n_18",
             "action": "archive",
             "level": "ASK",
-            "feedback": "reject"
+            "feedback": "approve"
           },
           {
             "msg_id": "msg_r_19",
@@ -553,7 +553,7 @@
           {
             "msg_id": "msg_n_20",
             "action": "archive",
-            "level": "ESCALATE",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -565,7 +565,7 @@
           {
             "msg_id": "msg_n_22",
             "action": "archive",
-            "level": "ESCALATE",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -577,7 +577,7 @@
           {
             "msg_id": "msg_n_24",
             "action": "archive",
-            "level": "ESCALATE",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -589,7 +589,7 @@
           {
             "msg_id": "msg_n_26",
             "action": "archive",
-            "level": "ESCALATE",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -601,7 +601,7 @@
           {
             "msg_id": "msg_n_28",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -613,7 +613,7 @@
           {
             "msg_id": "msg_n_30",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -625,7 +625,7 @@
           {
             "msg_id": "msg_n_32",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -637,7 +637,7 @@
           {
             "msg_id": "msg_n_34",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -649,7 +649,7 @@
           {
             "msg_id": "msg_n_36",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -661,7 +661,7 @@
           {
             "msg_id": "msg_n_38",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -673,7 +673,7 @@
           {
             "msg_id": "msg_n_40",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -685,7 +685,7 @@
           {
             "msg_id": "msg_n_42",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -697,7 +697,7 @@
           {
             "msg_id": "msg_n_44",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -709,7 +709,7 @@
           {
             "msg_id": "msg_n_46",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -721,7 +721,7 @@
           {
             "msg_id": "msg_n_48",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -733,7 +733,7 @@
           {
             "msg_id": "msg_n_50",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
@@ -769,8 +769,8 @@
           {
             "msg_id": "msg_n_56",
             "action": "archive",
-            "level": "AUTO_NOTIFY",
-            "feedback": "approve"
+            "level": "AUTO",
+            "feedback": null
           },
           {
             "msg_id": "msg_r_57",
@@ -781,8 +781,8 @@
           {
             "msg_id": "msg_n_58",
             "action": "archive",
-            "level": "AUTO_NOTIFY",
-            "feedback": "approve"
+            "level": "AUTO",
+            "feedback": null
           },
           {
             "msg_id": "msg_r_59",
@@ -812,38 +812,6 @@
           1.0,
           1.0,
           1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
           0.9,
           0.9,
           0.8,
@@ -851,7 +819,39 @@
           0.7,
           0.7,
           0.6,
-          0.6
+          0.6,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
         ]
       },
       "paranoid_security_eng": {
@@ -1437,7 +1437,7 @@
             "msg_id": "msg_n_16",
             "action": "archive",
             "level": "ASK",
-            "feedback": "approve"
+            "feedback": "reject"
           },
           {
             "msg_id": "msg_r_17",
@@ -1467,7 +1467,7 @@
             "msg_id": "msg_r_21",
             "action": "send_reply_known",
             "level": "ASK",
-            "feedback": "approve"
+            "feedback": "reject"
           },
           {
             "msg_id": "msg_n_22",
@@ -1485,7 +1485,7 @@
             "msg_id": "msg_n_24",
             "action": "archive",
             "level": "ASK",
-            "feedback": "approve"
+            "feedback": "reject"
           },
           {
             "msg_id": "msg_r_25",
@@ -1509,7 +1509,7 @@
             "msg_id": "msg_n_28",
             "action": "archive",
             "level": "ASK",
-            "feedback": "reject"
+            "feedback": "approve"
           },
           {
             "msg_id": "msg_r_29",
@@ -1563,7 +1563,7 @@
             "msg_id": "msg_r_37",
             "action": "send_reply_known",
             "level": "ASK",
-            "feedback": "reject"
+            "feedback": "approve"
           },
           {
             "msg_id": "msg_n_38",
@@ -1617,7 +1617,7 @@
             "msg_id": "msg_n_46",
             "action": "archive",
             "level": "ASK",
-            "feedback": "reject"
+            "feedback": "approve"
           },
           {
             "msg_id": "msg_r_47",
@@ -1689,7 +1689,7 @@
             "msg_id": "msg_n_58",
             "action": "archive",
             "level": "ASK",
-            "feedback": "reject"
+            "feedback": "approve"
           },
           {
             "msg_id": "msg_r_59",
@@ -2031,7 +2031,7 @@
             "msg_id": "msg_n_44",
             "action": "archive",
             "level": "ASK",
-            "feedback": "reject"
+            "feedback": "approve"
           },
           {
             "msg_id": "msg_r_45",
@@ -2121,7 +2121,7 @@
             "msg_id": "msg_r_59",
             "action": "send_reply_known",
             "level": "ASK",
-            "feedback": "reject"
+            "feedback": "approve"
           }
         ],
         "rolling_ask_rate": [
@@ -2680,7 +2680,7 @@
             "msg_id": "msg_r_1",
             "action": "send_reply_known",
             "level": "ASK",
-            "feedback": "approve"
+            "feedback": "reject"
           },
           {
             "msg_id": "msg_n_2",
@@ -2715,68 +2715,68 @@
           {
             "msg_id": "msg_r_7",
             "action": "send_reply_known",
-            "level": "ASK",
+            "level": "ESCALATE",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_8",
             "action": "archive",
             "level": "ASK",
-            "feedback": "approve"
+            "feedback": "reject"
           },
           {
             "msg_id": "msg_r_9",
             "action": "send_reply_known",
-            "level": "ASK",
+            "level": "ESCALATE",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_10",
             "action": "archive",
-            "level": "ASK",
+            "level": "ESCALATE",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_11",
             "action": "send_reply_known",
             "level": "ASK",
-            "feedback": "reject"
+            "feedback": "approve"
           },
           {
             "msg_id": "msg_n_12",
             "action": "archive",
-            "level": "ASK",
+            "level": "ESCALATE",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_13",
             "action": "send_reply_known",
-            "level": "ESCALATE",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_14",
             "action": "archive",
-            "level": "ASK",
+            "level": "ESCALATE",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_15",
             "action": "send_reply_known",
-            "level": "ESCALATE",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_16",
             "action": "archive",
-            "level": "ASK",
+            "level": "ESCALATE",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_17",
             "action": "send_reply_known",
-            "level": "ESCALATE",
-            "feedback": "reject"
+            "level": "ASK",
+            "feedback": "approve"
           },
           {
             "msg_id": "msg_n_18",
@@ -2787,61 +2787,61 @@
           {
             "msg_id": "msg_r_19",
             "action": "send_reply_known",
-            "level": "ESCALATE",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_20",
             "action": "archive",
-            "level": "AUTO_NOTIFY",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_21",
             "action": "send_reply_known",
-            "level": "ESCALATE",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_22",
             "action": "archive",
-            "level": "AUTO_NOTIFY",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_23",
             "action": "send_reply_known",
-            "level": "ESCALATE",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_24",
             "action": "archive",
-            "level": "AUTO_NOTIFY",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_25",
             "action": "send_reply_known",
-            "level": "ESCALATE",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_26",
             "action": "archive",
-            "level": "AUTO_NOTIFY",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_27",
             "action": "send_reply_known",
-            "level": "ESCALATE",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_28",
             "action": "archive",
-            "level": "AUTO_NOTIFY",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
@@ -2853,7 +2853,7 @@
           {
             "msg_id": "msg_n_30",
             "action": "archive",
-            "level": "AUTO_NOTIFY",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
@@ -2865,7 +2865,7 @@
           {
             "msg_id": "msg_n_32",
             "action": "archive",
-            "level": "AUTO_NOTIFY",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
@@ -2877,157 +2877,157 @@
           {
             "msg_id": "msg_n_34",
             "action": "archive",
-            "level": "AUTO_NOTIFY",
-            "feedback": "undo"
+            "level": "ASK",
+            "feedback": "approve"
           },
           {
             "msg_id": "msg_r_35",
             "action": "send_reply_known",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_36",
             "action": "archive",
-            "level": "ESCALATE",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_37",
             "action": "send_reply_known",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_38",
             "action": "archive",
-            "level": "ESCALATE",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_39",
             "action": "send_reply_known",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_40",
             "action": "archive",
-            "level": "ESCALATE",
+            "level": "ASK",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_41",
             "action": "send_reply_known",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_42",
             "action": "archive",
-            "level": "ESCALATE",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_43",
             "action": "send_reply_known",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_44",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_45",
             "action": "send_reply_known",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_46",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_47",
             "action": "send_reply_known",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_48",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_49",
             "action": "send_reply_known",
-            "level": "ASK",
-            "feedback": "approve"
+            "level": "AUTO_NOTIFY",
+            "feedback": "undo"
           },
           {
             "msg_id": "msg_n_50",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_51",
             "action": "send_reply_known",
-            "level": "ASK",
+            "level": "ESCALATE",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_52",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_53",
             "action": "send_reply_known",
-            "level": "ASK",
+            "level": "ESCALATE",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_54",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_55",
             "action": "send_reply_known",
-            "level": "ASK",
-            "feedback": "approve"
+            "level": "ESCALATE",
+            "feedback": "reject"
           },
           {
             "msg_id": "msg_n_56",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_57",
             "action": "send_reply_known",
-            "level": "ASK",
+            "level": "ESCALATE",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_n_58",
             "action": "archive",
-            "level": "ASK",
+            "level": "AUTO_NOTIFY",
             "feedback": "approve"
           },
           {
             "msg_id": "msg_r_59",
             "action": "send_reply_known",
-            "level": "AUTO_NOTIFY",
+            "level": "ESCALATE",
             "feedback": "approve"
           }
         ],
@@ -3052,6 +3052,21 @@
           1.0,
           1.0,
           1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
           0.9,
           0.9,
           0.8,
@@ -3059,39 +3074,24 @@
           0.7,
           0.7,
           0.6,
-          0.6,
           0.5,
-          0.5,
-          0.5,
-          0.5,
-          0.5,
-          0.5,
-          0.5,
-          0.5,
-          0.6,
-          0.6,
-          0.7,
-          0.7,
-          0.8,
-          0.8,
-          0.9,
-          0.9,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          1.0,
-          0.9
+          0.4,
+          0.3,
+          0.3,
+          0.2,
+          0.2,
+          0.1,
+          0.1,
+          0.0,
+          0.1,
+          0.1,
+          0.2,
+          0.2,
+          0.3,
+          0.3,
+          0.4,
+          0.4,
+          0.5
         ]
       },
       "cautious_lawyer": {
@@ -4049,7 +4049,7 @@
             "msg_id": "msg_r_7",
             "action": "send_reply_known",
             "level": "AUTO_NOTIFY",
-            "feedback": "undo"
+            "feedback": "approve"
           },
           {
             "msg_id": "msg_n_8",
