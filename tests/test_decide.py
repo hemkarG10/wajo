@@ -101,7 +101,8 @@ def test_policy_level_with_learned_policy():
     level, _ = policy_level(sit, act, learned_policy=learned_policy)
     assert level == AutonomyLevel.AUTO
     
-    # 4. History with n=10, s=0.3 -> ESCALATE
-    learned_policy = {"archive_known_contact_newsletter": {"n": 10, "s": 0.3}}
-    level, _ = policy_level(sit, act, learned_policy=learned_policy)
+    # 4. History with n=10, lcb=0.3 -> ESCALATE
+    act_low_conf = ProposedAction(type="archive", params={}, provenance={}, rationale="test", confidence=0.3)
+    learned_policy = {"archive_known_contact_newsletter": {"n": 10, "lcb": 0.3}}
+    level, _ = policy_level(sit, act_low_conf, learned_policy=learned_policy)
     assert level == AutonomyLevel.ESCALATE
