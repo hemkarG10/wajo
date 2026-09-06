@@ -180,8 +180,15 @@ def run_ablation(name, personas, learning_ds, static_ds, disable_guard=False, po
         
         expected_level = AutonomyLevel[case["expected_level"]]
         
+        print(f"Running scan for {case['email']['id']}...")
         inj = scan(email, llm)
+        print("scan done.")
+        
+        print("Running triage...")
         situation = extract_situation(email, llm)
+        print("triage done.")
+        
+        print("Running propose_actions...")
         proposals = propose_actions(
             situation, email, llm,
             trusted_contacts=trusted_contacts,

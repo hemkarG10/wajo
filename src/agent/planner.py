@@ -7,8 +7,23 @@ from src.agent.llm import LlmAdapter
 from src.agent.models import EmailMessage, ProposedAction, Provenance, Situation
 
 
-class ProposedActionsList(BaseModel):
-    actions: list[ProposedAction]
+class PlannerAction(BaseModel):
+    type: str
+    to: list[str] | None = None
+    cc: list[str] | None = None
+    body: str | None = None
+    label: str | None = None
+    amount: float | None = None
+    currency: str | None = None
+    url: str | None = None
+    subject: str | None = None
+    rationale: str
+    confidence: float
+    flag_untrusted_request: str | None = None
+
+
+class PlannerOut(BaseModel):
+    actions: list[PlannerAction]
 
 
 def _derive_provenance(
@@ -70,17 +85,43 @@ Body: {email.body_text}
     result = llm.generate_structured(
         system=system,
         prompt=prompt,
-        response_model=ProposedActionsList,
+        response_model=PlannerOut,
         model=os.environ.get("AGENT_MODEL_MAIN", "claude-3-5-sonnet-20240620")
     )
     
-    actions = result.actions
+    actions = []
     
-    # Post-processor: mark provenance
-    for action in actions:
-        action.provenance = {}
-        for k, v in action.params.items():
-            # In a real app we'd parse URLs/amounts specifically
-            action.provenance[k] = _derive_provenance(v, email, trusted_contacts, set(situation.thread_participants))
+    # Post-processor: map back to ProposedAction
+    for plan_act in result.actions:
+        params = {}
+        if plan_act.to is not None: params["to"] = plan_act.to
+        if plan_act.cc is not None: params["cc"] = plan_act.cc
+        if plan_act.body is not None: params["body"] = plan_act.body
+        if plan_act.label is not None: params["label"] = plan_act.label
+        if plan_act.amount is not None: params["amount"] = plan_act.amount
+        if plan_act.currency is not None: params["currency"] = plan_act.currency
+        if plan_act.url is not None: params["url"] = plan_act.url
+        if plan_act.subject is not None: params["subject"] = plan_act.subject
+        
+        prov = {}
+        for k, v in params.items():
+            if isinstance(v, list):
+                # evaluate first item for provenance, or default to SYSTEM
+                if len(v) > 0:
+                    prov[k] = _derive_provenance(v[0], email, trusted_contacts, set(situation.thread_participants))
+                else:
+                    prov[k] = Provenance.SYSTEM
+            else:
+                prov[k] = _derive_provenance(v, email, trusted_contacts, set(situation.thread_participants))
+            
+        proposed = ProposedAction(
+            type=plan_act.type,
+            params=params,
+            provenance=prov,
+            rationale=plan_act.rationale,
+            confidence=plan_act.confidence,
+            flag_untrusted_request=plan_act.flag_untrusted_request
+        )
+        actions.append(proposed)
             
     return actions

@@ -1,3 +1,4 @@
+import os
 import re
 from pathlib import Path
 from typing import Literal
@@ -53,7 +54,8 @@ def scan(email: EmailMessage, llm: LlmAdapter | None = None) -> InjectionSignals
             )
             judgement = llm_out.llm_judgement
             spans = llm_out.suspicious_spans
-        except Exception:  # noqa: BLE001
+        except Exception as e:  # noqa: BLE001
+            print(f"LLM Error in judge: {e}")
             # If LLM fails, we fall back to heuristics safely
             judgement = "error"
             
