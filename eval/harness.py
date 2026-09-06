@@ -363,8 +363,11 @@ def main():
     except Exception:
         git_sha = "unknown"
 
+    provider_name = os.environ.get("AGENT_LLM_PROVIDER", "heuristic")
+    label = "heuristic (no model in the loop)" if provider_name == "heuristic" else provider_name
+
     results["_metadata"] = {
-        "provider": "heuristic",
+        "provider": label,
         "model_small": os.environ.get("AGENT_MODEL_SMALL", "heuristic"),
         "model_main": os.environ.get("AGENT_MODEL_MAIN", "heuristic"),
         "guard_config_hash": guard_hash,

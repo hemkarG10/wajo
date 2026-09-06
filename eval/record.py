@@ -11,6 +11,9 @@ import json
 from datetime import datetime
 from pathlib import Path
 
+from dotenv import load_dotenv
+load_dotenv()
+
 import yaml
 
 from src.agent.injection import scan

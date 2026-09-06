@@ -13,6 +13,9 @@ from pathlib import Path
 from typing import Literal, TypeVar
 from urllib.parse import urlparse
 from pydantic import BaseModel, ValidationError
+from dotenv import load_dotenv
+
+load_dotenv()
 
 T = TypeVar("T", bound=BaseModel)
 

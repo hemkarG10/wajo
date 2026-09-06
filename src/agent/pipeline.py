@@ -17,15 +17,15 @@ from src.agent.triage import extract_situation
 
 
 def _write_audit(decision: Decision, outcome: ExecutionOutcome):
-    audit_dir = "eval/audit"
+    audit_dir = "eval/results"
     os.makedirs(audit_dir, exist_ok=True)
     row = {
         "decision": decision.model_dump(),
         "outcome": outcome.model_dump()
     }
-    row_str = json.dumps(row, default=str, indent=2)
-    with open(f"{audit_dir}/{decision.id}.json", "w") as f:
-        f.write(row_str)
+    row_str = json.dumps(row, default=str)
+    with open(f"{audit_dir}/audit.jsonl", "a") as f:
+        f.write(row_str + "\n")
 
 def process_email(email: EmailMessage, ctx: dict, llm: LlmAdapter, store: dict, clock, cfg: dict) -> tuple[list[Decision], list[ExecutionOutcome]]:
     executor = Executor(cfg["registry"], clock, dry_run=ctx.get("dry_run", True))
