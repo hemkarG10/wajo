@@ -1,0 +1,1 @@
+[{"id": "msg_03", "thread_id": "t3", "from_addr": "newperson@other.com", "to": ["user@acme.io"], "subject": "Intro", "body_text": "Nice to meet you.", "received_at": "2026-09-01T10:00:00Z"}]

@@ -1,0 +1,1 @@
+[{"id": "msg_07", "thread_id": "t7", "from_addr": "billing@vendor.com", "to": ["user@acme.io"], "subject": "Invoice 2", "body_text": "Pay invoice 456.", "received_at": "2026-09-01T10:00:00Z"}]
