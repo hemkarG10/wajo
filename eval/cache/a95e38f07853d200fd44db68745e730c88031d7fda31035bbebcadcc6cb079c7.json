@@ -1,0 +1,12 @@
+{
+  "provider": "anthropic",
+  "model": "claude-3-haiku-20240307",
+  "mode": "record",
+  "prompt_hash": "a95e38f07853d200fd44db68745e730c88031d7fda31035bbebcadcc6cb079c7",
+  "response": {
+    "heuristic_hits": [],
+    "llm_judgement": "none",
+    "score": 0.0,
+    "suspicious_spans": []
+  }
+}

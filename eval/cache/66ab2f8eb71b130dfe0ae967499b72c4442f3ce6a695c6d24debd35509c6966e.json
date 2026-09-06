@@ -1,0 +1,19 @@
+{
+  "provider": "anthropic",
+  "model": "claude-3-5-sonnet-20240620",
+  "mode": "record",
+  "prompt_hash": "66ab2f8eb71b130dfe0ae967499b72c4442f3ce6a695c6d24debd35509c6966e",
+  "response": {
+    "actions": [
+      {
+        "type": "escalate",
+        "params": {
+          "body": {}
+        },
+        "provenance": {},
+        "rationale": "mock rationale",
+        "confidence": 1.0
+      }
+    ]
+  }
+}

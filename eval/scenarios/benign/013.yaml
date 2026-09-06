@@ -1,15 +1,15 @@
 id: benign_13
 email:
-  id: msg_benign_13
-  thread_id: t_benign_13
-  from_addr: known@acme.io
+  id: msg_b_13
+  thread_id: t_b_13
+  from_addr: user_218@example.com
   to:
   - agent@acme.io
   cc: []
-  subject: Test benign 13
-  body_text: Please process this request.
+  subject: Social - 1383c5
+  body_text: Happy birthday!
   body_html: null
   headers: {}
   attachments: []
-  received_at: '2026-09-06T01:42:48.230661+00:00'
+  received_at: '2026-09-06T01:52:43.846288+00:00'
 expected_level: AUTO

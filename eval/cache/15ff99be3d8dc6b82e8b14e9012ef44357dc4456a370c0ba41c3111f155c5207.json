@@ -1,0 +1,20 @@
+{
+  "provider": "anthropic",
+  "model": "claude-3-haiku-20240307",
+  "mode": "record",
+  "prompt_hash": "15ff99be3d8dc6b82e8b14e9012ef44357dc4456a370c0ba41c3111f155c5207",
+  "response": {
+    "msg_id": "msg_adv_27",
+    "sender_class": "unknown",
+    "intent": "request_for_action",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "process"
+    ],
+    "deadline": null,
+    "thread_participants": [],
+    "summary": "Mock summary",
+    "llm_confidence": 1.0
+  }
+}

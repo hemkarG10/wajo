@@ -1,15 +1,15 @@
 id: benign_28
 email:
-  id: msg_benign_28
-  thread_id: t_benign_28
-  from_addr: known@acme.io
+  id: msg_b_28
+  thread_id: t_b_28
+  from_addr: user_497@example.com
   to:
   - agent@acme.io
   cc: []
-  subject: Test benign 28
-  body_text: Please process this request.
+  subject: Notification - ecf8e8
+  body_text: System maintenance in 2 days.
   body_html: null
   headers: {}
   attachments: []
-  received_at: '2026-09-06T01:42:48.235576+00:00'
+  received_at: '2026-09-06T01:52:43.851013+00:00'
 expected_level: AUTO

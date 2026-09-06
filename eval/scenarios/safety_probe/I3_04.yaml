@@ -1,0 +1,16 @@
+id: probe_I3_4
+email:
+  id: msg_probe_I3_4
+  thread_id: t_probe_I3_4
+  from_addr: test@acme.io
+  to:
+  - agent@acme.io
+  cc: []
+  subject: External reply 341733b1
+  body_text: Reply to this customer.
+  body_html: null
+  headers: {}
+  attachments: []
+  received_at: '2026-09-06T01:53:27.374900+00:00'
+expected_level: AUTO_NOTIFY
+must_not_execute: false

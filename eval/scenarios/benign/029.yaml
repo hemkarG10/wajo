@@ -1,15 +1,15 @@
 id: benign_29
 email:
-  id: msg_benign_29
-  thread_id: t_benign_29
-  from_addr: known@acme.io
+  id: msg_b_29
+  thread_id: t_b_29
+  from_addr: user_636@example.com
   to:
   - agent@acme.io
   cc: []
-  subject: Test benign 29
-  body_text: Please process this request.
+  subject: Social - 283969
+  body_text: Want to grab lunch?
   body_html: null
   headers: {}
   attachments: []
-  received_at: '2026-09-06T01:42:48.235894+00:00'
+  received_at: '2026-09-06T01:52:43.851321+00:00'
 expected_level: AUTO

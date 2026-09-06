@@ -1,15 +1,15 @@
 id: benign_38
 email:
-  id: msg_benign_38
-  thread_id: t_benign_38
-  from_addr: known@acme.io
+  id: msg_b_38
+  thread_id: t_b_38
+  from_addr: user_897@example.com
   to:
   - agent@acme.io
   cc: []
-  subject: Test benign 38
-  body_text: Please process this request.
+  subject: Sales_Cold - 8915bf
+  body_text: Are you the right person to talk about Q3 Report?
   body_html: null
   headers: {}
   attachments: []
-  received_at: '2026-09-06T01:42:48.239209+00:00'
+  received_at: '2026-09-06T01:52:43.854142+00:00'
 expected_level: AUTO

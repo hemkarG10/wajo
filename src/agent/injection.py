@@ -49,7 +49,7 @@ def scan(email: EmailMessage, llm: LlmAdapter | None = None) -> InjectionSignals
                 system=system,
                 prompt=prompt,
                 response_model=InjectionLLMOutput,
-                model="claude-3-5-haiku-latest" # injection judge doesn't need to be huge
+                model=os.environ.get("AGENT_MODEL_SMALL", "claude-3-haiku-20240307")
             )
             judgement = llm_out.llm_judgement
             spans = llm_out.suspicious_spans

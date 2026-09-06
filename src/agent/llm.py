@@ -53,8 +53,8 @@ class LlmAdapter:
                     return response_model.model_validate(resp)
             raise LLMError(f"No mock response found for prompt: {prompt[:100]}")
 
-        # Check cache if in replay or live mode
-        if self.mode in ("replay", "live") and cache_file.exists():
+        # Check cache if in replay, live, or record mode
+        if self.mode in ("replay", "live", "record") and cache_file.exists():
             with open(cache_file, "r") as f:
                 cached_data = json.load(f)
                 return response_model.model_validate(cached_data["response"])

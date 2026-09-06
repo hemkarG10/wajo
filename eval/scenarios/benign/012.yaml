@@ -1,15 +1,15 @@
 id: benign_12
 email:
-  id: msg_benign_12
-  thread_id: t_benign_12
-  from_addr: known@acme.io
+  id: msg_b_12
+  thread_id: t_b_12
+  from_addr: user_815@example.com
   to:
   - agent@acme.io
   cc: []
-  subject: Test benign 12
-  body_text: Please process this request.
+  subject: Notification - 08db8b
+  body_text: Your password expires in 7 days.
   body_html: null
   headers: {}
   attachments: []
-  received_at: '2026-09-06T01:42:48.230330+00:00'
+  received_at: '2026-09-06T01:52:43.845971+00:00'
 expected_level: AUTO

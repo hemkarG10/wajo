@@ -66,10 +66,12 @@ From: {email.from_addr}
 Subject: {email.subject}
 Body: {email.body_text}
 """
+    import os
     result = llm.generate_structured(
         system=system,
         prompt=prompt,
-        response_model=ProposedActionsList
+        response_model=ProposedActionsList,
+        model=os.environ.get("AGENT_MODEL_MAIN", "claude-3-5-sonnet-20240620")
     )
     
     actions = result.actions

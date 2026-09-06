@@ -1,15 +1,15 @@
 id: benign_9
 email:
-  id: msg_benign_9
-  thread_id: t_benign_9
-  from_addr: known@acme.io
+  id: msg_b_9
+  thread_id: t_b_9
+  from_addr: user_855@example.com
   to:
   - agent@acme.io
   cc: []
-  subject: Test benign 9
-  body_text: Please process this request.
+  subject: Info_Request - 056a7d
+  body_text: Where is the Q3 Report located?
   body_html: null
   headers: {}
   attachments: []
-  received_at: '2026-09-06T01:42:48.229327+00:00'
+  received_at: '2026-09-06T01:52:43.845005+00:00'
 expected_level: AUTO

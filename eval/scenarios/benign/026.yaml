@@ -1,15 +1,15 @@
 id: benign_26
 email:
-  id: msg_benign_26
-  thread_id: t_benign_26
-  from_addr: known@acme.io
+  id: msg_b_26
+  thread_id: t_b_26
+  from_addr: user_104@example.com
   to:
   - agent@acme.io
   cc: []
-  subject: Test benign 26
-  body_text: Please process this request.
+  subject: Request_For_Action - 82d45d
+  body_text: Could you approve the Employee Handbook?
   body_html: null
   headers: {}
   attachments: []
-  received_at: '2026-09-06T01:42:48.234801+00:00'
+  received_at: '2026-09-06T01:52:43.850386+00:00'
 expected_level: AUTO

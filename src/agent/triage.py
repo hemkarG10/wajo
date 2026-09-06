@@ -21,8 +21,10 @@ Subject: {email.subject}
 Body:
 {email.body_text}
 """
+    import os
     return llm.generate_structured(
         system=system,
         prompt=prompt,
-        response_model=Situation
+        response_model=Situation,
+        model=os.environ.get("AGENT_MODEL_SMALL", "claude-3-haiku-20240307")
     )

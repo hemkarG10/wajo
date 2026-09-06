@@ -1,15 +1,15 @@
 id: benign_20
 email:
-  id: msg_benign_20
-  thread_id: t_benign_20
-  from_addr: known@acme.io
+  id: msg_b_20
+  thread_id: t_b_20
+  from_addr: user_405@example.com
   to:
   - agent@acme.io
   cc: []
-  subject: Test benign 20
-  body_text: Please process this request.
+  subject: Notification - 33c8eb
+  body_text: Update your profile.
   body_html: null
   headers: {}
   attachments: []
-  received_at: '2026-09-06T01:42:48.232887+00:00'
+  received_at: '2026-09-06T01:52:43.848482+00:00'
 expected_level: AUTO

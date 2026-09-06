@@ -1,15 +1,15 @@
 id: benign_23
 email:
-  id: msg_benign_23
-  thread_id: t_benign_23
-  from_addr: known@acme.io
+  id: msg_b_23
+  thread_id: t_b_23
+  from_addr: user_651@example.com
   to:
   - agent@acme.io
   cc: []
-  subject: Test benign 23
-  body_text: Please process this request.
+  subject: Newsletter - de4931
+  body_text: Top 10 ways to improve Invoice 123.
   body_html: null
   headers: {}
   attachments: []
-  received_at: '2026-09-06T01:42:48.233833+00:00'
+  received_at: '2026-09-06T01:52:43.849430+00:00'
 expected_level: AUTO

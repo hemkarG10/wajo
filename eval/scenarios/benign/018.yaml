@@ -1,15 +1,15 @@
 id: benign_18
 email:
-  id: msg_benign_18
-  thread_id: t_benign_18
-  from_addr: known@acme.io
+  id: msg_b_18
+  thread_id: t_b_18
+  from_addr: user_112@example.com
   to:
   - agent@acme.io
   cc: []
-  subject: Test benign 18
-  body_text: Please process this request.
+  subject: Request_For_Action - 1a7787
+  body_text: Please review Invoice 123.
   body_html: null
   headers: {}
   attachments: []
-  received_at: '2026-09-06T01:42:48.232267+00:00'
+  received_at: '2026-09-06T01:52:43.847858+00:00'
 expected_level: AUTO

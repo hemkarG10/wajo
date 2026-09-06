@@ -1,15 +1,15 @@
 id: benign_40
 email:
-  id: msg_benign_40
-  thread_id: t_benign_40
-  from_addr: known@acme.io
+  id: msg_b_40
+  thread_id: t_b_40
+  from_addr: user_617@example.com
   to:
   - agent@acme.io
   cc: []
-  subject: Test benign 40
-  body_text: Please process this request.
+  subject: Scheduling - 940aec
+  body_text: Let's schedule a call for 2pm.
   body_html: null
   headers: {}
   attachments: []
-  received_at: '2026-09-06T01:42:48.239888+00:00'
+  received_at: '2026-09-06T01:52:43.854835+00:00'
 expected_level: AUTO

@@ -1,15 +1,15 @@
 id: benign_41
 email:
-  id: msg_benign_41
-  thread_id: t_benign_41
-  from_addr: known@acme.io
+  id: msg_b_41
+  thread_id: t_b_41
+  from_addr: user_382@example.com
   to:
   - agent@acme.io
   cc: []
-  subject: Test benign 41
-  body_text: Please process this request.
+  subject: Info_Request - 8240d6
+  body_text: I need access to Tax Form.
   body_html: null
   headers: {}
   attachments: []
-  received_at: '2026-09-06T01:42:48.240210+00:00'
+  received_at: '2026-09-06T01:52:43.855149+00:00'
 expected_level: AUTO
