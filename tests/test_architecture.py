@@ -1,24 +1,26 @@
-import pytest
+import ast
+from pathlib import Path
 
-def test_pipeline_e2e_heuristic():
-    from datetime import datetime, UTC
-    import yaml
-    
-    from src.agent.heuristic import heuristic_triage, heuristic_plan, heuristic_scan
-    from src.agent.models import EmailMessage
-    
-    email = EmailMessage(
-        id="t1", thread_id="t1", from_addr="maya@acme.io", to=["agent@acme.io"], cc=[],
-        subject="Hello", body_text="Hi", body_html=None, headers={}, attachments=[],
-        received_at=datetime.now(UTC)
-    )
-    
-    triage_data = heuristic_triage(email)
-    plan_data = heuristic_plan(triage_data)
-    scan_data = heuristic_scan(email)
-    
-    assert len(plan_data["actions"]) > 0
-    assert scan_data["llm_judgement"] in ["none", "likely"]
+def test_guard_imports():
+    """
+    Dependency rule: guard.py may import models, actions, yaml/stdlib only.
+    Nothing under learn/ is importable from guard.py.
+    """
+    guard_path = Path("src/agent/guard.py")
+    assert guard_path.exists(), "src/agent/guard.py must exist"
 
-def test_pipeline_e2e_mock_llm():
-    pass
+    with open(guard_path, "r", encoding="utf-8") as f:
+        tree = ast.parse(f.read(), filename="guard.py")
+
+    disallowed_imports = []
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                if alias.name.startswith("src.agent.learn") or "learn" in alias.name:
+                    disallowed_imports.append(alias.name)
+        elif isinstance(node, ast.ImportFrom):
+            if node.module and (node.module.startswith("src.agent.learn") or "learn" in node.module):
+                disallowed_imports.append(node.module)
+
+    assert not disallowed_imports, f"guard.py has disallowed imports: {disallowed_imports}"

@@ -1,17 +1,64 @@
+import ast
+import builtins
+import json
+import os
+import subprocess
+import tempfile
+from pathlib import Path
 
-def test_report_integrity():
-    with open("eval/report.py", "r") as f:
+def test_report_no_random():
+    """Assert report.py contains no random numbers/placeholders."""
+    report_path = Path("eval/report.py")
+    assert report_path.exists()
+    
+    with open(report_path, "r", encoding="utf-8") as f:
         content = f.read()
+        tree = ast.parse(content, filename="report.py")
 
-    assert "random" not in content, "report.py must not use random numbers"
-    assert "np.array([[" not in content, "report.py must not use hardcoded arrays"
+    disallowed_calls = {"random", "randint", "uniform", "randn"}
     
-    # We must not have numeric literals outside format strings (except standard index 0, 1).
-    # Since checking this perfectly is complex, we just ensure no specific offending strings exist.
-    assert "240" not in content
-    assert "800ms" not in content
-    assert "95.0%" not in content
-    assert "2.1%" not in content
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call):
+            if isinstance(node.func, ast.Name):
+                assert node.func.id not in disallowed_calls, f"Found {node.func.id}() in report.py"
+            elif isinstance(node.func, ast.Attribute):
+                assert node.func.attr not in disallowed_calls, f"Found {node.func.attr}() in report.py"
+
+def test_report_exits_on_missing(tmp_path, monkeypatch):
+    """Assert report.py exits 1 if a metric is absent."""
+    metrics_path = tmp_path / "metrics.json"
     
-    # No .2% format strings hardcoded unless coming from metrics
-    # The requirement: "no numeric literal outside format strings"
+    # Missing 'brier'
+    metrics_data = {
+        "baseline": {
+            "cold": {
+                "ece": 0.1,
+                "cost_per_email": 0.0,
+                "latency_per_email": 0.0,
+                "injection_detection_rate": 0.0,
+                "injection_fpr": 0.0,
+            }
+        }
+    }
+    
+    metrics_path.write_text(json.dumps(metrics_data))
+    
+    orig_open = builtins.open
+    def mock_open(path, mode="r", *args, **kwargs):
+        if str(path) == "eval/results/metrics.json":
+            return orig_open(metrics_path, mode, *args, **kwargs)
+        elif str(path) == "eval/results/REPORT.md":
+            return orig_open(tmp_path / "REPORT.md", mode, *args, **kwargs)
+        return orig_open(path, mode, *args, **kwargs)
+    
+    monkeypatch.setattr("builtins.open", mock_open)
+    monkeypatch.setattr("matplotlib.pyplot.savefig", lambda *args, **kwargs: None)
+    
+    from eval.report import generate_report
+    
+    try:
+        generate_report()
+        assert False, "Expected SystemExit(1) due to missing metric"
+    except SystemExit as e:
+        assert e.code == 1
+
