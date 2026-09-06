@@ -3,7 +3,7 @@
 setup:
 	uv sync
 
-include .env
+-include .env
 export
 
 test:
