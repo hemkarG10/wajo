@@ -247,107 +247,35 @@ def run_static_suite(
     }
 
 
-def run_ablation(
-    name: str,
-    scenarios: list[dict],
-    registry: dict,
-    guard_cfg: dict,
-    policy_cfg: dict,
-    disable_guard: bool = False,
-    poison_trust: bool = False,
-    disable_learning: bool = False,
-) -> dict:
-    """Run a complete ablation: learning episodes + cold/warm static suites."""
-
-    # Learning episodes: 3 personas × 3 seeds × 60 episodes
-    persona_results = {}
-    all_histories = []
-    for p_name in PERSONAS:
-        seed_histories = []
-        for seed in SEEDS:
-            history, final_policy = run_learning_episodes(
-                p_name, scenarios, registry, guard_cfg, policy_cfg, seed,
-                disable_guard=disable_guard, poison_trust=poison_trust,
-                disable_learning=disable_learning,
-            )
-            seed_histories.append({"seed": seed, "history": history, "policy": final_policy})
-            all_histories.append(history)
-
-        # Compute rolling ask rate (averaged across seeds)
-        rolling_rates = []
-        window = 10
-        for sh in seed_histories:
-            rates = []
-            asks = 0
-            for i, h in enumerate(sh["history"]):
-                if h["level"] in {"ASK", "ESCALATE"}:
-                    asks += 1
-                if i >= window:
-                    if sh["history"][i - window]["level"] in {"ASK", "ESCALATE"}:
-                        asks -= 1
-                    rates.append(asks / window)
-                else:
-                    rates.append(asks / (i + 1))
-            rolling_rates.append(rates)
-
-        # Average across seeds
-        if rolling_rates:
-            max_len = max(len(r) for r in rolling_rates)
-            avg_rates = []
-            for i in range(max_len):
-                vals = [r[i] for r in rolling_rates if i < len(r)]
-                avg_rates.append(sum(vals) / len(vals))
-        else:
-            avg_rates = []
-
-        persona_results[p_name] = {
-            "rolling_ask_rate": avg_rates,
-            "seed_count": len(seed_histories),
-        }
-
-    # Cold static suite: empty policy
-    cold_results = run_static_suite(
-        scenarios, registry, guard_cfg, policy_cfg,
-        learned_policy={}, disable_guard=disable_guard, label="cold",
+def run_all_ablations(scenarios: list[dict], registry: dict, guard_cfg: dict, policy_cfg: dict) -> dict:
+    """Run learning episodes once, then static suites for each ablation."""
+    
+    # Learning episode (hands_off_founder)
+    history, warm_policy = run_learning_episodes(
+        "hands_off_founder", scenarios, registry, guard_cfg, policy_cfg, seed=42
     )
 
-    # Warm static suite: use poisoned policy if applicable, else learned from first persona+seed
-    warm_policy = {}
-    if poison_trust:
-        for bucket_key in [
-            "send_reply_known_known_contact_request_for_action",
-            "archive_newsletter_newsletter",
-            "pay_unknown_financial",
-            "forward_other_unknown_request_for_action",
-        ]:
-            warm_policy[bucket_key] = {"n": 10000, "lcb": 1.0, "alpha": 10000, "beta": 1.0}
-    elif not disable_learning and seed_histories:
-        warm_policy = seed_histories[0].get("policy", {})
+    # Poisoned policy
+    poisoned_policy = {}
+    for bucket_key in [
+        "send_reply_known_known_contact_request_for_action",
+        "archive_newsletter_newsletter",
+        "pay_unknown_financial",
+        "forward_other_unknown_request_for_action",
+    ]:
+        poisoned_policy[bucket_key] = {"n": 10000, "lcb": 1.0, "alpha": 10000, "beta": 1.0}
 
-    warm_results = run_static_suite(
-        scenarios, registry, guard_cfg, policy_cfg,
-        learned_policy=warm_policy, disable_guard=disable_guard, label="warm",
-    )
+    # Run the suites
+    cold_results = run_static_suite(scenarios, registry, guard_cfg, policy_cfg, learned_policy={}, label="no_learning")
+    warm_results = run_static_suite(scenarios, registry, guard_cfg, policy_cfg, learned_policy=warm_policy, label="baseline")
+    no_guard_results = run_static_suite(scenarios, registry, guard_cfg, policy_cfg, learned_policy=warm_policy, disable_guard=True, label="no_guard")
+    poisoned_results = run_static_suite(scenarios, registry, guard_cfg, policy_cfg, learned_policy=poisoned_policy, label="poisoned_trust")
 
     return {
-        "ablation": name,
-        "personas": persona_results,
-        "cold": cold_results,
-        "warm": warm_results,
-        # Top-level metrics from warm suite (the main eval)
-        "safety_violations": warm_results["safety_violations"],
-        "injection_asr": warm_results["injection_asr"],
-        "injection_detection_rate": warm_results["injection_detection_rate"],
-        "injection_fpr": warm_results["injection_fpr"],
-        "false_autonomy_rate": warm_results["false_autonomy_rate"],
-        "regret": warm_results["regret"],
-        "brier": warm_results["brier"],
-        "ece": warm_results["ece"],
-        "reliability_diagram": warm_results["reliability_diagram"],
-        "confusion_matrix": warm_results["confusion_matrix"],
-        "cm_labels": warm_results["cm_labels"],
-        "decisions_processed": warm_results["decisions_processed"],
-        "decisions_executed": warm_results["decisions_executed"],
+        "baseline": warm_results,
+        "no_learning": cold_results,
+        "no_guard": no_guard_results,
+        "poisoned_trust": poisoned_results,
     }
 
 
@@ -413,16 +341,10 @@ def main():
 
     results = {}
 
-    # 1. Baseline
-    print("\n--- Ablation: baseline ---")
+    # Run all ablations
+    print("\n--- Running static suites and ablations ---")
     try:
-        results["baseline"] = run_ablation("baseline", scenarios, registry, guard_cfg, policy_cfg)
-        print("\n--- Ablation: no_learning ---")
-        results["no_learning"] = run_ablation("no_learning", scenarios, registry, guard_cfg, policy_cfg, disable_learning=True)
-        print("\n--- Ablation: no_guard (UNSAFE) ---")
-        results["no_guard"] = run_ablation("no_guard", scenarios, registry, guard_cfg, policy_cfg, disable_guard=True)
-        print("\n--- Ablation: poisoned_trust ---")
-        results["poisoned_trust"] = run_ablation("poisoned_trust", scenarios, registry, guard_cfg, policy_cfg, poison_trust=True)
+        results = run_all_ablations(scenarios, registry, guard_cfg, policy_cfg)
     except __import__("src.agent.llm").agent.llm.CacheMiss as e:
         print(f"\n{e}")
         print("N of M required entries missing — run `make record`")
