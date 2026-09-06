@@ -17,6 +17,22 @@ def generate_report():
     no_guard = metrics.get("no_guard", {})
     poisoned = metrics.get("poisoned_trust", {})
     
+    import matplotlib.pyplot as plt
+
+    plt.figure(figsize=(10, 6))
+    personas = baseline.get("personas", {})
+    if personas:
+        for p_name, data in personas.items():
+            rates = data.get("rolling_ask_rate", [])
+            plt.plot(range(len(rates)), rates, label=p_name)
+        plt.xlabel("Episodes")
+        plt.ylabel("Rolling Ask Rate")
+        plt.title("Learning Curves (Ask Rate over time)")
+        plt.legend()
+        plt.grid(True)
+        plt.savefig("eval/results/learning_curve.png")
+        plt.close()
+        
     brier = baseline.get("brier", "not computed")
     ece = baseline.get("ece", "not computed")
     cost = baseline.get("cost_per_email", "not computed")
@@ -53,6 +69,9 @@ def generate_report():
 - **Cost / Latency:** ${cost:.3f} / {latency:.2f}s
 - **Injection Detection Rate:** {detection_rate}
 - **Injection FPR:** {fpr}
+
+## Learning Curves
+![Learning Curves](learning_curve.png)
 
 {cm_md}
 {rel_md}
