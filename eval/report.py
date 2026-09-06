@@ -33,20 +33,21 @@ def generate_report():
         plt.savefig("eval/results/learning_curve.png")
         plt.close()
         
-    brier = baseline.get("brier", "not computed")
-    ece = baseline.get("ece", "not computed")
-    cost = baseline.get("cost_per_email", "not computed")
-    latency = baseline.get("latency_per_email", "not computed")
-    detection_rate = baseline.get("injection_detection_rate", "not computed")
-    fpr = baseline.get("injection_fpr", "not computed")
+    cold_baseline = baseline.get("cold", {})
+    brier = cold_baseline.get("brier", "not computed")
+    ece = cold_baseline.get("ece", "not computed")
+    cost = cold_baseline.get("cost_per_email", "not computed")
+    latency = cold_baseline.get("latency_per_email", "not computed")
+    detection_rate = cold_baseline.get("injection_detection_rate", "not computed")
+    fpr = cold_baseline.get("injection_fpr", "not computed")
             
     provider = os.environ.get("AGENT_PROVIDER", "Anthropic Claude")
     mode = os.environ.get("EVAL_MODE", "mock")
     if mode == "mock" or mode == "replay":
         provider = "Heuristic Fallback / Mock Cache"
         
-    cm = baseline.get("confusion_matrix", [])
-    labels = baseline.get("cm_labels", [])
+    cm = cold_baseline.get("confusion_matrix", [])
+    labels = cold_baseline.get("cm_labels", [])
     cm_md = "### Confusion Matrix (Predicted vs Expected)\n"
     if cm and labels:
         cm_md += "| Expected \\ Predicted | " + " | ".join(labels) + " |\n"
@@ -67,7 +68,7 @@ def generate_report():
 ## Metrics
 - **Brier Score:** {brier}
 - **ECE:** {ece}
-- **Cost / Latency:** ${cost:.3f} / {latency:.2f}s
+- **Cost / Latency:** {cost} / {latency}
 - **Injection Detection Rate:** {detection_rate}
 - **Injection FPR:** {fpr}
 
@@ -81,17 +82,17 @@ def generate_report():
 
 | Ablation | Provider | Safety Violations | Injection ASR | False Autonomy | Regret |
 |---|---|---|---|---|---|
-| Baseline | {provider} | {baseline.get('safety_violations', "not computed")} | {baseline.get('injection_asr', "not computed")} | {baseline.get('false_autonomy_rate', "not computed")} | {baseline.get('regret', "not computed")} |
-| No Learning | {provider} | {no_learning.get('safety_violations', "not computed")} | {no_learning.get('injection_asr', "not computed")} | {no_learning.get('false_autonomy_rate', "not computed")} | {no_learning.get('regret', "not computed")} |
-| No Guard Clamp | {provider} | {no_guard.get('safety_violations', "not computed")} | {no_guard.get('injection_asr', "not computed")} | {no_guard.get('false_autonomy_rate', "not computed")} | {no_guard.get('regret', "not computed")} |
-| Poisoned | {provider} | {poisoned.get('safety_violations', "not computed")} | {poisoned.get('injection_asr', "not computed")} | {poisoned.get('false_autonomy_rate', "not computed")} | {poisoned.get('regret', "not computed")} |
+| Baseline | {provider} | {baseline.get('warm', {}).get('safety_violations', "not computed")} | {baseline.get('warm', {}).get('injection_asr', "not computed")} | {baseline.get('warm', {}).get('false_autonomy_rate', "not computed")} | {baseline.get('warm', {}).get('regret', "not computed")} |
+| No Learning | {provider} | {no_learning.get('warm', {}).get('safety_violations', "not computed")} | {no_learning.get('warm', {}).get('injection_asr', "not computed")} | {no_learning.get('warm', {}).get('false_autonomy_rate', "not computed")} | {no_learning.get('warm', {}).get('regret', "not computed")} |
+| No Guard Clamp | {provider} | {no_guard.get('warm', {}).get('safety_violations', "not computed")} | {no_guard.get('warm', {}).get('injection_asr', "not computed")} | {no_guard.get('warm', {}).get('false_autonomy_rate', "not computed")} | {no_guard.get('warm', {}).get('regret', "not computed")} |
+| Poisoned | {provider} | {poisoned.get('warm', {}).get('safety_violations', "not computed")} | {poisoned.get('warm', {}).get('injection_asr', "not computed")} | {poisoned.get('warm', {}).get('false_autonomy_rate', "not computed")} | {poisoned.get('warm', {}).get('regret', "not computed")} |
 """
     
     with open("eval/results/REPORT.md", "w") as f:
         f.write(report_md)
         
     required_keys = ["brier", "ece", "cost_per_email", "injection_detection_rate", "injection_fpr"]
-    missing = [k for k in required_keys if k not in baseline]
+    missing = [k for k in required_keys if k not in cold_baseline]
     if missing:
         print(f"not computed: {', '.join(missing)}")
         sys.exit(1)
