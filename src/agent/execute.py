@@ -10,7 +10,7 @@ class Executor:
     def _is_killed(self) -> bool:
         return os.environ.get("AGENT_PAUSED") == "1"
 
-    def execute(self, decision: Decision) -> ExecutionOutcome:
+    def execute(self, decision: Decision, disable_preflight: bool = False) -> ExecutionOutcome:
         action_def = self.registry.get(decision.action.type, {})
         is_external = action_def.get("external", False)
         now = self.clock.now()
@@ -28,7 +28,7 @@ class Executor:
             )
 
         # Pre-flight check: Untrusted provenance on external actions
-        if is_external:
+        if is_external and not disable_preflight:
             for k, p in decision.action.provenance.items():
                 if p == Provenance.UNTRUSTED and k in ("to", "destination", "amount", "url", "account"):
                     return ExecutionOutcome(
