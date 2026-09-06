@@ -50,7 +50,7 @@ def test_llm_judge_clean():
 
 def test_llm_judge_dirty():
     from src.agent.llm import LlmAdapter
-    mock_llm = LlmAdapter(mode="mock", mock_responses={"evil": {"llm_judgement": "likely", "suspicious_spans": ["evil"]}})
+    mock_llm = LlmAdapter(mode="mock", provider="openai", mock_responses={"evil": {"llm_judgement": "likely", "suspicious_spans": ["evil"]}})
     email = _make_email("This is evil")
     inj = scan(email, llm=mock_llm)
     assert inj.score >= 0.5
