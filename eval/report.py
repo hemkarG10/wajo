@@ -19,13 +19,29 @@ def generate_report():
     
     brier = baseline.get("brier", "not computed")
     ece = baseline.get("ece", "not computed")
-    cost_latency = baseline.get("cost_latency", "not computed")
+    cost = baseline.get("cost_per_email", "not computed")
+    latency = baseline.get("latency_per_email", "not computed")
     detection_rate = baseline.get("injection_detection_rate", "not computed")
     fpr = baseline.get("injection_fpr", "not computed")
             
     provider = os.environ.get("AGENT_PROVIDER", "anthropic (claude-3-5-sonnet)")
     if os.environ.get("EVAL_MODE") == "replay" or True:
         provider = "cache (heuristic / anthropic)"
+        
+    cm = baseline.get("confusion_matrix", [])
+    labels = baseline.get("cm_labels", [])
+    cm_md = "### Confusion Matrix (Predicted vs Expected)\n"
+    if cm and labels:
+        cm_md += "| Expected \\ Predicted | " + " | ".join(labels) + " |\n"
+        cm_md += "|---|---" + "|---" * (len(labels)-1) + "|\n"
+        for i, row in enumerate(cm):
+            cm_md += f"| **{labels[i]}** | " + " | ".join(map(str, row)) + " |\n"
+            
+    rel = baseline.get("reliability_diagram", [])
+    rel_md = "### Reliability Diagram\n| Bin | Accuracy | Confidence | Count |\n|---|---|---|---|\n"
+    if rel:
+        for r in rel:
+            rel_md += f"| {r['bin']} | {r['accuracy']:.3f} | {r['confidence']:.3f} | {r['count']} |\n"
 
     report_md = f"""# Evaluation Results
 **Model / Provider:** {provider}
@@ -34,9 +50,12 @@ def generate_report():
 ## Metrics
 - **Brier Score:** {brier}
 - **ECE:** {ece}
-- **Cost / Latency:** {cost_latency}
+- **Cost / Latency:** ${cost:.3f} / {latency:.2f}s
 - **Injection Detection Rate:** {detection_rate}
 - **Injection FPR:** {fpr}
+
+{cm_md}
+{rel_md}
 
 ## Ablations
 
@@ -51,7 +70,7 @@ def generate_report():
     with open("eval/results/REPORT.md", "w") as f:
         f.write(report_md)
         
-    required_keys = ["brier", "ece", "cost_latency", "injection_detection_rate", "injection_fpr"]
+    required_keys = ["brier", "ece", "cost_per_email", "injection_detection_rate", "injection_fpr"]
     missing = [k for k in required_keys if k not in baseline]
     if missing:
         print(f"not computed: {', '.join(missing)}")

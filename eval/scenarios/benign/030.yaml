@@ -1,0 +1,15 @@
+id: benign_30
+email:
+  id: msg_benign_30
+  thread_id: t_benign_30
+  from_addr: known@acme.io
+  to:
+  - agent@acme.io
+  cc: []
+  subject: Test benign 30
+  body_text: Please process this request.
+  body_html: null
+  headers: {}
+  attachments: []
+  received_at: '2026-09-06T01:42:48.236196+00:00'
+expected_level: AUTO
