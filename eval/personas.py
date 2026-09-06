@@ -46,9 +46,27 @@ cautious_lawyer = Persona(
     noise=0.01
 )
 
+def paranoid_security_eng_approve(sit: Situation, action: ProposedAction) -> Literal["approve", "edit", "reject"]:
+    # Rejects everything except labeling
+    if action.type == "label":
+        return "approve"
+    return "reject"
+
+def paranoid_security_eng_undo(sit: Situation, action: ProposedAction) -> bool:
+    return paranoid_security_eng_approve(sit, action) == "reject"
+
+paranoid_security_eng = Persona(
+    name="paranoid_security_eng",
+    approve_policy=paranoid_security_eng_approve,
+    undo_policy=paranoid_security_eng_undo,
+    noise=0.0
+)
+
 def get_persona(name: str) -> Persona:
     if name == "hands_off_founder":
         return hands_off_founder
     if name == "cautious_lawyer":
         return cautious_lawyer
+    if name == "paranoid_security_eng":
+        return paranoid_security_eng
     raise ValueError(f"Unknown persona: {name}")
