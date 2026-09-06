@@ -55,7 +55,7 @@ def scan(email: EmailMessage, llm: LlmAdapter | None = None) -> InjectionSignals
             spans = llm_out.suspicious_spans
         except Exception:
             # If LLM fails, we fall back to heuristics safely
-            judgement = "none"
+            judgement = "error"
             
     # 3. Compute score (0.0 to 1.0)
     score = 0.0

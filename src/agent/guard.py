@@ -100,6 +100,11 @@ def floor(
         else:
             current_floor = max(current_floor, AutonomyLevel.ASK)
         reasons.append("I6")
+    elif injection.llm_judgement == "error":
+        error_floor_str = guard_config.get("llm_judgement_error_floor", "ASK")
+        if is_external:
+            current_floor = max(current_floor, AutonomyLevel[error_floor_str])
+            reasons.append("I6_ERROR")
 
     # I7 Sensitive categories stay human
     if situation.intent in {Intent.LEGAL_HR, Intent.FINANCIAL, Intent.SECURITY_ALERT}:

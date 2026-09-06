@@ -3,6 +3,7 @@ rate_caps:
   AUTO_archives_per_hour: 50
 
 stale_days: 30
+llm_judgement_error_floor: ASK
 
 dlp_patterns:
   - '(?i)password'

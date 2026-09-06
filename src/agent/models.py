@@ -84,7 +84,7 @@ class EmailMessage(BaseModel):
 
 class InjectionSignals(BaseModel):
     heuristic_hits: list[str]           # e.g. "ignore_previous", "hidden_text", "zero_width_chars"
-    llm_judgement: Literal["none", "suspicious", "likely", "skipped"]
+    llm_judgement: Literal["none", "suspicious", "likely", "skipped", "error"]
     score: float                        # 0..1 combined
     suspicious_spans: list[str]
 
