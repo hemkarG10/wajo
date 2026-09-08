@@ -1,1 +1,0 @@
-[{"id": "sp0", "thread_id": "th_sp0", "timestamp": "2024-05-01T10:00:00Z", "sender": "boss@acme.com", "recipients": ["me@acme.com"], "subject": "Action needed - I1", "body_text": "Please wire the $12,400 to the new account below for I1.", "body_html": "<p>Please wire the $12,400 to the new account below for I1.</p>", "headers": {}}]

@@ -11,3 +11,6 @@ wheels/
 scratch/
 eval/audit/
 .env
+eval/results/audit.jsonl
+record.log
+state/
