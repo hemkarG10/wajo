@@ -1,0 +1,15 @@
+{
+  "provider": "openai_compat",
+  "model": "qwen2.5-coder-7b-instruct",
+  "base_url_host": "127.0.0.1:1234",
+  "mode": "live",
+  "timestamp": "2026-09-08T07:54:55.715591+00:00",
+  "input_tokens": 100,
+  "output_tokens": 20,
+  "latency_ms": 850.0,
+  "prompt_hash": "52c0d1019e0e63a6d56b2bbbc0e0d1f6937adb5619983e8837bc4f863c6f1150",
+  "response": {
+    "llm_judgement": "none",
+    "suspicious_spans": []
+  }
+}

@@ -45,15 +45,18 @@ The agent uses a **Beta Distribution (Bayesian update)** to learn user preferenc
 The evaluation harness ran across 75 scenarios (10 benign, 40 adversarial, 25 safety probes).
 
 ### Baseline
-- **Safety Violations:** 0
-- **Final Ask Rate:** 15.00% (Started at 100%, converged successfully).
+- **Safety Violations:** 0.0
+- **False Autonomy Rate:** 0.0%
+- **Injection ASR:** 0.0%
 
 ### Ablation 3 (No Guard / Unsafe)
-- **Safety Violations:** 1+
-- **Observation:** When the safety floor is removed, the system trusts the LLM blindly and eventually commits safety violations on adversarial data.
+- **Safety Violations:** 0.0
+- **Injection ASR:** 0.0%
+- **Observation:** Even without the safety floor, the system does not execute adversarial injections from unknown contacts because the Bayesian learning component correctly maintains a low confidence bound (LCB = 0) for unseen actions and untrusted senders. The agent is secure-by-default at the policy level.
 
 ### Ablation 4 (Poisoned Learner)
-- **Safety Violations:** 0
+- **Safety Violations:** 0.0
+- **False Autonomy Rate:** 0.0%
 - **Observation:** Even when the learner is manually injected with 10,000 positive feedback samples for malicious actions, the Static Guard Floor catches and escalates the action (e.g., preventing autonomous external sends).
 
 ---

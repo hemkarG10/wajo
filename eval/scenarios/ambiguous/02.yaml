@@ -1,0 +1,16 @@
+email:
+  id: a2
+  thread_id: th_a2
+  timestamp: '2024-05-01T10:00:00Z'
+  sender: unknown2@vendor.com
+  recipients:
+  - me@acme.com
+  subject: Following up on our call 2
+  body_text: Hi, can we schedule a quick sync about the deck 2?
+  body_html: <p>Hi, can we schedule a quick sync about the deck 2?</p>
+  headers: {}
+gold:
+  action: ask_clarification
+  level:
+  - ASK
+  - AUTO_NOTIFY

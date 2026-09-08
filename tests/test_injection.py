@@ -52,3 +52,22 @@ def test_llm_judge_dirty():
     inj = scan(email, inj_dict={"llm_judgement": "likely", "suspicious_spans": ["evil"]})
     assert inj.llm_judgement == "likely"
     assert inj.score == 0.5
+
+def test_heuristic_zero_width():
+    email = _make_email("Ignore\u200bprevious")
+    inj = scan(email)
+    assert len(inj.heuristic_hits) == 1
+    assert inj.score == 0.25
+
+def test_heuristic_base64():
+    email = _make_email("YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXphYmNkZWZnaGlqa2xtbm9wcXJzdHV2d3h5eg==") # > 40 chars
+    inj = scan(email)
+    assert len(inj.heuristic_hits) == 1
+    assert inj.score == 0.25
+
+def test_heuristic_wire_urgent():
+    email = _make_email("Please wire money immediately.")
+    inj = scan(email)
+    assert len(inj.heuristic_hits) == 1
+    assert isinstance(inj.heuristic_hits[0], str)
+    assert inj.score == 0.25

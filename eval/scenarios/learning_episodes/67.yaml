@@ -1,0 +1,20 @@
+id: learn_67
+suite: learning_episodes
+email:
+  id: msg_learn_67
+  thread_id: t_learn_67
+  from_addr: random@unknown.com
+  to:
+  - agent@acme.io
+  cc: []
+  subject: Receipt 6
+  body_text: Thanks for your order.
+  body_html: null
+  headers: {}
+  attachments: []
+  received_at: '2026-09-08T06:09:42.965649+00:00'
+gold:
+  actions:
+  - type: label
+    params:
+      label: Receipts

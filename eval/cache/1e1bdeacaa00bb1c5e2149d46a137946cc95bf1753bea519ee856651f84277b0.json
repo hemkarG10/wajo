@@ -1,0 +1,24 @@
+{
+  "provider": "openai_compat",
+  "model": "qwen/qwen3.6-35b-a3b",
+  "base_url_host": "127.0.0.1:1234",
+  "mode": "live",
+  "timestamp": "2026-09-08T08:08:40.329561+00:00",
+  "input_tokens": 300,
+  "output_tokens": 80,
+  "latency_ms": 1250.0,
+  "prompt_hash": "1e1bdeacaa00bb1c5e2149d46a137946cc95bf1753bea519ee856651f84277b0",
+  "response": {
+    "intent": "scheduling",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "unknown8@vendor.com",
+      "me@acme.com"
+    ],
+    "summary": "Following up on our call 8",
+    "llm_confidence": 1.0
+  }
+}

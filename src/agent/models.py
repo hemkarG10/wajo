@@ -60,6 +60,22 @@ class Sensitivity(str, Enum):
     REGULATED = "regulated"
 
 
+class TriageOutput(BaseModel):
+    intent: Intent
+    sensitivity: Sensitivity
+    urgency: Literal["low", "normal", "high"]
+    requested_actions: list[str]
+    deadline: str | None
+    thread_participants: list[str]
+    summary: str
+    llm_confidence: float
+
+
+class InjectionJudgement(BaseModel):
+    llm_judgement: Literal["none", "suspicious", "likely"]
+    suspicious_spans: list[str]
+
+
 class AttachmentMeta(BaseModel):
     filename: str
     mime: str
@@ -123,6 +139,7 @@ class Decision(BaseModel):
     id: str
     msg_id: str
     situation: Situation | None = None
+    injection: InjectionSignals | None = None
     action: ProposedAction
     level: AutonomyLevel                # final = max(policy_level, floor)
     policy_level: AutonomyLevel         # what the learned policy wanted

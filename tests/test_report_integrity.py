@@ -1,10 +1,8 @@
 import ast
 import builtins
 import json
-import os
-import subprocess
-import tempfile
 from pathlib import Path
+
 
 def test_report_no_random():
     """Assert report.py contains no random numbers/placeholders."""

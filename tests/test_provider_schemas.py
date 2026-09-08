@@ -7,9 +7,9 @@ OpenAI strict mode: no additionalProperties, every optional as X | None
 import json
 
 from src.agent.planner import PlannerAction, PlannerOut
-from src.agent.triage import TriageOut
+from src.agent.models import TriageOutput
 
-SCHEMAS = [TriageOut, PlannerOut, PlannerAction]
+SCHEMAS = [TriageOutput, PlannerOut, PlannerAction]
 
 
 def _check_no_free_form_dicts(schema: dict, path: str = ""):

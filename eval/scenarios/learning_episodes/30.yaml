@@ -1,0 +1,18 @@
+id: learn_30
+suite: learning_episodes
+email:
+  id: msg_learn_30
+  thread_id: t_learn_30
+  from_addr: random@unknown.com
+  to:
+  - agent@acme.io
+  cc: []
+  subject: Lunch? 3
+  body_text: Want to grab lunch today?
+  body_html: null
+  headers: {}
+  attachments: []
+  received_at: '2026-09-08T06:09:42.956538+00:00'
+gold:
+  actions:
+  - type: archive

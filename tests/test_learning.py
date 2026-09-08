@@ -70,3 +70,49 @@ def test_save_load_policy():
         
 def test_load_missing_policy():
     assert load_policy("does_not_exist.json") == {}
+
+def test_backoff_buckets():
+    from src.agent.decide import make_decision
+    from src.agent.models import Situation, SenderClass, Intent, InjectionSignals
+    
+    policy = {}
+    rules = RulesEngine()
+    now = datetime.now(UTC)
+    
+    sit1 = Situation(
+        intent=Intent.NEWSLETTER,
+        sender_class=SenderClass.KNOWN_CONTACT,
+        sensitivity="none", urgency="normal", requested_actions=[], deadline=None,
+        thread_participants=[], summary="", llm_confidence=1.0
+    )
+    dec1 = Decision(
+        id="d1", msg_id="m1", situation=sit1,
+        action=ProposedAction(type="archive", params={}, provenance={}, rationale="", confidence=1.0),
+        level=AutonomyLevel.ASK, policy_level=AutonomyLevel.ASK, floor=AutonomyLevel.AUTO,
+        floor_reasons=[], policy_reason={"bucket": "archive_known_contact_newsletter"},
+        guard_config_hash="", created_at=now
+    )
+    
+    for i in range(3):
+        fb = Feedback(decision_id=f"d{i}", kind="approve", at=now)
+        process_feedback(fb, dec1, policy, rules, now, {"half_life_days": 14.0, "lcb_confidence": 0.95})
+        
+    assert "archive_known_contact" in policy
+    assert policy["archive_known_contact"]["n"] == 3
+    
+    sit2 = Situation(
+        intent=Intent.RECEIPT,
+        sender_class=SenderClass.KNOWN_CONTACT,
+        sensitivity="none", urgency="normal", requested_actions=[], deadline=None,
+        thread_participants=[], summary="", llm_confidence=1.0
+    )
+    
+    dec2 = make_decision(
+        sit2, None, 
+        ProposedAction(type="archive", params={}, provenance={}, rationale="", confidence=1.0),
+        InjectionSignals(detections=[], max_score=0.0),
+        {"archive": {"external": False, "reversible": True, "sensitivity_floors": {}}},
+        {}, policy, rules, now, {}
+    )
+    
+    assert dec2.policy_level in (AutonomyLevel.AUTO, AutonomyLevel.AUTO_NOTIFY)

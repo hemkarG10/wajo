@@ -1,8 +1,9 @@
 import os
-import yaml
-from datetime import UTC, datetime
 import random
 import uuid
+from datetime import UTC, datetime
+
+import yaml
 
 BENIGN_TEMPLATES = {
     "scheduling": ["Can we meet at {time} tomorrow?", "Let's schedule a call for {time}.", "Are you free at {time}?"],

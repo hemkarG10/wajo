@@ -1,0 +1,24 @@
+{
+  "provider": "openai_compat",
+  "model": "qwen2.5-coder-7b-instruct",
+  "base_url_host": "127.0.0.1:1234",
+  "mode": "live",
+  "timestamp": "2026-09-08T07:54:55.642492+00:00",
+  "input_tokens": 300,
+  "output_tokens": 80,
+  "latency_ms": 1250.0,
+  "prompt_hash": "63bdb494d2eeb31066b7baec9be4e2626900d4c5d34342292a230975cd0ae222",
+  "response": {
+    "intent": "other",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "me@acme.com",
+      "newsletter@marketing.com"
+    ],
+    "summary": "Benign subject 1",
+    "llm_confidence": 1.0
+  }
+}

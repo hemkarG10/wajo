@@ -1,15 +1,17 @@
-import yaml
 from datetime import UTC, datetime
+
+import yaml
+
 from eval.context import scenario_ctx
-from src.agent.pipeline import process_email
-from src.agent.models import EmailMessage, SimClock
 from src.agent.llm import LlmAdapter
+from src.agent.models import EmailMessage, SimClock
+from src.agent.pipeline import process_email
+
 
 def test_record_replay_keys():
-    with open("eval/scenarios/benign/000.yaml") as f:
+    with open("eval/scenarios/benign/00.yaml") as f:
         case = yaml.safe_load(f)
-        
-    raw = case["incoming"][0]
+        raw = case.get("incoming", [case.get("email")])[0]
     email = EmailMessage(
         id="test_msg",
         thread_id="test_thread",

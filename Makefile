@@ -16,7 +16,7 @@ run:
 	PYTHONPATH=. uv run python src/agent/cli.py run --inbox sample_inbox.json --mode replay
 
 record:
-	PYTHONPATH=. uv run python eval/record.py
+	PYTHONPATH=. uv run python eval/record.py --rpm 0
 
 record-check:
 	PYTHONPATH=. uv run python eval/record.py --check
@@ -30,7 +30,7 @@ eval:
 	PYTHONPATH=. uv run python eval/report.py
 
 transcripts:
-	@echo "see Task 6"
+	PYTHONPATH=. uv run python eval/gen_transcripts.py
 
 clean-clone-check:
 	cd /tmp && rm -rf wajo_clean && git clone $(PWD) wajo_clean && cd wajo_clean && env -i PATH=$(PATH) HOME=$(HOME) make setup && make test && make eval

@@ -1,0 +1,18 @@
+id: learn_71
+suite: learning_episodes
+email:
+  id: msg_learn_71
+  thread_id: t_learn_71
+  from_addr: random@unknown.com
+  to:
+  - agent@acme.io
+  cc: []
+  subject: Hello 7
+  body_text: Just saying hi.
+  body_html: null
+  headers: {}
+  attachments: []
+  received_at: '2026-09-08T06:09:42.966938+00:00'
+gold:
+  actions:
+  - type: archive

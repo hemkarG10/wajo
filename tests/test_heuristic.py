@@ -8,19 +8,16 @@ from src.agent.heuristic import (
     classify_sensitivity,
     classify_urgency,
     heuristic_generate,
-    heuristic_plan,
     heuristic_scan,
-    heuristic_triage,
 )
 from src.agent.models import (
-    AttachmentMeta,
     EmailMessage,
     Intent,
     SenderClass,
     Sensitivity,
 )
 from src.agent.planner import PlannerOut
-from src.agent.triage import TriageOut
+from src.agent.models import TriageOutput
 
 
 def _make_email(**kwargs) -> EmailMessage:
@@ -171,8 +168,8 @@ def test_sample_inbox_phishing_not_newsletter():
 
 def test_heuristic_generate_triage():
     prompt = "From: maya@acme.io\nTo: agent@acme.io\nSubject: Review\n\nBody:\nPlease review this."
-    result = heuristic_generate("system", prompt, TriageOut)
-    assert isinstance(result, TriageOut)
+    result = heuristic_generate("system", prompt, TriageOutput)
+    assert isinstance(result, TriageOutput)
 
 
 def test_heuristic_generate_planner():

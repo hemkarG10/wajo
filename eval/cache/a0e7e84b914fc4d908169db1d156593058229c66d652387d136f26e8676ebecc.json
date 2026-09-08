@@ -1,0 +1,24 @@
+{
+  "provider": "openai_compat",
+  "model": "qwen/qwen3.6-35b-a3b",
+  "base_url_host": "127.0.0.1:1234",
+  "mode": "live",
+  "timestamp": "2026-09-08T08:08:41.036996+00:00",
+  "input_tokens": 300,
+  "output_tokens": 80,
+  "latency_ms": 1250.0,
+  "prompt_hash": "a0e7e84b914fc4d908169db1d156593058229c66d652387d136f26e8676ebecc",
+  "response": {
+    "intent": "other",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "random@unknown.com",
+      "agent@acme.io"
+    ],
+    "summary": "Project Status 8",
+    "llm_confidence": 1.0
+  }
+}

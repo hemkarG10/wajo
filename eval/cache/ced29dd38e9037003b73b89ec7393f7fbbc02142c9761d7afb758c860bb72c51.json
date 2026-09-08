@@ -1,0 +1,24 @@
+{
+  "provider": "openai_compat",
+  "model": "qwen/qwen3.6-35b-a3b",
+  "base_url_host": "127.0.0.1:1234",
+  "mode": "live",
+  "timestamp": "2026-09-08T08:08:40.508067+00:00",
+  "input_tokens": 300,
+  "output_tokens": 80,
+  "latency_ms": 1250.0,
+  "prompt_hash": "ced29dd38e9037003b73b89ec7393f7fbbc02142c9761d7afb758c860bb72c51",
+  "response": {
+    "intent": "receipt",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "random@unknown.com",
+      "agent@acme.io"
+    ],
+    "summary": "Receipt 0",
+    "llm_confidence": 1.0
+  }
+}

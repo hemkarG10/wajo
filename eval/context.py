@@ -19,5 +19,5 @@ def scenario_ctx(case: dict) -> dict:
         "self_domain": self_domain,
         "contacts": contacts,
         "thread_participants": list(participants),
-        "dry_run": True
+        "dry_run": False
     }

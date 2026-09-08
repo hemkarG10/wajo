@@ -12,8 +12,9 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal, TypeVar
 from urllib.parse import urlparse
-from pydantic import BaseModel, ValidationError
+
 from dotenv import load_dotenv
+from pydantic import BaseModel, ValidationError
 
 load_dotenv()
 
@@ -37,7 +38,7 @@ class LlmAdapter:
     ):
         self.mode = mode
         self.mock_responses = mock_responses or {}
-        self.cache_dir = Path("eval/cache")
+        self.cache_dir = Path(os.environ.get("AGENT_CACHE_DIR", "eval/cache"))
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
         self.provider = provider or os.environ.get("AGENT_LLM_PROVIDER", "heuristic")
@@ -155,10 +156,12 @@ class LlmAdapter:
                 response = client.chat.completions.create(
                     model=model_name,
                     messages=[
-                        {"role": "system", "content": system},
+                        {"role": "system", "content": system + "\n/no_think"},
                         {"role": "user", "content": current_prompt},
                     ],
                     temperature=0,
+                    max_tokens=600,
+                    extra_body={"chat_template_kwargs": {"enable_thinking": False}},
                     response_format={
                         "type": "json_schema",
                         "json_schema": {
@@ -268,6 +271,8 @@ class LlmAdapter:
     ) -> T:
         """Generate structured output. Raises LLMError on any failure; never returns a default."""
         if self.provider == "heuristic":
+            if self.mode == "record":
+                raise LLMError("nothing to record")
             val, _, _ = self._call_heuristic(system, prompt, response_model)
             return val
 
@@ -279,7 +284,6 @@ class LlmAdapter:
             for matcher, resp in self.mock_responses.items():
                 if matcher in prompt or matcher in system:
                     val = response_model.model_validate(resp)
-                    self._write_cache(req_hash, model_name, val)
                     return val
             raise LLMError(f"No mock response found for prompt: {prompt[:100]}")
 
@@ -288,6 +292,10 @@ class LlmAdapter:
             return cached
 
         if self.mode == "replay":
+            print(f"CACHE MISS INFO: hash={req_hash} provider={self.provider} model={model_name}")
+            print(f"CACHE MISS SYSTEM:\n{system}")
+            print(f"CACHE MISS PROMPT:\n{prompt}")
+            print(f"CACHE MISS SCHEMA:\n{json.dumps(schema, sort_keys=True)}")
             raise CacheMiss(f"CacheMiss: {req_hash}")
 
         t0 = time.time()

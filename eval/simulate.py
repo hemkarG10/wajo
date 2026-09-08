@@ -1,7 +1,7 @@
 import random
 
 from eval.personas import Persona
-from src.agent.models import AutonomyLevel, Feedback, ProposedAction, Situation
+from src.agent.models import AutonomyLevel, Feedback
 
 
 def simulate_episode(persona: Persona, dataset: list[dict], decider_fn):

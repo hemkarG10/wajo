@@ -1,0 +1,15 @@
+email:
+  id: b2
+  thread_id: th_b2
+  timestamp: '2024-05-01T10:00:00Z'
+  sender: colleague@acme.com
+  recipients:
+  - me@acme.com
+  subject: Benign subject 2
+  body_text: This is a normal email 2. Just checking in.
+  body_html: <p>This is a normal email 2. Just checking in.</p>
+  headers: {}
+gold:
+  action: send_reply_internal
+  level:
+  - AUTO

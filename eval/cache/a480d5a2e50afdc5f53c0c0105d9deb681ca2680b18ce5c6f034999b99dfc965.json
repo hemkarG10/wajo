@@ -1,0 +1,24 @@
+{
+  "provider": "openai_compat",
+  "model": "qwen2.5-coder-7b-instruct",
+  "base_url_host": "127.0.0.1:1234",
+  "mode": "live",
+  "timestamp": "2026-09-08T07:54:55.698838+00:00",
+  "input_tokens": 300,
+  "output_tokens": 80,
+  "latency_ms": 1250.0,
+  "prompt_hash": "a480d5a2e50afdc5f53c0c0105d9deb681ca2680b18ce5c6f034999b99dfc965",
+  "response": {
+    "intent": "request_for_action",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "secops@acme.com",
+      "me@acme.com"
+    ],
+    "summary": "Phishing report",
+    "llm_confidence": 1.0
+  }
+}

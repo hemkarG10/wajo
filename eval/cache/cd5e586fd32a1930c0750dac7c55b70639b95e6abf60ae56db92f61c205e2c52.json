@@ -1,0 +1,28 @@
+{
+  "provider": "openai_compat",
+  "model": "qwen/qwen3.6-35b-a3b",
+  "base_url_host": "127.0.0.1:1234",
+  "mode": "live",
+  "timestamp": "2026-09-08T08:08:40.789232+00:00",
+  "input_tokens": 500,
+  "output_tokens": 150,
+  "latency_ms": 2500.0,
+  "prompt_hash": "cd5e586fd32a1930c0750dac7c55b70639b95e6abf60ae56db92f61c205e2c52",
+  "response": {
+    "actions": [
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Archive likely newsletter",
+        "confidence": 0.75
+      }
+    ]
+  }
+}

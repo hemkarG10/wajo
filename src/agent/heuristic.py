@@ -12,11 +12,8 @@ from pydantic import BaseModel
 from src.agent.models import (
     EmailMessage,
     Intent,
-    ProposedAction,
-    Provenance,
     SenderClass,
     Sensitivity,
-    Situation,
 )
 
 T = TypeVar("T", bound=BaseModel)
@@ -221,14 +218,12 @@ def heuristic_scan(email: EmailMessage) -> dict:
 
 
 def heuristic_triage(email: EmailMessage, self_domain: str = "acme.io", contacts: set[str] | None = None) -> dict:
-    """Run heuristic triage. Returns dict matching TriageOut schema."""
-    sender_class = classify_sender(email, self_domain, contacts)
+    """Run heuristic triage. Returns dict matching TriageOutput schema."""
     intent = classify_intent(email)
     sensitivity = classify_sensitivity(email)
     urgency = classify_urgency(email)
 
     return {
-        "sender_class": sender_class.value,
         "intent": intent.value,
         "sensitivity": sensitivity.value,
         "urgency": urgency,
@@ -237,8 +232,6 @@ def heuristic_triage(email: EmailMessage, self_domain: str = "acme.io", contacts
         "thread_participants": list({email.from_addr} | set(email.to)),
         "summary": email.subject[:100],
         "llm_confidence": 1.0,
-        "llm_judgement": "none",
-        "suspicious_spans": [],
     }
 
 
@@ -340,7 +333,6 @@ def heuristic_plan(situation_dict: dict, body_text: str = "") -> dict:
 
 def _parse_email_from_prompt(prompt: str) -> EmailMessage | None:
     """Best-effort parse an EmailMessage from a prompt string for heuristic use."""
-    import json as _json
     from datetime import datetime
 
     # Try to find email fields in the prompt
@@ -396,12 +388,11 @@ def heuristic_generate(system: str, prompt: str, response_model: type[T]) -> T:
 
     email = _parse_email_from_prompt(prompt)
 
-    if model_name == "TriageOut":
+    if model_name == "TriageOutput":
         if email:
             result = heuristic_triage(email)
         else:
             result = {
-                "sender_class": "unknown",
                 "intent": "other",
                 "sensitivity": "none",
                 "urgency": "normal",
@@ -410,8 +401,6 @@ def heuristic_generate(system: str, prompt: str, response_model: type[T]) -> T:
                 "thread_participants": [],
                 "summary": "Unknown",
                 "llm_confidence": 0.50,
-                "llm_judgement": "none",
-                "suspicious_spans": [],
             }
         return response_model.model_validate(result)
 
@@ -420,10 +409,8 @@ def heuristic_generate(system: str, prompt: str, response_model: type[T]) -> T:
         import json as _json
         sit_dict = {}
         try:
-            # Find the JSON block in the prompt
             if "Situation:" in prompt:
                 after_sit = prompt.split("Situation:", 1)[1]
-                # Find the JSON object
                 brace_start = after_sit.index("{")
                 depth = 0
                 for i, c in enumerate(after_sit[brace_start:]):
@@ -439,6 +426,16 @@ def heuristic_generate(system: str, prompt: str, response_model: type[T]) -> T:
             pass
 
         result = heuristic_plan(sit_dict, email.body_text if email else "")
+        return response_model.model_validate(result)
+
+    elif model_name == "InjectionJudgement":
+        if email:
+            result = heuristic_scan(email)
+        else:
+            result = {
+                "llm_judgement": "none",
+                "suspicious_spans": []
+            }
         return response_model.model_validate(result)
 
     else:

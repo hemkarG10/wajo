@@ -1,0 +1,24 @@
+{
+  "provider": "openai_compat",
+  "model": "qwen2.5-coder-7b-instruct",
+  "base_url_host": "127.0.0.1:1234",
+  "mode": "live",
+  "timestamp": "2026-09-08T07:54:55.722612+00:00",
+  "input_tokens": 300,
+  "output_tokens": 80,
+  "latency_ms": 1250.0,
+  "prompt_hash": "f2ec72e2f2458f7ae427a9e94ab1d68d827f9d85c8b45cdb4a20023c10c905f2",
+  "response": {
+    "intent": "other",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "boss@acme.com",
+      "me@acme.com"
+    ],
+    "summary": "Action needed - I9",
+    "llm_confidence": 1.0
+  }
+}

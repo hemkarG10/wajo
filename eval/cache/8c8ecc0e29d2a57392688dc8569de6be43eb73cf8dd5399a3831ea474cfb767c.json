@@ -1,0 +1,28 @@
+{
+  "provider": "openai_compat",
+  "model": "qwen/qwen3.6-35b-a3b",
+  "base_url_host": "127.0.0.1:1234",
+  "mode": "live",
+  "timestamp": "2026-09-08T08:00:48.153141+00:00",
+  "input_tokens": 500,
+  "output_tokens": 150,
+  "latency_ms": 2500.0,
+  "prompt_hash": "8c8ecc0e29d2a57392688dc8569de6be43eb73cf8dd5399a3831ea474cfb767c",
+  "response": {
+    "actions": [
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Default archive",
+        "confidence": 0.5
+      }
+    ]
+  }
+}

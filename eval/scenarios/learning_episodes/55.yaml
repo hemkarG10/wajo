@@ -1,0 +1,18 @@
+id: learn_55
+suite: learning_episodes
+email:
+  id: msg_learn_55
+  thread_id: t_learn_55
+  from_addr: random@unknown.com
+  to:
+  - agent@acme.io
+  cc: []
+  subject: Update 5
+  body_text: System will be down.
+  body_html: null
+  headers: {}
+  attachments: []
+  received_at: '2026-09-08T06:09:42.962736+00:00'
+gold:
+  actions:
+  - type: mark_read

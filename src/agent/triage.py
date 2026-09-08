@@ -1,50 +1,62 @@
+import os
+from datetime import datetime
 from pathlib import Path
 from typing import Literal
-from datetime import datetime
 
 from pydantic import BaseModel
 
 from src.agent.llm import LlmAdapter
-from src.agent.models import EmailMessage, Situation, SenderClass, Intent, Sensitivity
+from src.agent.models import EmailMessage, Intent, SenderClass, Sensitivity, Situation, TriageOutput, InjectionJudgement
 
 
-class TriageOut(BaseModel):
-    sender_class: SenderClass
-    intent: Intent
-    sensitivity: Sensitivity
-    urgency: Literal["low", "normal", "high"]
-    requested_actions: list[str]
-    deadline: str | None
-    thread_participants: list[str]
-    summary: str
-    llm_confidence: float
-    llm_judgement: Literal["none", "possible", "likely"]
-    suspicious_spans: list[str]
+def compute_sender_class(email: EmailMessage, contacts: set[str], self_domain: str) -> SenderClass:
+    if email.headers and ("List-Unsubscribe" in email.headers or email.headers.get("Precedence") == "bulk"):
+        return SenderClass.NEWSLETTER
+    from_domain = email.from_addr.split("@")[-1] if "@" in email.from_addr else ""
+    if from_domain == self_domain:
+        return SenderClass.SELF_DOMAIN
+    if email.from_addr in contacts:
+        return SenderClass.KNOWN_CONTACT
+    for c in contacts:
+        if "@" in c and c.split("@")[-1] == from_domain:
+            return SenderClass.KNOWN_ORG
+    return SenderClass.UNKNOWN
+
+
+def check_injection_llm(email: EmailMessage, llm: LlmAdapter) -> InjectionJudgement:
+    prompt_path = Path(__file__).parent / "prompts" / "injection.md"
+    with open(prompt_path, "r") as f:
+        system = f.read()
+        
+    prompt = f"Subject: {email.subject}\n\nBody:\n{email.body_text}"
+    return llm.generate_structured(
+        system=system,
+        prompt=prompt,
+        response_model=InjectionJudgement,
+        model=llm.model_small
+    )
 
 
 def extract_situation(
     email: EmailMessage,
     llm: LlmAdapter,
-    domain: str = "acme.io"
-) -> tuple[Situation, dict]:
+    domain: str = "acme.io",
+    contacts: set[str] | None = None
+) -> Situation:
+    contacts = contacts or set()
+    sender_class = compute_sender_class(email, contacts, domain)
+    
     prompt_path = Path(__file__).parent / "prompts" / "triage.md"
     with open(prompt_path, "r") as f:
         system = f.read().format(domain=domain)
         
-    prompt = f"""
-From: {email.from_addr}
-To: {email.to}
-Subject: {email.subject}
-
-Body:
-{email.body_text}
-"""
-    import os
+    prompt = f"From: {email.from_addr}\nTo: {email.to}\nSubject: {email.subject}\n\nBody:\n{email.body_text}"
+    
     t_out = llm.generate_structured(
         system=system,
         prompt=prompt,
-        response_model=TriageOut,
-        model=os.environ.get("AGENT_MODEL_SMALL", "claude-3-haiku-20240307")
+        response_model=TriageOutput,
+        model=llm.model_small
     )
     
     parsed_deadline = None
@@ -54,9 +66,9 @@ Body:
         except ValueError:
             parsed_deadline = None
             
-    sit = Situation(
+    return Situation(
         msg_id=email.id,
-        sender_class=t_out.sender_class,
+        sender_class=sender_class,
         intent=t_out.intent,
         sensitivity=t_out.sensitivity,
         urgency=t_out.urgency,
@@ -66,9 +78,3 @@ Body:
         summary=t_out.summary,
         llm_confidence=t_out.llm_confidence
     )
-    
-    inj_dict = {
-        "llm_judgement": t_out.llm_judgement,
-        "suspicious_spans": t_out.suspicious_spans
-    }
-    return sit, inj_dict

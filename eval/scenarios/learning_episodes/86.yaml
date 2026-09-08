@@ -1,0 +1,20 @@
+id: learn_86
+suite: learning_episodes
+email:
+  id: msg_learn_86
+  thread_id: t_learn_86
+  from_addr: random@unknown.com
+  to:
+  - agent@acme.io
+  cc: []
+  subject: Security 8
+  body_text: New login detected.
+  body_html: null
+  headers: {}
+  attachments: []
+  received_at: '2026-09-08T06:09:42.970686+00:00'
+gold:
+  actions:
+  - type: label
+    params:
+      label: Security

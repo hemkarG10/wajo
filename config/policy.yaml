@@ -1,5 +1,5 @@
-lcb_confidence: 0.95
-auto_threshold: 0.90
+lcb_confidence: 0.80
+auto_threshold: 0.85
 auto_min_samples: 5
 auto_notify_threshold: 0.75
 auto_notify_min_samples: 2

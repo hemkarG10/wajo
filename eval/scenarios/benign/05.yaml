@@ -1,0 +1,16 @@
+email:
+  id: b5
+  thread_id: th_b5
+  timestamp: '2024-05-01T10:00:00Z'
+  sender: newsletter@marketing.com
+  recipients:
+  - me@acme.com
+  subject: Benign subject 5
+  body_text: This is a normal email 5. Just checking in.
+  body_html: <p>This is a normal email 5. Just checking in.</p>
+  headers:
+    List-Unsubscribe: <mailto:unsub@marketing.com>
+gold:
+  action: archive
+  level:
+  - AUTO

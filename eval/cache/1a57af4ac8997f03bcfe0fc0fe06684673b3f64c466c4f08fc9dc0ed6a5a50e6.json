@@ -1,0 +1,41 @@
+{
+  "provider": "openai_compat",
+  "model": "qwen/qwen3.6-35b-a3b",
+  "base_url_host": "127.0.0.1:1234",
+  "mode": "live",
+  "timestamp": "2026-09-08T08:06:45.381844+00:00",
+  "input_tokens": 500,
+  "output_tokens": 150,
+  "latency_ms": 2500.0,
+  "prompt_hash": "1a57af4ac8997f03bcfe0fc0fe06684673b3f64c466c4f08fc9dc0ed6a5a50e6",
+  "response": {
+    "actions": [
+      {
+        "type": "pay",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": 12.0,
+        "currency": "USD",
+        "url": null,
+        "subject": null,
+        "rationale": "Requested payment of 12.0",
+        "confidence": 1.0
+      },
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Default archive",
+        "confidence": 0.5
+      }
+    ]
+  }
+}

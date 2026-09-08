@@ -1,13 +1,14 @@
-from src.agent.models import Situation, InjectionSignals
+from src.agent.models import InjectionSignals, Situation
 from src.agent.planner import PlannerOut
-from src.agent.triage import TriageOut
+from src.agent.models import TriageOutput
+
 
 def test_no_additional_properties_in_schema():
     schemas = [
         Situation.model_json_schema(),
         InjectionSignals.model_json_schema(),
         PlannerOut.model_json_schema(),
-        TriageOut.model_json_schema()
+        TriageOutput.model_json_schema()
     ]
     
     def check_dict(d: dict):

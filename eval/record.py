@@ -4,23 +4,23 @@ Usage: AGENT_LLM_PROVIDER=gemini python eval/record.py [--rpm 10] [--limit 50]
 """
 import argparse
 import copy
+import json
 import os
 import sys
 import time
-import json
-from datetime import datetime, UTC
+from datetime import UTC, datetime
 from pathlib import Path
 
 from dotenv import load_dotenv
+
 load_dotenv()
 
 import yaml
 
 from eval.context import scenario_ctx
-from src.agent.execute import SimClock
-from src.agent.pipeline import process_email
 from src.agent.llm import LlmAdapter
-from src.agent.models import EmailMessage
+from src.agent.models import EmailMessage, SimClock
+from src.agent.pipeline import process_email
 
 
 def main():
@@ -83,7 +83,7 @@ def main():
         else:
             with open(item) as f:
                 case = yaml.safe_load(f)
-            raw_email = copy.deepcopy(case["incoming"][0])
+            raw_email = copy.deepcopy(case["incoming"][0] if "incoming" in case else case["email"])
             name = item.name
 
         if "from" in raw_email:
@@ -96,6 +96,17 @@ def main():
         raw_email.setdefault("body_html", None)
         raw_email.setdefault("headers", {})
         raw_email.setdefault("attachments", [])
+        
+        if "received_at" not in raw_email and "timestamp" in raw_email:
+            raw_email["received_at"] = raw_email.pop("timestamp")
+        else:
+            raw_email.setdefault("received_at", datetime.now(UTC))
+            
+        if "from_addr" not in raw_email and "sender" in raw_email:
+            raw_email["from_addr"] = raw_email.pop("sender")
+        if "to" not in raw_email and "recipients" in raw_email:
+            raw_email["to"] = raw_email.pop("recipients")
+            
         email = EmailMessage(**raw_email)
 
         try:

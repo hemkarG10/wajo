@@ -1,6 +1,8 @@
-import os
-import yaml
 import hashlib
+import os
+
+import yaml
+
 
 def get_hash(subject, body):
     return hashlib.sha256((subject + body).encode('utf-8')).hexdigest()

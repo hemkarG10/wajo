@@ -33,15 +33,35 @@ def policy_level(
             "ask_threshold": 0.40
         }
         
-    bucket = f"{action.type}_{situation.sender_class.value}_{situation.intent.value}"
-    policy_data = learned_policy.get(bucket, {"n": 0, "alpha": 1.0, "beta": 1.0, "lcb": 0.0})
+    bucket_fine = f"{action.type}_{situation.sender_class.value}_{situation.intent.value}"
+    bucket_med = f"{action.type}_{situation.sender_class.value}"
+    bucket_coarse = f"{action.type}"
+    
+    bucket = bucket_fine
+    policy_data = learned_policy.get(bucket_fine)
+    
+    min_samples_for_backoff = policy_cfg.get("auto_notify_min_samples", 2)
+    
+    if not policy_data or policy_data.get("n", 0) < min_samples_for_backoff:
+        med_data = learned_policy.get(bucket_med)
+        if med_data and med_data.get("n", 0) >= min_samples_for_backoff:
+            bucket = bucket_med
+            policy_data = med_data
+        else:
+            coarse_data = learned_policy.get(bucket_coarse)
+            if coarse_data and coarse_data.get("n", 0) >= min_samples_for_backoff:
+                bucket = bucket_coarse
+                policy_data = coarse_data
+                
+    if not policy_data:
+        policy_data = learned_policy.get(bucket_fine, {"n": 0, "alpha": 1.0, "beta": 1.0, "lcb": 0.0})
     
     n = policy_data.get("n", 0)
     lcb = policy_data.get("lcb", 0.0)
     
     # We use planner confidence * LLM confidence as a base if no history
     base_s = action.confidence * situation.llm_confidence
-    s = max(lcb, base_s) if n > 0 else base_s
+    s = lcb if n >= policy_cfg.get("auto_notify_min_samples", 2) else base_s
 
     # Check explicit rules first
     rule_status = rules.check(bucket) if rules else "none"
@@ -64,7 +84,9 @@ def policy_level(
         "bucket": bucket,
         "n": n,
         "lcb": lcb,
-        "s": s
+        "s": s,
+        "llm_conf": situation.llm_confidence,
+        "planner_conf": action.confidence
     }
     return level, reason
 
@@ -106,6 +128,7 @@ def make_decision(
         id=f"dec-{action.type}-{situation.msg_id}",
         msg_id=situation.msg_id,
         action=action,
+        injection=injection,
         level=final_level,
         policy_level=pol_level,
         floor=grd_level,

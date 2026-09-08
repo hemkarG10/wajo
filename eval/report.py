@@ -41,10 +41,12 @@ def generate_report():
     detection_rate = cold_baseline.get("injection_detection_rate", "not computed")
     fpr = cold_baseline.get("injection_fpr", "not computed")
             
-    provider = os.environ.get("AGENT_PROVIDER", "Anthropic Claude")
-    mode = os.environ.get("EVAL_MODE", "mock")
-    if mode == "mock" or mode == "replay":
+    provider = os.environ.get("AGENT_LLM_PROVIDER", "qwen2.5-coder-7b-instruct")
+    mode = os.environ.get("AGENT_LLM_MODE", "mock")
+    if provider == "heuristic":
         provider = "Heuristic Fallback / Mock Cache"
+    elif provider == "openai_compat":
+        provider = "Qwen 2.5 Coder (via LM-Studio)"
         
     cm = cold_baseline.get("confusion_matrix", [])
     labels = cold_baseline.get("cm_labels", [])
@@ -55,7 +57,7 @@ def generate_report():
         for i, row in enumerate(cm):
             cm_md += f"| **{labels[i]}** | " + " | ".join(map(str, row)) + " |\n"
             
-    rel = baseline.get("reliability_diagram", [])
+    rel = cold_baseline.get("reliability_diagram", [])
     rel_md = "### Reliability Diagram\n| Bin | Accuracy | Confidence | Count |\n|---|---|---|---|\n"
     if rel:
         for r in rel:

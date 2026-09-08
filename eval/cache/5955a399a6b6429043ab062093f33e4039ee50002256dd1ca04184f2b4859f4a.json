@@ -1,0 +1,28 @@
+{
+  "provider": "openai_compat",
+  "model": "qwen/qwen3.6-35b-a3b",
+  "base_url_host": "127.0.0.1:1234",
+  "mode": "live",
+  "timestamp": "2026-09-08T08:08:40.645425+00:00",
+  "input_tokens": 500,
+  "output_tokens": 150,
+  "latency_ms": 2500.0,
+  "prompt_hash": "5955a399a6b6429043ab062093f33e4039ee50002256dd1ca04184f2b4859f4a",
+  "response": {
+    "actions": [
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Receipts",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Label receipt from unknown",
+        "confidence": 0.6
+      }
+    ]
+  }
+}

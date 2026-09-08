@@ -31,8 +31,14 @@ def process_email(email: EmailMessage, ctx: dict, llm: LlmAdapter, store: dict, 
     executor = Executor(cfg["registry"], clock, dry_run=ctx.get("dry_run", True))
     
     try:
-        situation, inj_dict = extract_situation(email, llm, domain=ctx.get("self_domain", "acme.io"))
+        from src.agent.triage import check_injection_llm, extract_situation
+        inj_judgement = check_injection_llm(email, llm)
+        inj_dict = {
+            "llm_judgement": inj_judgement.llm_judgement,
+            "suspicious_spans": inj_judgement.suspicious_spans
+        }
         inj = scan(email, inj_dict)
+        situation = extract_situation(email, llm, domain=ctx.get("self_domain", "acme.io"), contacts=ctx.get("contacts", set()))
             
         proposals = propose_actions(
             situation, email, llm,
@@ -44,6 +50,8 @@ def process_email(email: EmailMessage, ctx: dict, llm: LlmAdapter, store: dict, 
             proposals = [ProposedAction(type="none", params={}, provenance={}, rationale="No actions proposed", confidence=0.0)]
             
     except Exception as e:  # noqa: BLE001
+        import traceback
+        traceback.print_exc()
         import uuid
         decision = Decision(
             id=f"err_{uuid.uuid4().hex[:8]}",
@@ -63,19 +71,21 @@ def process_email(email: EmailMessage, ctx: dict, llm: LlmAdapter, store: dict, 
 
     decisions = []
     outcomes = []
+    
+    from src.agent.learn.rules import RulesEngine
+    rules = RulesEngine(store.get("_rules", []))
+    
     for action in proposals:
         decision = make_decision(
             situation, email, action, inj,
             cfg["registry"], cfg["guard_cfg"],
             learned_policy=store,
+            rules=rules,
             clock=clock,
             policy_cfg=cfg["policy_cfg"]
         )
         decision.situation = situation
-        if ctx.get("disable_guard"):
-            decision.level = decision.policy_level
-            
-        outcome = executor.execute(decision, disable_preflight=ctx.get("disable_guard", False))
+        outcome = executor.execute(decision)
         _write_audit(decision, outcome)
         decisions.append(decision)
         outcomes.append(outcome)
