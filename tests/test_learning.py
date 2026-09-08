@@ -73,13 +73,14 @@ def test_load_missing_policy():
 
 def test_backoff_buckets():
     from src.agent.decide import make_decision
-    from src.agent.models import Situation, SenderClass, Intent, InjectionSignals
+    from src.agent.models import InjectionSignals, Intent, SenderClass, Situation
     
     policy = {}
     rules = RulesEngine()
     now = datetime.now(UTC)
     
     sit1 = Situation(
+        msg_id="x",
         intent=Intent.NEWSLETTER,
         sender_class=SenderClass.KNOWN_CONTACT,
         sensitivity="none", urgency="normal", requested_actions=[], deadline=None,
@@ -101,18 +102,24 @@ def test_backoff_buckets():
     assert policy["archive_known_contact"]["n"] == 3
     
     sit2 = Situation(
+        msg_id="y",
         intent=Intent.RECEIPT,
         sender_class=SenderClass.KNOWN_CONTACT,
         sensitivity="none", urgency="normal", requested_actions=[], deadline=None,
         thread_participants=[], summary="", llm_confidence=1.0
     )
     
+    from src.agent.models import EmailMessage
+    email = EmailMessage(
+        id="test", thread_id="test", from_addr="a@b.c", to=["c@d.e"], cc=[], subject="test", body_text="test", body_html=None, headers={}, attachments=[], received_at=now
+    )
     dec2 = make_decision(
-        sit2, None, 
-        ProposedAction(type="archive", params={}, provenance={}, rationale="", confidence=1.0),
-        InjectionSignals(detections=[], max_score=0.0),
-        {"archive": {"external": False, "reversible": True, "sensitivity_floors": {}}},
-        {}, policy, rules, now, {}
+        situation=sit2, email=email,
+        action=ProposedAction(type="archive", params={}, provenance={}, rationale="", confidence=1.0),
+        injection=InjectionSignals(heuristic_hits=[], llm_judgement="none", score=0.0, suspicious_spans=[]),
+        registry={"archive": {"external": False, "reversible": True, "sensitivity_floors": {}}},
+        guard_cfg={"floor": {}}, learned_policy=policy, rules=rules, clock=type('MockClock', (), {'now': lambda self: now})(), 
+        policy_cfg={"auto_threshold": 0.85, "auto_min_samples": 5, "auto_notify_threshold": 0.40, "auto_notify_min_samples": 2, "ask_threshold": 0.20}
     )
     
     assert dec2.policy_level in (AutonomyLevel.AUTO, AutonomyLevel.AUTO_NOTIFY)

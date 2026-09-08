@@ -272,7 +272,7 @@ class LlmAdapter:
         """Generate structured output. Raises LLMError on any failure; never returns a default."""
         if self.provider == "heuristic":
             if self.mode == "record":
-                raise LLMError("nothing to record")
+                raise LLMError("heuristic provider produces nothing to record")
             val, _, _ = self._call_heuristic(system, prompt, response_model)
             return val
 

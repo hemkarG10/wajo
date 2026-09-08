@@ -1,5 +1,9 @@
 """Every cache entry must come from a real provider call in record mode with real token counts. Exit 1 otherwise."""
-import glob, json, sys, collections
+import collections
+import glob
+import json
+import sys
+
 bad, models = [], collections.Counter()
 for f in glob.glob("eval/cache/*.json"):
     d = json.load(open(f))

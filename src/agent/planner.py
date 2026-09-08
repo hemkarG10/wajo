@@ -25,30 +25,45 @@ class PlannerOut(BaseModel):
     actions: list[PlannerAction]
 
 
-def _derive_provenance(
-    val: Any,
-    email: EmailMessage,
-    trusted_contacts: set[str],
-    thread_participants: set[str]
-) -> Provenance:
+_RANK = {Provenance.USER: 0, Provenance.SYSTEM: 0, Provenance.THREAD: 1, Provenance.UNTRUSTED: 2}
+
+
+def _derive_provenance(val: Any, email: EmailMessage, trusted_contacts: set[str],
+                       thread_participants: set[str], param_name: str | None = None) -> Provenance:
     if not isinstance(val, str):
         return Provenance.SYSTEM
-        
-    val_lower = val.lower()
-    
-    # Check if it comes from trusted context
-    if any(val_lower in c.lower() for c in trusted_contacts):
-        return Provenance.USER
-        
-    if any(val_lower in p.lower() for p in thread_participants):
-        return Provenance.THREAD
-        
-    # Check if it appears exactly in the untrusted email body
-    if val_lower in email.body_text.lower() or (email.body_html and val_lower in email.body_html.lower()):
+    v = val.lower().strip()
+    contacts = {c.lower() for c in trusted_contacts}
+    thread = {p.lower() for p in thread_participants}
+    if param_name in ("to", "cc"):
+        if v in contacts:
+            return Provenance.USER
+        if v in thread:
+            return Provenance.THREAD
         return Provenance.UNTRUSTED
-        
-    # Otherwise assume system-generated
+    if v in contacts:
+        return Provenance.USER
+    if v in thread:
+        return Provenance.THREAD
+    body = (email.body_text or "").lower() + " " + (email.body_html or "").lower() + " " + (email.subject or "").lower()
+    if len(v) >= 4 and v in body:
+        return Provenance.UNTRUSTED
     return Provenance.SYSTEM
+
+
+def derive_params_provenance(params: dict, email: EmailMessage, trusted_contacts: set[str],
+                             thread_participants: set[str]) -> dict[str, Provenance]:
+    """Worst provenance across every element of list-valued params (was: first element only)."""
+    prov: dict[str, Provenance] = {}
+    for k, v in params.items():
+        vals = v if isinstance(v, list) else [v]
+        worst = Provenance.SYSTEM
+        for item in vals:
+            p = _derive_provenance(item, email, trusted_contacts, thread_participants, param_name=k)
+            if _RANK[p] > _RANK[worst]:
+                worst = p
+        prov[k] = worst
+    return prov
 
 
 def propose_actions(
@@ -105,15 +120,7 @@ Body: {email.body_text}
         if plan_act.url is not None: params["url"] = plan_act.url
         if plan_act.subject is not None: params["subject"] = plan_act.subject
         
-        prov = {}
-        for k, v in params.items():
-            if isinstance(v, list):
-                if len(v) > 0:
-                    prov[k] = _derive_provenance(v[0], email, trusted_contacts, set(situation.thread_participants))
-                else:
-                    prov[k] = Provenance.SYSTEM
-            else:
-                prov[k] = _derive_provenance(v, email, trusted_contacts, set(situation.thread_participants))
+        prov = derive_params_provenance(params, email, trusted_contacts, set(situation.thread_participants))
             
         untrusted = any(p == Provenance.UNTRUSTED for p in prov.values())
         

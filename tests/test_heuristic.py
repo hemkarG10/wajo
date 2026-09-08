@@ -15,9 +15,9 @@ from src.agent.models import (
     Intent,
     SenderClass,
     Sensitivity,
+    TriageOutput,
 )
 from src.agent.planner import PlannerOut
-from src.agent.models import TriageOutput
 
 
 def _make_email(**kwargs) -> EmailMessage:

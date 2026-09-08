@@ -1,7 +1,8 @@
+import json
 import os
 import subprocess
 from pathlib import Path
-import json
+
 
 def run_cli_run(inbox_path: str, transcript_path: str):
     print(f"Running scenario {inbox_path} -> {transcript_path}")
@@ -61,60 +62,60 @@ def main():
         shutil.rmtree("state")
         
     scenarios = [
-        ("eval/scenarios/benign/00.yaml", "01_benign.md"),
-        ("eval/scenarios/benign/02.yaml", "03_benign_learned.md"),
-        ("eval/scenarios/ambiguous/00.yaml", "05_ambiguous.md"),
-        ("eval/scenarios/adversarial/00.yaml", "06_adversarial.md"),
-        ("eval/scenarios/safety_probe/00.yaml", "07_safety.md")
+        ("eval/scenarios/benign/benign_01_newsletter_digest.yaml",        "01_auto_newsletter.md"),
+        ("eval/scenarios/benign/benign_06_client_confirms_demo.yaml",      "02_auto_notify_known_client.md"),
+        ("eval/scenarios/ambiguous/ambig_01_unknown_founder_call.yaml",    "03_ask_unknown_sender.md"),
+        ("eval/scenarios/adversarial/adv_01_invoice_redirect_bec.yaml",    "04_escalate_invoice_redirect.md"),
+        ("eval/scenarios/adversarial/adv_02_hidden_html_instruction.yaml", "05_injection_blocked.md"),
+        ("eval/scenarios/safety_probe/probe_08_I8_dlp_password.yaml",      "06_dlp_blocks_cofounder.md"),
     ]
     
-    # Create temp inboxes
     os.makedirs("eval/tmp_inbox", exist_ok=True)
+    import yaml
     
-    # 01. First benign
-    with open(scenarios[0][0]) as f:
-        import yaml
-        case = yaml.safe_load(f)
-        with open("eval/tmp_inbox/01.json", "w") as out:
-            json.dump([case["email"]], out)
-            
-    run_cli_run("eval/tmp_inbox/01.json", "transcripts/01_benign.md")
-    dec_id = get_latest_decision()
-    
-    # 02. Feedback approve
-    run_cli_feedback(dec_id, "approve", "transcripts/02_feedback_approve.md")
-    
-    # 03. Second benign
-    with open(scenarios[1][0]) as f:
-        case = yaml.safe_load(f)
-        with open("eval/tmp_inbox/02.json", "w") as out:
-            json.dump([case["email"]], out)
-    run_cli_run("eval/tmp_inbox/02.json", "transcripts/03_benign_learned.md")
-    dec_id2 = get_latest_decision()
-    
-    # 04. Feedback stop_asking
-    run_cli_feedback(dec_id2, "stop_asking", "transcripts/04_feedback_stop_asking.md")
-    
-    # 05. Ambiguous
-    with open(scenarios[2][0]) as f:
-        case = yaml.safe_load(f)
-        with open("eval/tmp_inbox/05.json", "w") as out:
-            json.dump([case["email"]], out)
-    run_cli_run("eval/tmp_inbox/05.json", "transcripts/05_ambiguous.md")
-    
-    # 06. Adversarial
-    with open(scenarios[3][0]) as f:
-        case = yaml.safe_load(f)
-        with open("eval/tmp_inbox/06.json", "w") as out:
-            json.dump([case["email"]], out)
-    run_cli_run("eval/tmp_inbox/06.json", "transcripts/06_adversarial.md")
+    for i, (path, out_file) in enumerate(scenarios):
+        with open(path) as f:
+            case = yaml.safe_load(f)
+            tmp_inbox = f"eval/tmp_inbox/scenario_{i}.json"
+            with open(tmp_inbox, "w") as out:
+                json.dump([case["email"] if "email" in case else case["incoming"][0]], out)
+        run_cli_run(tmp_inbox, f"transcripts/{out_file}")
 
-    # 07. Safety
-    with open(scenarios[4][0]) as f:
+    # 7th transcript: learning progression
+    # Run benign_01 3 times with 'approve' feedback
+    path = "eval/scenarios/benign/benign_01_newsletter_digest.yaml"
+    with open(path) as f:
         case = yaml.safe_load(f)
-        with open("eval/tmp_inbox/07.json", "w") as out:
-            json.dump([case["email"]], out)
-    run_cli_run("eval/tmp_inbox/07.json", "transcripts/07_safety.md")
+        tmp_inbox = "eval/tmp_inbox/scenario_learning.json"
+        with open(tmp_inbox, "w") as out:
+            json.dump([case["email"] if "email" in case else case["incoming"][0]], out)
+            
+    out_file = "transcripts/07_learning_progression.md"
+    with open(out_file, "w") as f:
+        f.write("# Learning Progression\n")
+        
+    for i in range(3):
+        # run
+        print(f"Learning step {i+1} run")
+        env = os.environ.copy()
+        env["AGENT_LLM_MODE"] = "replay"
+        env["PYTHONPATH"] = "."
+        result = subprocess.run(
+            ["uv", "run", "python", "src/agent/cli.py", "run", "--inbox", tmp_inbox, "--llm", "heuristic"],
+            env=env, capture_output=True, text=True
+        )
+        with open(out_file, "a") as f:
+            f.write(f"\n## Run {i+1}\n```\n$ agent run --inbox {tmp_inbox}\n{result.stdout}\n```\n")
+            
+        dec_id = get_latest_decision()
+        if dec_id:
+            print(f"Learning step {i+1} feedback approve")
+            res_fb = subprocess.run(
+                ["uv", "run", "python", "src/agent/cli.py", "feedback", "--decision-id", dec_id, "--kind", "approve"],
+                env=env, capture_output=True, text=True
+            )
+            with open(out_file, "a") as f:
+                f.write(f"\n## Feedback {i+1}\n```\n$ agent feedback --decision-id {dec_id} --kind approve\n{res_fb.stdout}\n```\n")
 
 if __name__ == "__main__":
     main()

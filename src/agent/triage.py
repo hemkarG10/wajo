@@ -1,12 +1,14 @@
-import os
 from datetime import datetime
 from pathlib import Path
-from typing import Literal
-
-from pydantic import BaseModel
 
 from src.agent.llm import LlmAdapter
-from src.agent.models import EmailMessage, Intent, SenderClass, Sensitivity, Situation, TriageOutput, InjectionJudgement
+from src.agent.models import (
+    EmailMessage,
+    InjectionJudgement,
+    SenderClass,
+    Situation,
+    TriageOutput,
+)
 
 
 def compute_sender_class(email: EmailMessage, contacts: set[str], self_domain: str) -> SenderClass:

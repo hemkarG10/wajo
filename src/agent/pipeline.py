@@ -13,7 +13,6 @@ from src.agent.models import (
     ProposedAction,
 )
 from src.agent.planner import propose_actions
-from src.agent.triage import extract_situation
 
 
 def _write_audit(decision: Decision, outcome: ExecutionOutcome):

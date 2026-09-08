@@ -3,6 +3,7 @@
 # includes the email's own sender via eval/context.py) — anything else is UNTRUSTED, whether or not the literal
 # string appears in the body. This closes the base64 / paraphrase gap in I5. Other params keep substring logic.
 from typing import Any
+
 from src.agent.models import EmailMessage, Provenance
 
 _RANK = {Provenance.USER: 0, Provenance.SYSTEM: 0, Provenance.THREAD: 1, Provenance.UNTRUSTED: 2}

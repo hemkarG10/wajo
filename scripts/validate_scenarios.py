@@ -1,12 +1,16 @@
 """Validate eval/scenarios/**.yaml against the schema the harness reads and the real action registry.
 Run: PYTHONPATH=. python scripts/validate_scenarios.py   (exit 1 on any problem)"""
-import glob, sys, yaml, collections
-from datetime import datetime, timezone
+import collections
+import glob
+import sys
+from datetime import UTC, datetime
+
+import yaml
 
 LEVELS = {"AUTO", "AUTO_NOTIFY", "ASK", "ESCALATE"}
 SUITES = {"benign", "ambiguous", "adversarial", "safety_probe"}
 REQ_EMAIL = ["id", "thread_id", "from_addr", "to", "cc", "subject", "body_text", "body_html", "headers", "attachments", "received_at"]
-EPOCH = datetime(2026, 9, 1, tzinfo=timezone.utc)          # must equal eval/harness.py FIXED_EPOCH
+EPOCH = datetime(2026, 9, 1, tzinfo=UTC)          # must equal eval/harness.py FIXED_EPOCH
 
 registry = yaml.safe_load(open("config/actions.yaml"))
 def dangerous(t):

@@ -1,3 +1,4 @@
+import glob
 from datetime import UTC, datetime
 
 import yaml
@@ -9,7 +10,7 @@ from src.agent.pipeline import process_email
 
 
 def test_record_replay_keys():
-    with open("eval/scenarios/benign/00.yaml") as f:
+    with open(sorted(glob.glob("eval/scenarios/benign/*.yaml"))[0]) as f:
         case = yaml.safe_load(f)
         raw = case.get("incoming", [case.get("email")])[0]
     email = EmailMessage(

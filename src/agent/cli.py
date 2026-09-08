@@ -1,16 +1,17 @@
 import json
+from datetime import UTC, datetime
+
 import typer
 import yaml
 from rich.console import Console
 from rich.panel import Panel
-from datetime import datetime, UTC
 
 from src.agent.ingest import FakeMailbox
-from src.agent.learn.store import load_policy, save_policy
-from src.agent.llm import LlmAdapter
-from src.agent.models import SystemClock, Feedback, AutonomyLevel
 from src.agent.learn.feedback import process_feedback
 from src.agent.learn.rules import RulesEngine
+from src.agent.learn.store import load_policy, save_policy
+from src.agent.llm import LlmAdapter
+from src.agent.models import AutonomyLevel, Feedback, SystemClock
 
 app = typer.Typer()
 console = Console()
@@ -49,7 +50,8 @@ def run(
         ctx = {
             "contacts": trusted_contacts,
             "self_domain": "acme.io",
-            "dry_run": not interactive
+            "dry_run": not interactive,
+            "thread_participants": [email.from_addr]
         }
         cfg = {
             "registry": registry,

@@ -3,6 +3,7 @@ from hypothesis import strategies as st
 
 from src.agent.models import AutonomyLevel
 
+
 @given(st.sampled_from(list(AutonomyLevel)), st.sampled_from(list(AutonomyLevel)))
 def test_monotone_clamp(policy_level: AutonomyLevel, floor_level: AutonomyLevel):
     """I10: Monotone clamp final = max(policy, floor)"""
@@ -10,22 +11,41 @@ def test_monotone_clamp(policy_level: AutonomyLevel, floor_level: AutonomyLevel)
     assert final_level >= floor_level
     assert final_level >= policy_level
 
+import yaml
+
+with open("config/actions.yaml") as f:
+    REGISTRY = yaml.safe_load(f)
+with open("config/guard.yaml") as f:
+    GUARD_CFG = yaml.safe_load(f)
+
+from src.agent.models import Intent, SenderClass, Sensitivity
+
+
 @given(
-    alpha=st.floats(min_value=1.0, max_value=10000.0),
-    beta=st.floats(min_value=1.0, max_value=10000.0)
+    action_type=st.sampled_from(list(REGISTRY.keys())),
+    sender_class=st.sampled_from(list(SenderClass)),
+    intent=st.sampled_from(list(Intent)),
+    sensitivity=st.sampled_from(list(Sensitivity)),
+    inj_score=st.floats(min_value=0.0, max_value=1.0)
 )
-def test_learned_policy_cannot_bypass_floor(alpha: float, beta: float):
+def test_learned_policy_cannot_bypass_floor(action_type: str, sender_class: SenderClass, intent: Intent, sensitivity: Sensitivity, inj_score: float):
+    from datetime import UTC, datetime
+
     from src.agent.decide import make_decision
-    from src.agent.guard import compute_floor
-    from src.agent.models import Situation, ProposedAction, InjectionSignals, EmailMessage, SenderClass, Intent, Sensitivity
+    from src.agent.guard import floor
     from src.agent.learn.rules import RulesEngine
-    from datetime import datetime, UTC
+    from src.agent.models import (
+        EmailMessage,
+        InjectionSignals,
+        ProposedAction,
+        Situation,
+    )
     
     sit = Situation(
         msg_id="test",
-        sender_class=SenderClass.UNKNOWN,
-        intent=Intent.OTHER,
-        sensitivity=Sensitivity.NONE,
+        sender_class=sender_class,
+        intent=intent,
+        sensitivity=sensitivity,
         urgency="normal",
         requested_actions=[],
         deadline=None,
@@ -37,53 +57,69 @@ def test_learned_policy_cannot_bypass_floor(alpha: float, beta: float):
         id="test", thread_id="test", from_addr="a@b.c", to=["c@d.e"], cc=[], subject="test", body_text="test", body_html=None, headers={}, attachments=[], received_at=datetime.now(UTC)
     )
     action = ProposedAction(
-        type="test_action",
+        type=action_type,
         params={},
         provenance={},
         rationale="test",
         confidence=1.0
     )
     
+    bucket = f"{action_type}_{sender_class.value}_{intent.value}"
     policy = {
-        "test_action_unknown_other": {"alpha": alpha, "beta": beta, "n": 100, "lcb": 1.0}
+        bucket: {"alpha": 1000000.0, "beta": 1.0, "n": 1000000, "lcb": 1.0}
     }
     
     inj = InjectionSignals(
         heuristic_hits=[],
         llm_judgement="none",
-        score=0.0,
+        score=inj_score,
         suspicious_spans=[]
     )
     
     class MockClock:
         def now(self): return datetime.now(UTC)
         
-    reg = {"test_action": {"external": True, "money": False, "modifies_state": True}}
-    g_cfg = {"floor": {"unknown_sender": "ASK", "external_action": "ASK", "money_action": "ESCALATE", "modifies_state": "ASK", "injection_detected": "ESCALATE"}}
-        
+    policy_cfg = {
+        "auto_threshold": 0.85, 
+        "auto_notify_threshold": 0.70, 
+        "lcb_confidence": 0.95, 
+        "half_life_days": 14.0,
+        "auto_min_samples": 5,
+        "auto_notify_min_samples": 2,
+        "ask_threshold": 0.40
+    }
+
     decision = make_decision(
         situation=sit,
         email=email,
         action=action,
         injection=inj,
-        registry=reg,
-        guard_cfg=g_cfg,
+        registry=REGISTRY,
+        guard_cfg=GUARD_CFG,
         learned_policy=policy,
         rules=RulesEngine([]),
         clock=MockClock(),
-        policy_cfg={
-            "auto_threshold": 0.85, 
-            "auto_notify_threshold": 0.70, 
-            "lcb_confidence": 0.95, 
-            "half_life_days": 14.0,
-            "auto_min_samples": 5,
-            "auto_notify_min_samples": 2,
-            "ask_threshold": 0.40
-        }
+        policy_cfg=policy_cfg
     )
     
-    # Independently compute and verify properties
-    expected_floor, _ = compute_floor(sit, action, inj, reg, g_cfg)
-    assert decision.floor == expected_floor
-    assert decision.level == max(decision.policy_level, expected_floor)
+    expected_floor, _ = floor(sit, email, action, inj, REGISTRY, GUARD_CFG, now=MockClock().now())
+    
+    # Assert decision.level >= floor(...)
     assert decision.level >= expected_floor
+    
+    # assert money actions are ESCALATE
+    if REGISTRY[action_type].get("money", False):
+        assert decision.level == AutonomyLevel.ESCALATE
+        
+    # assert external actions are >= AUTO_NOTIFY
+    if REGISTRY[action_type].get("external", False):
+        assert decision.level >= AutonomyLevel.AUTO_NOTIFY
+        
+    # assert floor() returns the same value when learned_policy is {}
+    decision_empty = make_decision(
+        situation=sit, email=email, action=action, injection=inj,
+        registry=REGISTRY, guard_cfg=GUARD_CFG, learned_policy={},
+        rules=RulesEngine([]), clock=MockClock(),
+        policy_cfg=policy_cfg
+    )
+    assert decision.floor == decision_empty.floor

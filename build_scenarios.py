@@ -1,5 +1,9 @@
 """Emits 50 hand-written scenarios into eval/scenarios/<suite>/NN_name.yaml"""
-import base64, yaml, os, shutil
+import base64
+import os
+import shutil
+
+import yaml
 
 OUT = "/home/claude/corpus/eval/scenarios"
 SELF = "acme.io"
@@ -487,4 +491,5 @@ for sc in SC:
     with open(os.path.join(d, sc["id"] + ".yaml"), "w") as f:
         yaml.dump(prep(sc), f, sort_keys=False, allow_unicode=False, width=110)
 import collections
+
 print(len(SC), dict(collections.Counter(s["suite"] for s in SC)))
