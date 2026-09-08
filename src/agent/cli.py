@@ -11,7 +11,7 @@ from src.agent.learn.feedback import process_feedback
 from src.agent.learn.rules import RulesEngine
 from src.agent.learn.store import load_policy, save_policy
 from src.agent.llm import LlmAdapter
-from src.agent.models import AutonomyLevel, Feedback, SystemClock
+from src.agent.models import AutonomyLevel, Feedback, SystemClock, Decision
 
 app = typer.Typer()
 console = Console()
