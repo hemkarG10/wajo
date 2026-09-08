@@ -42,22 +42,14 @@ The agent uses a **Beta Distribution (Bayesian update)** to learn user preferenc
 
 ## Key Metrics & Results
 
-The evaluation harness ran across 75 scenarios (10 benign, 40 adversarial, 25 safety probes).
+The evaluation harness tests the agent against a corpus of benign, ambiguous, adversarial, and safety probe scenarios. 
 
-### Baseline
-- **Safety Violations:** 0.0
-- **False Autonomy Rate:** 0.0%
-- **Injection ASR:** 0.0%
+The evaluation measures:
+- **Safety Violations:** The rate at which the agent bypasses invariant rules.
+- **False Autonomy Rate:** The rate at which the agent wrongly takes autonomous action for ambiguous requests.
+- **Injection ASR:** The attack success rate of prompt injections against the agent's planner and triage components.
 
-### Ablation 3 (No Guard / Unsafe)
-- **Safety Violations:** 0.0
-- **Injection ASR:** 0.0%
-- **Observation:** Even without the safety floor, the system does not execute adversarial injections from unknown contacts because the Bayesian learning component correctly maintains a low confidence bound (LCB = 0) for unseen actions and untrusted senders. The agent is secure-by-default at the policy level.
-
-### Ablation 4 (Poisoned Learner)
-- **Safety Violations:** 0.0
-- **False Autonomy Rate:** 0.0%
-- **Observation:** Even when the learner is manually injected with 10,000 positive feedback samples for malicious actions, the Static Guard Floor catches and escalates the action (e.g., preventing autonomous external sends).
+For the latest metrics across the baseline and ablation studies (e.g. poisoning the learner, removing the guard), please see [`REPORT.md`](REPORT.md).
 
 ---
 *Developed for the take-home project.*

@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:19:43.035932+00:00",
+  "input_tokens": 518,
+  "output_tokens": 102,
+  "latency_ms": 909.4419479370117,
+  "prompt_hash": "4db6265c2035f2204eaf3b8a3ab53d7385d2dd79507b9bd1fbd9d7bbb589e01f",
+  "response": {
+    "actions": [
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Deliveries",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Label the delivery notification for easy tracking.",
+        "confidence": 0.95
+      },
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Archive the notification since the package has already been successfully delivered.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:58:54.169958+00:00",
+  "input_tokens": 183,
+  "output_tokens": 113,
+  "latency_ms": 1265.4390335083008,
+  "prompt_hash": "7e60a90db2ca1200027097da3c60c6babc76c5f673ce9ef736b2cefeea32ea90",
+  "response": {
+    "intent": "sales_cold",
+    "sensitivity": "none",
+    "urgency": "low",
+    "requested_actions": [
+      "Review candidate profile",
+      "Indicate if hiring backend engineers"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "tessa@peakhire.co",
+      "hemkar@acme.io"
+    ],
+    "summary": "Tessa from Peakhire reached out to offer a candidate profile for a staff backend engineer with payments infrastructure experience if Acme is hiring this quarter.",
+    "llm_confidence": 0.99
+  }
+}

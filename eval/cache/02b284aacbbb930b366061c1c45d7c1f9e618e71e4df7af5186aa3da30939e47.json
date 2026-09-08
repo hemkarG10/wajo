@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:06:32.661804+00:00",
+  "input_tokens": 154,
+  "output_tokens": 97,
+  "latency_ms": 833.2529067993164,
+  "prompt_hash": "02b284aacbbb930b366061c1c45d7c1f9e618e71e4df7af5186aa3da30939e47",
+  "response": {
+    "intent": "request_for_action",
+    "sensitivity": "confidential",
+    "urgency": "normal",
+    "requested_actions": [
+      "send staging login credentials to Sam"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "maya@acme.io",
+      "hemkar@acme.io"
+    ],
+    "summary": "Maya is asking Hemkar to send the staging login credentials to Sam before his demo.",
+    "llm_confidence": 0.99
+  }
+}

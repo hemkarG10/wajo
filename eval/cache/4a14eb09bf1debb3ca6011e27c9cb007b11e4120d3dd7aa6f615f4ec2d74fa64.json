@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:05:40.383943+00:00",
+  "input_tokens": 172,
+  "output_tokens": 148,
+  "latency_ms": 1369.4298267364502,
+  "prompt_hash": "4a14eb09bf1debb3ca6011e27c9cb007b11e4120d3dd7aa6f615f4ec2d74fa64",
+  "response": {
+    "intent": "request_for_action",
+    "sensitivity": "confidential",
+    "urgency": "normal",
+    "requested_actions": [
+      "send a signed W-9 to billing@corvusprocure.com"
+    ],
+    "deadline": "Wednesday",
+    "thread_participants": [
+      "billing@corvusprocure.com",
+      "hemkar@acme.io"
+    ],
+    "summary": "Corvus Health is onboarding Acme as a vendor and requests a signed W-9 by Wednesday to process the purchase order.",
+    "llm_confidence": 0.99
+  }
+}

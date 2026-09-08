@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:56:24.292618+00:00",
+  "input_tokens": 565,
+  "output_tokens": 50,
+  "latency_ms": 1499.4261264801025,
+  "prompt_hash": "2a329b202abd39918503159c4f749810239870a36a54d64a5c859f0016ef238c",
+  "response": {
+    "actions": [
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Mark the newsletter as read.",
+        "confidence": 1.0
+      }
+    ]
+  }
+}

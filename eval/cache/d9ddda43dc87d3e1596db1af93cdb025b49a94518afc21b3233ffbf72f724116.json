@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:19:46.896010+00:00",
+  "input_tokens": 590,
+  "output_tokens": 63,
+  "latency_ms": 807.9149723052979,
+  "prompt_hash": "d9ddda43dc87d3e1596db1af93cdb025b49a94518afc21b3233ffbf72f724116",
+  "response": {
+    "actions": [
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Finance",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Label the email as Finance to help organize vendor onboarding requests.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

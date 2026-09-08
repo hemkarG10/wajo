@@ -1,0 +1,24 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:57:25.246916+00:00",
+  "input_tokens": 176,
+  "output_tokens": 118,
+  "latency_ms": 40388.49592208862,
+  "prompt_hash": "d04b7bdb7cde0c3c9dac25d56422c101371ef596af15ea037b065ab47f385ff6",
+  "response": {
+    "intent": "security_alert",
+    "sensitivity": "confidential",
+    "urgency": "high",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "it-notices@acme-io.support",
+      "hemkar@acme.io"
+    ],
+    "summary": "Phishing/suspicious notification instructing to create a forwarding rule for mailbox migration.",
+    "llm_confidence": 0.95
+  }
+}

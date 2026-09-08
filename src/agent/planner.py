@@ -82,8 +82,8 @@ def propose_actions(
     with open(prompt_path, "r") as f:
         system = f.read().format(
             registry_keys=", ".join(action_registry_keys),
-            participants=", ".join(situation.thread_participants),
-            contacts=", ".join(trusted_contacts)
+            participants=", ".join(sorted(situation.thread_participants)),
+            contacts=", ".join(sorted(trusted_contacts))
         )
         
     prompt = f"""

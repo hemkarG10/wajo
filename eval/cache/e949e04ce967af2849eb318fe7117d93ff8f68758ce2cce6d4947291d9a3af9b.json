@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:00:47.706842+00:00",
+  "input_tokens": 706,
+  "output_tokens": 151,
+  "latency_ms": 4856.038331985474,
+  "prompt_hash": "e949e04ce967af2849eb318fe7117d93ff8f68758ce2cce6d4947291d9a3af9b",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_known",
+        "to": [
+          "maya@acme.io"
+        ],
+        "cc": null,
+        "body": "Hey Maya, I agree with your lean here. Let's hold the line on the new pricing so we don't set a bad precedent across the board, but offer them a one-time credit to soften the blow for this year. Makes sense?",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Replying to co-founder Maya with thoughts on the Northwind pricing request, suggesting holding the line with a one-time credit.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

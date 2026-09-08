@@ -1,0 +1,56 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:03:56.089159+00:00",
+  "input_tokens": 578,
+  "output_tokens": 205,
+  "latency_ms": 1234.5693111419678,
+  "prompt_hash": "f792e6bc597451e03a3c33e561317643b857f4a522807162f9e90f26ab3ccb50",
+  "response": {
+    "actions": [
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Marking the email as read since it has been reviewed.",
+        "confidence": 0.99
+      },
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Design",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Labeling the email as Design to keep contractor communications organized.",
+        "confidence": 0.95
+      },
+      {
+        "type": "send_reply_known",
+        "to": [
+          "lena@brightpathdesign.co"
+        ],
+        "cc": null,
+        "body": "Hi Lena, the files look great. Everything is on point. Thanks for all your hard work on this!",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Replying to let the contractor know the final files look good as requested.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

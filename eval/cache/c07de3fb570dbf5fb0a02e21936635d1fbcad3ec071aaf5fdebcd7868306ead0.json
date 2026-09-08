@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:18:22.399791+00:00",
+  "input_tokens": 568,
+  "output_tokens": 125,
+  "latency_ms": 850.2702713012695,
+  "prompt_hash": "c07de3fb570dbf5fb0a02e21936635d1fbcad3ec071aaf5fdebcd7868306ead0",
+  "response": {
+    "actions": [
+      {
+        "type": "create_calendar_hold",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Work from Home - Office Closed",
+        "rationale": "The office is closed for electrical maintenance on Friday, Sep 4, so I should note working from home on my calendar.",
+        "confidence": 0.9
+      },
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "I have read the office closure notice.",
+        "confidence": 0.99
+      }
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:16:15.862136+00:00",
+  "input_tokens": 586,
+  "output_tokens": 98,
+  "latency_ms": 21721.812963485718,
+  "prompt_hash": "bbef85f177a95f29610a19544240a86b06ef16670f5e3fbcdfbe4435d9575094",
+  "response": {
+    "actions": [
+      {
+        "type": "block_sender",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "The email is a phishing attempt asking for credential confirmation.",
+        "confidence": 1.0
+      },
+      {
+        "type": "move_to_trash",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Move the phishing email to the trash folder.",
+        "confidence": 1.0
+      }
+    ]
+  }
+}

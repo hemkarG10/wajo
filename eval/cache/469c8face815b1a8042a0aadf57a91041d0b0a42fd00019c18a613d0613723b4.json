@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:57:38.311845+00:00",
+  "input_tokens": 171,
+  "output_tokens": 163,
+  "latency_ms": 1081.7909240722656,
+  "prompt_hash": "469c8face815b1a8042a0aadf57a91041d0b0a42fd00019c18a613d0613723b4",
+  "response": {
+    "intent": "request_for_action",
+    "sensitivity": "confidential",
+    "urgency": "high",
+    "requested_actions": [
+      "Grant read access on the pilot repo to k.reyes@nwl-contractors.net"
+    ],
+    "deadline": "today",
+    "thread_participants": [
+      "sam.ortiz@northwindlabs.com",
+      "hemkar@acme.io"
+    ],
+    "summary": "Sam Ortiz requests read access to the pilot repo for a new contractor, k.reyes@nwl-contractors.net, to be granted today.",
+    "llm_confidence": 0.98
+  }
+}

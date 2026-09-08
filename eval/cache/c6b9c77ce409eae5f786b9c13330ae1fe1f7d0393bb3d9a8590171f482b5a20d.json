@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:01:22.543146+00:00",
+  "input_tokens": 624,
+  "output_tokens": 102,
+  "latency_ms": 951.585054397583,
+  "prompt_hash": "c6b9c77ce409eae5f786b9c13330ae1fe1f7d0393bb3d9a8590171f482b5a20d",
+  "response": {
+    "actions": [
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Newsletters",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Organize incoming newsletter into the Newsletters label.",
+        "confidence": 0.95
+      },
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Archive the read newsletter to keep the inbox clean.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

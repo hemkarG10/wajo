@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:18:26.360408+00:00",
+  "input_tokens": 557,
+  "output_tokens": 111,
+  "latency_ms": 1077.5859355926514,
+  "prompt_hash": "b25684663bc79009dcdcb4f17f8e4fa18cc44501fc76de8db5609a4dca5b051e",
+  "response": {
+    "actions": [
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "This is a routine product update newsletter that has already been read, so archiving it keeps the inbox clean.",
+        "confidence": 0.95
+      },
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Newsletters",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Categorize this newsletter for easy retrieval.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

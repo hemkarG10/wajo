@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:04:53.382722+00:00",
+  "input_tokens": 549,
+  "output_tokens": 100,
+  "latency_ms": 1072.4141597747803,
+  "prompt_hash": "0e7e52ae5c4309dc7c05ca86353645bb9c1ea955acb7a05f44053a1db2bf2863",
+  "response": {
+    "actions": [
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Mark the webinar recording notification as read since it requires no further action.",
+        "confidence": 0.99
+      },
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Archive the informational email to keep the inbox clean.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

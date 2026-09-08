@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:17:24.614642+00:00",
+  "input_tokens": 598,
+  "output_tokens": 62,
+  "latency_ms": 812.9878044128418,
+  "prompt_hash": "3a849ab97dce1418d45b79d9b0c2bd0ac659af885133a6a7d639eeafc6b065f6",
+  "response": {
+    "actions": [
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Cold recruiting pitch from an unknown recruiter. Archiving as no backend hiring is currently taking place.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

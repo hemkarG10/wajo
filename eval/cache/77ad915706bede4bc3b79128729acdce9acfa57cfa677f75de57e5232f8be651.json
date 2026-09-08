@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:04:07.314283+00:00",
+  "input_tokens": 535,
+  "output_tokens": 113,
+  "latency_ms": 1122.602939605713,
+  "prompt_hash": "77ad915706bede4bc3b79128729acdce9acfa57cfa677f75de57e5232f8be651",
+  "response": {
+    "actions": [
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "The email is an informational notification from our accountant that Q3 books are closed and no action is required.",
+        "confidence": 0.99
+      },
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Accounting",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Categorize accountant communications for easy retrieval.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

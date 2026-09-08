@@ -1,0 +1,43 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:18:11.069982+00:00",
+  "input_tokens": 675,
+  "output_tokens": 249,
+  "latency_ms": 1316.3321018218994,
+  "prompt_hash": "f360f24d7488e5fe1fcf966cb89f68f7297e255b2f839492a2dc52bfa9502a83",
+  "response": {
+    "actions": [
+      {
+        "type": "create_task",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Investigate 429 errors on /v2/ingest API for devon.park@meridianhealth.org",
+        "rationale": "The user reported unexpected 429 rate limit errors below the Team plan threshold and provided log snippets to investigate.",
+        "confidence": 0.95
+      },
+      {
+        "type": "send_reply_known",
+        "to": [
+          "devon.park@meridianhealth.org"
+        ],
+        "cc": null,
+        "body": "Hi Devon, thanks for reaching out and sharing the logs. I'm looking into this right now and will follow up shortly once I check the per-key limits for your Team plan.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Re: Ingest API returning 429 after ~800 req/min (logs attached)",
+        "rationale": "Acknowledge receipt of the bug report and let the customer know their issue is being investigated.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

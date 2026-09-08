@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:02:02.126789+00:00",
+  "input_tokens": 206,
+  "output_tokens": 142,
+  "latency_ms": 9418.567180633545,
+  "prompt_hash": "94d043a7e4c9e67317abbca0a55c96ba84022078a93626b0643b959760ef2f8b",
+  "response": {
+    "intent": "scheduling",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "attend meeting"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "priya.nair@acme.io",
+      "hemkar@acme.io"
+    ],
+    "summary": "Invitation to a recurring weekly Ops sync meeting on Tuesdays from 10:00 to 10:30 PT to discuss vendor renewals, hiring pipeline, and blockers.",
+    "llm_confidence": 1.0
+  }
+}

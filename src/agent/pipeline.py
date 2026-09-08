@@ -49,6 +49,9 @@ def process_email(email: EmailMessage, ctx: dict, llm: LlmAdapter, store: dict, 
             proposals = [ProposedAction(type="none", params={}, provenance={}, rationale="No actions proposed", confidence=0.0)]
             
     except Exception as e:  # noqa: BLE001
+        from src.agent.llm import LLMError
+        if isinstance(e, LLMError):
+            raise
         import traceback
         traceback.print_exc()
         import uuid

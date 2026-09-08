@@ -1,0 +1,24 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:04:21.966704+00:00",
+  "input_tokens": 166,
+  "output_tokens": 91,
+  "latency_ms": 864.691972732544,
+  "prompt_hash": "602ba2fda8a68d2edfe18b658b13f2a827f7b54e3b1c41f1d115d1dd417fc56a",
+  "response": {
+    "intent": "notification",
+    "sensitivity": "none",
+    "urgency": "low",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "events@datastack.conf",
+      "hemkar@acme.io"
+    ],
+    "summary": "Notification that the recording and slides for the 'Streaming joins without tears' session are available for 30 days.",
+    "llm_confidence": 0.99
+  }
+}

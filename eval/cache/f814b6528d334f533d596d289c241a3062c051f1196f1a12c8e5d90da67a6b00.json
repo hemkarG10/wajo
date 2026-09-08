@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:16:57.877464+00:00",
+  "input_tokens": 567,
+  "output_tokens": 98,
+  "latency_ms": 18318.535804748535,
+  "prompt_hash": "f814b6528d334f533d596d289c241a3062c051f1196f1a12c8e5d90da67a6b00",
+  "response": {
+    "actions": [
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Mark the security newsletter as read since it contains informational content.",
+        "confidence": 0.95
+      },
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Archive the informational newsletter to keep the inbox clean.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

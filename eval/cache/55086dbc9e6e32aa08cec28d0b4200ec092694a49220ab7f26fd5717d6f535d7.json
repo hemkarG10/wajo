@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:58:46.200183+00:00",
+  "input_tokens": 606,
+  "output_tokens": 200,
+  "latency_ms": 1672.0912456512451,
+  "prompt_hash": "55086dbc9e6e32aa08cec28d0b4200ec092694a49220ab7f26fd5717d6f535d7",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_unknown",
+        "to": [
+          "rafael@quietloop.ai"
+        ],
+        "cc": null,
+        "body": "Hi Rafael, Thanks for reaching out. I'd be happy to chat about idempotent ingestion and retry storms. Let's do next Tuesday at 10 AM or Thursday at 2 PM\u2014let me know what works best for you and I'll send over a calendar invite.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Re: Quick intro + 20 min?",
+        "rationale": "Respond to Rafael expressing interest in connecting about idempotent ingestion and proposing a couple of meeting times.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

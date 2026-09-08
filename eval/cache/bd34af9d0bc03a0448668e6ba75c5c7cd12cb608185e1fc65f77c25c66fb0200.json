@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:18:19.514683+00:00",
+  "input_tokens": 620,
+  "output_tokens": 58,
+  "latency_ms": 772.7811336517334,
+  "prompt_hash": "bd34af9d0bc03a0448668e6ba75c5c7cd12cb608185e1fc65f77c25c66fb0200",
+  "response": {
+    "actions": [
+      {
+        "type": "accept_calendar_invite",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Accept the recurring weekly Ops sync meeting invitation from Priya Nair.",
+        "confidence": 1.0
+      }
+    ]
+  }
+}

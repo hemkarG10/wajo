@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:01:25.135832+00:00",
+  "input_tokens": 593,
+  "output_tokens": 91,
+  "latency_ms": 926.4168739318848,
+  "prompt_hash": "1ab49b069f456628ba4e8fccfa2cc4ecaa0218ceb3d07372e4cb0dfc7f19b91b",
+  "response": {
+    "actions": [
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Mark CI success notification as read.",
+        "confidence": 1.0
+      },
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Archive routine CI notification that requires no further action.",
+        "confidence": 1.0
+      }
+    ]
+  }
+}

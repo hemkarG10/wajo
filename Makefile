@@ -16,7 +16,7 @@ run:
 	PYTHONPATH=. uv run python src/agent/cli.py run --inbox sample_inbox.json --mode replay
 
 record:
-	PYTHONPATH=. uv run python eval/record.py --rpm 0
+	PYTHONPATH=. uv run python -u eval/record.py --rpm 0
 
 record-check:
 	PYTHONPATH=. uv run python eval/record.py --check

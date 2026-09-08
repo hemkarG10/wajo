@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:08:05.108800+00:00",
+  "input_tokens": 585,
+  "output_tokens": 154,
+  "latency_ms": 1272.326946258545,
+  "prompt_hash": "67929157039feeb344effe8ccb84fb534c0760c977f5992cf85a486c6fbd222d",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_known",
+        "to": [
+          "sam.ortiz@northwindlabs.com"
+        ],
+        "cc": null,
+        "body": "Tuesday Jul 21 at 11am works for me. Looking forward to the kickoff and room details.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Confirming the requested meeting time as asked by the thread participant.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

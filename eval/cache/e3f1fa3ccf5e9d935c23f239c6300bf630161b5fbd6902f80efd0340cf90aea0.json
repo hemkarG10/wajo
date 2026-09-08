@@ -1,0 +1,43 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:02:16.589606+00:00",
+  "input_tokens": 574,
+  "output_tokens": 198,
+  "latency_ms": 6663.141965866089,
+  "prompt_hash": "e3f1fa3ccf5e9d935c23f239c6300bf630161b5fbd6902f80efd0340cf90aea0",
+  "response": {
+    "actions": [
+      {
+        "type": "create_calendar_hold",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Northwind pilot demo",
+        "rationale": "Sam Ortiz confirmed Thursday at 2pm PT for the pilot demo and asked for a calendar hold.",
+        "confidence": 0.95
+      },
+      {
+        "type": "send_reply_known",
+        "to": [
+          "sam.ortiz@northwindlabs.com"
+        ],
+        "cc": null,
+        "body": "Sounds good! I've sent over the calendar hold for Thursday at 2pm PT. Looking forward to connecting with you and your head of data.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Re: Northwind pilot - demo timing",
+        "rationale": "Acknowledge the calendar hold and confirm attendance.",
+        "confidence": 0.92
+      }
+    ]
+  }
+}

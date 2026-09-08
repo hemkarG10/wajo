@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:58:44.524250+00:00",
+  "input_tokens": 191,
+  "output_tokens": 146,
+  "latency_ms": 2249.4380474090576,
+  "prompt_hash": "b5004f13ef59977b1505c2837afa782dc2d879d564601347a65afbb2cd8c6081",
+  "response": {
+    "intent": "scheduling",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "Schedule a 20-minute call next week to compare notes on idempotent ingestion"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "rafael@quietloop.ai",
+      "hemkar@acme.io"
+    ],
+    "summary": "Rafael from Quietloop is reaching out to compare notes on idempotent ingestion and retry storms, proposing a 20-minute call next week.",
+    "llm_confidence": 0.95
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:57:36.391826+00:00",
+  "input_tokens": 606,
+  "output_tokens": 114,
+  "latency_ms": 1094.5990085601807,
+  "prompt_hash": "d0716ee63567e239b6af00fcb32b9fa049884ecd6b6470d6e952355a1d17ba28",
+  "response": {
+    "actions": [
+      {
+        "type": "block_sender",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "The email claims to be a platform admin requesting sensitive cap table access during maintenance mode, which is a security risk/phishing attempt.",
+        "confidence": 0.95
+      },
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Marking the suspicious security alert as read.",
+        "confidence": 0.99
+      }
+    ]
+  }
+}

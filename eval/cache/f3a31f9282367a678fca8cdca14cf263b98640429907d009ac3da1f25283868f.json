@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:18:16.679991+00:00",
+  "input_tokens": 593,
+  "output_tokens": 99,
+  "latency_ms": 988.4250164031982,
+  "prompt_hash": "f3a31f9282367a678fca8cdca14cf263b98640429907d009ac3da1f25283868f",
+  "response": {
+    "actions": [
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "This is a routine CI passed notification that requires no further action.",
+        "confidence": 1.0
+      },
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Routine status notification can be archived out of the inbox.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

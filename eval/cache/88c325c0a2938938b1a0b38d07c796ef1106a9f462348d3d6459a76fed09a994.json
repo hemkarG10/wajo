@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:17:04.973088+00:00",
+  "input_tokens": 606,
+  "output_tokens": 218,
+  "latency_ms": 5939.201831817627,
+  "prompt_hash": "88c325c0a2938938b1a0b38d07c796ef1106a9f462348d3d6459a76fed09a994",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_unknown",
+        "to": [
+          "rafael@quietloop.ai"
+        ],
+        "cc": null,
+        "body": "Hi Rafael,\n\nThanks for reaching out! Idempotent ingestion and retry storms are definitely tricky problems. I'd be happy to compare notes next week.\n\nLet's do Tuesday or Wednesday afternoon if that works for you. Feel free to grab a time on my calendar or let me know what works on your end.\n\nBest,\nHemkar",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Re: Quick intro + 20 min?",
+        "rationale": "Reply to Rafael to schedule the 20-minute call as requested.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

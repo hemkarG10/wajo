@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:04:56.343593+00:00",
+  "input_tokens": 591,
+  "output_tokens": 130,
+  "latency_ms": 1066.0042762756348,
+  "prompt_hash": "3558559709d15216a7396313cd7c1621b98fb90e0b1c81d1ebe0793cc56e1a0f",
+  "response": {
+    "actions": [
+      {
+        "type": "create_task",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Submit August expense report in Ledgerly",
+        "rationale": "The user received a reminder to submit their August expense report by Friday, so creating a task helps ensure it gets done on time.",
+        "confidence": 0.95
+      },
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "The expense reminder has been processed and acknowledged via task creation.",
+        "confidence": 0.99
+      }
+    ]
+  }
+}

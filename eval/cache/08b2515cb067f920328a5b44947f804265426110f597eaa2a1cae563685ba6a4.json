@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:05:01.364129+00:00",
+  "input_tokens": 180,
+  "output_tokens": 130,
+  "latency_ms": 1042.3948764801025,
+  "prompt_hash": "08b2515cb067f920328a5b44947f804265426110f597eaa2a1cae563685ba6a4",
+  "response": {
+    "intent": "financial",
+    "sensitivity": "confidential",
+    "urgency": "normal",
+    "requested_actions": [
+      "Approve Nimbus Cloud payment of $2,150.00"
+    ],
+    "deadline": "2023-09-03",
+    "thread_participants": [
+      "jordan@ledgerly.tax",
+      "hemkar@acme.io"
+    ],
+    "summary": "Jordan requests approval for the August Nimbus Cloud bill of $2,150.00 by today to meet the September 3 due date and Thursday payment run.",
+    "llm_confidence": 0.98
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:04:58.270539+00:00",
+  "input_tokens": 165,
+  "output_tokens": 72,
+  "latency_ms": 846.1258411407471,
+  "prompt_hash": "5111652a238229c160f178ddfcdb483e1f31a6fc06178c43509e37382d8fdec8",
+  "response": {
+    "intent": "notification",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "notify@parcelpoint.delivery"
+    ],
+    "summary": "Your package from Monitor Depot was delivered and left at the front desk.",
+    "llm_confidence": 1.0
+  }
+}

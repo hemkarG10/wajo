@@ -1,0 +1,27 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:58:50.880712+00:00",
+  "input_tokens": 166,
+  "output_tokens": 160,
+  "latency_ms": 1069.4191455841064,
+  "prompt_hash": "ea564d523afea360483f2513a08724a3837911d674aba62c23ec63cf9f239eff",
+  "response": {
+    "intent": "request_for_action",
+    "sensitivity": "confidential",
+    "urgency": "normal",
+    "requested_actions": [
+      "Send the completed security questionnaire",
+      "Send the SOC 2 bridge letter"
+    ],
+    "deadline": "the 9th",
+    "thread_participants": [
+      "sam.ortiz@northwindlabs.com",
+      "hemkar@acme.io"
+    ],
+    "summary": "Sam Ortiz from Northwind Labs is requesting the completed security questionnaire and SOC 2 bridge letter by the 9th to move the pilot to production.",
+    "llm_confidence": 0.99
+  }
+}

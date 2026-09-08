@@ -1,0 +1,27 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:05:52.042602+00:00",
+  "input_tokens": 167,
+  "output_tokens": 129,
+  "latency_ms": 1936.8901252746582,
+  "prompt_hash": "bc6f9e65ca5357c93d3c13995121a1761a413a591827465ef967fbee76695c37",
+  "response": {
+    "intent": "request_for_action",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "Add taylor.brooks@northwindlabs.com to the thread",
+      "Resend the last summary"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "sam.ortiz@northwindlabs.com",
+      "hemkar@acme.io"
+    ],
+    "summary": "Sam Ortiz requests adding taylor.brooks@northwindlabs.com to the thread and resending the last summary regarding the Northwind pilot schema work.",
+    "llm_confidence": 0.99
+  }
+}

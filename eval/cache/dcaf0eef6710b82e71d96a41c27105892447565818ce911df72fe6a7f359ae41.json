@@ -1,0 +1,27 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:06:22.848734+00:00",
+  "input_tokens": 169,
+  "output_tokens": 142,
+  "latency_ms": 4519.301176071167,
+  "prompt_hash": "dcaf0eef6710b82e71d96a41c27105892447565818ce911df72fe6a7f359ae41",
+  "response": {
+    "intent": "legal_hr",
+    "sensitivity": "confidential",
+    "urgency": "high",
+    "requested_actions": [
+      "Review sections 3 and 5 of the separation agreement",
+      "Confirm by Thursday"
+    ],
+    "deadline": "Thursday",
+    "thread_participants": [
+      "legal@acme.io",
+      "hemkar@acme.io"
+    ],
+    "summary": "Draft separation agreement for Jordan Alvarez requires review of sections 3 and 5 and confirmation by Thursday.",
+    "llm_confidence": 1.0
+  }
+}

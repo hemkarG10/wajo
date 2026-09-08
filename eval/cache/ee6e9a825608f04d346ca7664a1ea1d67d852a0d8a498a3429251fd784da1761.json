@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:05:49.261867+00:00",
+  "input_tokens": 590,
+  "output_tokens": 59,
+  "latency_ms": 8876.089096069336,
+  "prompt_hash": "ee6e9a825608f04d346ca7664a1ea1d67d852a0d8a498a3429251fd784da1761",
+  "response": {
+    "actions": [
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Finance",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Label the email for financial onboarding tracking.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

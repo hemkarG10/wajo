@@ -1,0 +1,25 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:00:59.555455+00:00",
+  "input_tokens": 202,
+  "output_tokens": 148,
+  "latency_ms": 10882.347106933594,
+  "prompt_hash": "4991e7ea0c5bb71927c54611394c6f494acf7a123a928d05fb883524fbfdcaf0",
+  "response": {
+    "intent": "financial",
+    "sensitivity": "confidential",
+    "urgency": "normal",
+    "requested_actions": [
+      "Approve or reject invoice #1042 in Ledgerly"
+    ],
+    "deadline": "2023-09-05",
+    "thread_participants": [
+      "notifications@ledgerly.tax"
+    ],
+    "summary": "Ledgerly notification asking to approve or reject invoice #1042 from BrightPath Design for $2,400.00 due Sep 5.",
+    "llm_confidence": 0.95
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:01:26.943660+00:00",
+  "input_tokens": 196,
+  "output_tokens": 124,
+  "latency_ms": 976.1350154876709,
+  "prompt_hash": "e44102717fb2b830d2e52c2d13aa4baccf4a24b1205ac306a9bdb7ad55ed0b7d",
+  "response": {
+    "intent": "receipt",
+    "sensitivity": "none",
+    "urgency": "low",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "billing@nimbuscloud.com",
+      "hemkar@acme.io"
+    ],
+    "summary": "Receipt for Nimbus Cloud invoice NC-77213 in the amount of $312.40 paid on August 26.",
+    "llm_confidence": 1.0
+  }
+}

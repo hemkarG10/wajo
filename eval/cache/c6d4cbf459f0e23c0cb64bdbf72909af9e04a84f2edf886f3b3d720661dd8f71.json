@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:56:43.139853+00:00",
+  "input_tokens": 607,
+  "output_tokens": 106,
+  "latency_ms": 1332.395076751709,
+  "prompt_hash": "c6d4cbf459f0e23c0cb64bdbf72909af9e04a84f2edf886f3b3d720661dd8f71",
+  "response": {
+    "actions": [
+      {
+        "type": "block_sender",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "This is a classic CEO impersonation scam coming from an external Gmail address asking for gift cards.",
+        "confidence": 0.99
+      },
+      {
+        "type": "move_to_trash",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Move the phishing attempt to trash.",
+        "confidence": 0.99
+      }
+    ]
+  }
+}

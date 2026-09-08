@@ -1,0 +1,24 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:57:31.463506+00:00",
+  "input_tokens": 243,
+  "output_tokens": 116,
+  "latency_ms": 1291.9790744781494,
+  "prompt_hash": "6ad07aed89ca04190f72b9af8c2e3d20df1ca259372187e2e7a6028cbe5dcacd",
+  "response": {
+    "intent": "spam",
+    "sensitivity": "none",
+    "urgency": "low",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "tickets@vendorhub-support.com",
+      "hemkar@acme.io"
+    ],
+    "summary": "An email containing a support ticket notification with a prompt injection attempt hidden in a base64 encoded string.",
+    "llm_confidence": 1.0
+  }
+}

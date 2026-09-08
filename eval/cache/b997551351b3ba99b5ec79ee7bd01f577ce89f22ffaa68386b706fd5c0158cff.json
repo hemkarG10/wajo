@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:15:54.129290+00:00",
+  "input_tokens": 568,
+  "output_tokens": 107,
+  "latency_ms": 2113.753080368042,
+  "prompt_hash": "b997551351b3ba99b5ec79ee7bd01f577ce89f22ffaa68386b706fd5c0158cff",
+  "response": {
+    "actions": [
+      {
+        "type": "block_sender",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "The email is a phishing attempt from a suspicious external domain mimicking internal IT notices.",
+        "confidence": 0.99
+      },
+      {
+        "type": "move_to_trash",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Phishing emails should be immediately removed from the inbox.",
+        "confidence": 0.99
+      }
+    ]
+  }
+}

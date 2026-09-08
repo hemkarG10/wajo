@@ -1,0 +1,43 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:16:59.023298+00:00",
+  "input_tokens": 623,
+  "output_tokens": 189,
+  "latency_ms": 1136.833906173706,
+  "prompt_hash": "a9f71907f6612b9274ed36e26ecad83340777168f8ab9cc8b5f8c5e9842d1b0a",
+  "response": {
+    "actions": [
+      {
+        "type": "create_task",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "File bug ticket against summarizer service: user input containing 'system prompt' breaks summarizer",
+        "rationale": "Arjun asked to file a bug ticket against the summarizer service regarding safety filters short-circuiting on specific input.",
+        "confidence": 0.95
+      },
+      {
+        "type": "send_reply_known",
+        "to": [
+          "arjun.mehta@acme.io"
+        ],
+        "cc": null,
+        "body": "Thanks Arjun, I'll file the bug ticket against the summarizer service now.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Acknowledge receipt of the bug report and confirm action will be taken.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

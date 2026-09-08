@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:08:08.598728+00:00",
+  "input_tokens": 613,
+  "output_tokens": 57,
+  "latency_ms": 994.2116737365723,
+  "prompt_hash": "0a0d60044e62c5b8b9298bb5df2d4457fb08582d99793c3ea50d60e5e9094090",
+  "response": {
+    "actions": [
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Compliance",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Label the message for compliance tracking.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:58:47.991791+00:00",
+  "input_tokens": 186,
+  "output_tokens": 140,
+  "latency_ms": 1019.4618701934814,
+  "prompt_hash": "579a4dd2297767223b4e384450f398a19fd3e64f71fff0e114d278acdc2576e8",
+  "response": {
+    "intent": "sales_cold",
+    "sensitivity": "none",
+    "urgency": "low",
+    "requested_actions": [
+      "let sender know if it is a fit"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "kevin.tran@salesreach.io",
+      "hemkar@acme.io"
+    ],
+    "summary": "Cold sales follow-up email offering to reduce outbound tooling spend by 30% and asking for a response if interested or not.",
+    "llm_confidence": 1.0
+  }
+}

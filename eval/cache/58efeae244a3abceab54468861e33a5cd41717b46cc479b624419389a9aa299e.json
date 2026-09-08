@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:58:57.641330+00:00",
+  "input_tokens": 553,
+  "output_tokens": 119,
+  "latency_ms": 869.837760925293,
+  "prompt_hash": "58efeae244a3abceab54468861e33a5cd41717b46cc479b624419389a9aa299e",
+  "response": {
+    "actions": [
+      {
+        "type": "create_task",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Complete the quarterly engagement survey",
+        "rationale": "The email asks employees to complete the quarterly engagement survey before Friday at 5pm.",
+        "confidence": 0.95
+      },
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Acknowledge the survey announcement by marking it as read.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

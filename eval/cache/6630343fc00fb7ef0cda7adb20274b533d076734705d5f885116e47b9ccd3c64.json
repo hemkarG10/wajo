@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:18:24.315618+00:00",
+  "input_tokens": 578,
+  "output_tokens": 112,
+  "latency_ms": 929.0671348571777,
+  "prompt_hash": "6630343fc00fb7ef0cda7adb20274b533d076734705d5f885116e47b9ccd3c64",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_known",
+        "to": [
+          "lena@brightpathdesign.co"
+        ],
+        "cc": null,
+        "body": "Hi Lena, the final files look great! Everything is correct, feel free to wrap things up. Thanks!",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Acknowledge receipt of the final logo files and let Lena know everything looks good.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

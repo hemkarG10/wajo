@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:02:20.764281+00:00",
+  "input_tokens": 150,
+  "output_tokens": 137,
+  "latency_ms": 1010.7169151306152,
+  "prompt_hash": "70e7d1e05c2c6e9cdfdfc9bfe9e39bf61cef6752d6b95db6ce9f6e7b32e40d7e",
+  "response": {
+    "intent": "scheduling",
+    "sensitivity": "personal",
+    "urgency": "normal",
+    "requested_actions": [
+      "Confirm availability for brunch on Sunday around 11 AM"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "dana.k@gmail.com",
+      "hemkar@acme.io"
+    ],
+    "summary": "Dana is inviting Hemkar for brunch on Sunday around 11 AM at the restaurant on 6th with the patio.",
+    "llm_confidence": 1.0
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:08:03.833898+00:00",
+  "input_tokens": 157,
+  "output_tokens": 154,
+  "latency_ms": 1506.7510604858398,
+  "prompt_hash": "b0d77a903547ad4919ae0394cd954718021f3f5aa222d8e791542df8693bd06a",
+  "response": {
+    "intent": "scheduling",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "Confirm the meeting time (Tuesday Jul 21 at 11am) for the kickoff"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "sam.ortiz@northwindlabs.com",
+      "hemkar@acme.io"
+    ],
+    "summary": "Sam Ortiz is asking to confirm Tuesday, July 21 at 11am for the project kickoff meeting, after which room details will be sent.",
+    "llm_confidence": 1.0
+  }
+}

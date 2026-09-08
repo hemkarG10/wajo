@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:04:04.323736+00:00",
+  "input_tokens": 623,
+  "output_tokens": 85,
+  "latency_ms": 854.7618389129639,
+  "prompt_hash": "88f75d2e6111161fcf4162190fd7b3e47d1f5fcecbd0d43dc4213e1360755db8",
+  "response": {
+    "actions": [
+      {
+        "type": "create_task",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Review PR #482 (rate limiter for /v2/ingest)",
+        "rationale": "Arjun requested code review on PR #482 before Thursday's deploy.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

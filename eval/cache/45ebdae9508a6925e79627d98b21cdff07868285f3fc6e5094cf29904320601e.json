@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:05:38.356142+00:00",
+  "input_tokens": 566,
+  "output_tokens": 124,
+  "latency_ms": 1398.2319831848145,
+  "prompt_hash": "45ebdae9508a6925e79627d98b21cdff07868285f3fc6e5094cf29904320601e",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_known",
+        "to": [
+          "sam.ortiz@northwindlabs.com"
+        ],
+        "cc": null,
+        "body": "Hi Sam, Thursday at 2:00 PM PT works for me.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Re: Northwind demo",
+        "rationale": "Maya asked me to reply to Sam confirming Thursday at 2pm PT for the Northwind demo.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

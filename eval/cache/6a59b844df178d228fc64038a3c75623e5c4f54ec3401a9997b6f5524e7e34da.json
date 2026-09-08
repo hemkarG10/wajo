@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:58:49.064058+00:00",
+  "input_tokens": 597,
+  "output_tokens": 163,
+  "latency_ms": 1069.86403465271,
+  "prompt_hash": "6a59b844df178d228fc64038a3c75623e5c4f54ec3401a9997b6f5524e7e34da",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_unknown",
+        "to": [
+          "kevin.tran@salesreach.io"
+        ],
+        "cc": null,
+        "body": "Hi Kevin, thanks for reaching out. We are not interested at this time. Please close the loop on your end.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "The sender explicitly asked to let them know if it is a fit or not so they can close the loop.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

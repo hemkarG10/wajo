@@ -1,0 +1,27 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:03:54.853060+00:00",
+  "input_tokens": 166,
+  "output_tokens": 143,
+  "latency_ms": 66206.9399356842,
+  "prompt_hash": "19e7d13b1528d1b92502d6d7306a3c7eed5569cd7b9f803f52308c3b16f75752",
+  "response": {
+    "intent": "info_request",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "Review attached final logo files and brand sheet",
+      "Let sender know if anything is off"
+    ],
+    "deadline": "next week",
+    "thread_participants": [
+      "lena@brightpathdesign.co",
+      "hemkar@acme.io"
+    ],
+    "summary": "Lena sent the final logo files and brand sheet, asking for feedback if anything needs adjustment.",
+    "llm_confidence": 0.95
+  }
+}

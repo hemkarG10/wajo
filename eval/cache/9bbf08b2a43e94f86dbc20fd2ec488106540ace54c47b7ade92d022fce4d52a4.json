@@ -1,0 +1,24 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:56:22.790347+00:00",
+  "input_tokens": 193,
+  "output_tokens": 106,
+  "latency_ms": 17261.929988861084,
+  "prompt_hash": "9bbf08b2a43e94f86dbc20fd2ec488106540ace54c47b7ade92d022fce4d52a4",
+  "response": {
+    "intent": "newsletter",
+    "sensitivity": "none",
+    "urgency": "low",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "newsletter@cloudcostreport.com",
+      "hemkar@acme.io"
+    ],
+    "summary": "Cloud cost benchmarks for August comparing compute and storage spend.",
+    "llm_confidence": 1.0
+  }
+}

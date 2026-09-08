@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:04:01.591350+00:00",
+  "input_tokens": 557,
+  "output_tokens": 58,
+  "latency_ms": 884.941816329956,
+  "prompt_hash": "0f56dd5d1bc9f549055bfe6e1124d77c08292be1c61eb67f83af97747a698187",
+  "response": {
+    "actions": [
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "This is a routine product update newsletter that does not require any immediate action.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

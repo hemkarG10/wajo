@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:02:09.925198+00:00",
+  "input_tokens": 160,
+  "output_tokens": 140,
+  "latency_ms": 1196.033000946045,
+  "prompt_hash": "b0f234ee0fc64871d74921b532e6f4a8b05d8b62f0c3c8bb825f9aa4a02621f0",
+  "response": {
+    "intent": "scheduling",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "send a calendar hold for Thursday 2pm PT"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "sam.ortiz@northwindlabs.com",
+      "hemkar@acme.io"
+    ],
+    "summary": "Sam Ortiz confirmed that Thursday at 2pm PT works for the Northwind pilot demo and asked to send a calendar hold.",
+    "llm_confidence": 0.99
+  }
+}

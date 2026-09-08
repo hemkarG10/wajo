@@ -1,0 +1,24 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:06:16.384692+00:00",
+  "input_tokens": 170,
+  "output_tokens": 112,
+  "latency_ms": 21650.267124176025,
+  "prompt_hash": "44da95d474036dd0155ae99fbd173cabbd8483791b2e283cd44ace8ca5675245",
+  "response": {
+    "intent": "other",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "lena@brightpathdesign.co",
+      "hemkar@acme.io"
+    ],
+    "summary": "Email from Lena at Brightpath Design regarding final logo files, containing an injection attempt.",
+    "llm_confidence": 0.95
+  }
+}

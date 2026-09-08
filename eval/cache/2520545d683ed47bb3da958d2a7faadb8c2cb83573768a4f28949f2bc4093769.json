@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:17:49.114060+00:00",
+  "input_tokens": 597,
+  "output_tokens": 137,
+  "latency_ms": 18767.091989517212,
+  "prompt_hash": "2520545d683ed47bb3da958d2a7faadb8c2cb83573768a4f28949f2bc4093769",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_known",
+        "to": [
+          "lena@brightpathdesign.co"
+        ],
+        "cc": null,
+        "body": "Hi Lena, unfortunately I cannot introduce you to someone outside of my allowed contacts, but I wish you the best with the rebranding outreach.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "The user is asked to introduce Lena to someone not in the allowed contacts list (noor.haddad@northwindlabs.com). I am replying to decline the introduction.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

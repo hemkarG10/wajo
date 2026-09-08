@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:17:22.815675+00:00",
+  "input_tokens": 597,
+  "output_tokens": 171,
+  "latency_ms": 17832.98683166504,
+  "prompt_hash": "230565db53f4eeb07102bf155add1c1665ce5b9af9af5dc14837825204c2b6eb",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_unknown",
+        "to": [
+          "kevin.tran@salesreach.io"
+        ],
+        "cc": null,
+        "body": "Hi Kevin, thanks for following up. We're currently happy with our outbound tooling setup, so it's not a fit right now. Best of luck.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "The sender asked to let them know if it's not a fit so they can close the loop.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

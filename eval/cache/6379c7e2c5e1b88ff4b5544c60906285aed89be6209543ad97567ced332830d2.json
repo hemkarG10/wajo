@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:18:20.460374+00:00",
+  "input_tokens": 574,
+  "output_tokens": 77,
+  "latency_ms": 938.2421970367432,
+  "prompt_hash": "6379c7e2c5e1b88ff4b5544c60906285aed89be6209543ad97567ced332830d2",
+  "response": {
+    "actions": [
+      {
+        "type": "create_calendar_hold",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Northwind pilot - demo",
+        "rationale": "Sam Ortiz requested a calendar hold for Thursday at 2pm PT for the pilot demo.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

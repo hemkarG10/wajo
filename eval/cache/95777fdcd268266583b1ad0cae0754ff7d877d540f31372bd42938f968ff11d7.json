@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:00:28.321834+00:00",
+  "input_tokens": 631,
+  "output_tokens": 119,
+  "latency_ms": 4519.917011260986,
+  "prompt_hash": "95777fdcd268266583b1ad0cae0754ff7d877d540f31372bd42938f968ff11d7",
+  "response": {
+    "actions": [
+      {
+        "type": "star",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Star the conference speaking invitation so it is easily accessible for follow-up before the deadline.",
+        "confidence": 0.95
+      },
+      {
+        "type": "create_task",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Create a task to respond to the StreamSummit speaking invite with a yes/no decision and working title by September 15.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

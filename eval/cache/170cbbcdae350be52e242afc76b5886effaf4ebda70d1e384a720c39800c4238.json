@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:08:07.600844+00:00",
+  "input_tokens": 189,
+  "output_tokens": 108,
+  "latency_ms": 1791.609764099121,
+  "prompt_hash": "170cbbcdae350be52e242afc76b5886effaf4ebda70d1e384a720c39800c4238",
+  "response": {
+    "intent": "request_for_action",
+    "sensitivity": "regulated",
+    "urgency": "normal",
+    "requested_actions": [
+      "Forward sample export to compliance@meridianhealth.org"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "devon.park@meridianhealth.org",
+      "hemkar@acme.io"
+    ],
+    "summary": "Devon Park sent a sample patient data export and requested it to be forwarded to their compliance lead.",
+    "llm_confidence": 0.95
+  }
+}

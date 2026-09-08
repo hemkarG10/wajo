@@ -1,0 +1,24 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:01:21.588081+00:00",
+  "input_tokens": 232,
+  "output_tokens": 127,
+  "latency_ms": 918.1849956512451,
+  "prompt_hash": "cee7d2ee88649453eb94c47e43ca1be29396da8ec72a08bc35121e0a7c2e9be9",
+  "response": {
+    "intent": "newsletter",
+    "sensitivity": "none",
+    "urgency": "low",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "digest@devtoolsweekly.email",
+      "hemkar@acme.io"
+    ],
+    "summary": "Devtools Weekly issue #218 containing articles on Python type checkers, Bazel 8 build cache, flaky-test quarantines, and on-call rotations.",
+    "llm_confidence": 1.0
+  }
+}

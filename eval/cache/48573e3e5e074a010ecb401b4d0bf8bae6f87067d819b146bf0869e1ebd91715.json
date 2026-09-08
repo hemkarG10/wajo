@@ -1,0 +1,54 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:02:47.911678+00:00",
+  "input_tokens": 628,
+  "output_tokens": 170,
+  "latency_ms": 11624.863862991333,
+  "prompt_hash": "48573e3e5e074a010ecb401b4d0bf8bae6f87067d819b146bf0869e1ebd91715",
+  "response": {
+    "actions": [
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Travel",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Label the flight itinerary email as Travel for easy organization.",
+        "confidence": 0.95
+      },
+      {
+        "type": "create_calendar_hold",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Flight SFO to AUS",
+        "rationale": "Add the outbound flight to the calendar.",
+        "confidence": 0.9
+      },
+      {
+        "type": "create_calendar_hold",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Flight AUS to SFO",
+        "rationale": "Add the return flight to the calendar.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

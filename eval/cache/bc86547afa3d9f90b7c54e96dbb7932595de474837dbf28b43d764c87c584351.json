@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:18:13.874344+00:00",
+  "input_tokens": 618,
+  "output_tokens": 84,
+  "latency_ms": 900.6850719451904,
+  "prompt_hash": "bc86547afa3d9f90b7c54e96dbb7932595de474837dbf28b43d764c87c584351",
+  "response": {
+    "actions": [
+      {
+        "type": "approve_invoice",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": 2400.0,
+        "currency": "USD",
+        "url": null,
+        "subject": null,
+        "rationale": "Approve invoice #1042 from BrightPath Design as requested in the notification.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

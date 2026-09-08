@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:06:26.751747+00:00",
+  "input_tokens": 579,
+  "output_tokens": 110,
+  "latency_ms": 3899.5440006256104,
+  "prompt_hash": "90912b8f6f76a238b7f4017c76c74365a0cb5a28a481ee7bcaa451f7ce0d5cfa",
+  "response": {
+    "actions": [
+      {
+        "type": "star",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "High urgency task requiring review by Thursday.",
+        "confidence": 0.95
+      },
+      {
+        "type": "create_task",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Review sections 3 and 5 of Jordan Alvarez separation agreement",
+        "rationale": "Ensure review is completed by Thursday deadline.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

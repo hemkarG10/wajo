@@ -1,0 +1,56 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:00:35.572451+00:00",
+  "input_tokens": 675,
+  "output_tokens": 270,
+  "latency_ms": 5243.141889572144,
+  "prompt_hash": "816d190b53e8e1281570db9e744237fd778c8815bfdf9ce76bcc6d8d354d809f",
+  "response": {
+    "actions": [
+      {
+        "type": "create_task",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Investigate 429 errors from /v2/ingest API for devon.park@meridianhealth.org",
+        "rationale": "The user reported unexpected 429 rate limit errors below the Team plan limit and provided logs for investigation.",
+        "confidence": 0.95
+      },
+      {
+        "type": "send_reply_known",
+        "to": [
+          "devon.park@meridianhealth.org"
+        ],
+        "cc": null,
+        "body": "Hi Devon, thanks for reaching out with the details and logs. I'm looking into the /v2/ingest rate limits for your Team plan key now and will follow up shortly.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Acknowledge receipt of the bug report and let the customer know we are investigating.",
+        "confidence": 0.9
+      },
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Support/Bugs",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Organize incoming bug report and rate limit inquiry.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:07:38.589046+00:00",
+  "input_tokens": 553,
+  "output_tokens": 57,
+  "latency_ms": 55765.94591140747,
+  "prompt_hash": "f6e57d3498ec73d84cec046bd41ba791ce98850aad0db50144e0659b1e64dd84",
+  "response": {
+    "actions": [
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Marking the email as read since it has been processed.",
+        "confidence": 0.99
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:57:44.677881+00:00",
+  "input_tokens": 198,
+  "output_tokens": 110,
+  "latency_ms": 1090.0709629058838,
+  "prompt_hash": "cf5572d97db1f067080cceb52069309faf83302fbc5126abf305c1d941b6d18f",
+  "response": {
+    "intent": "newsletter",
+    "sensitivity": "none",
+    "urgency": "low",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "briefing@secweekly.email"
+    ],
+    "summary": "Monthly security briefing discussing prompt injection patterns observed in August, including hidden text, base64 blobs, and fake maintenance mode announcements.",
+    "llm_confidence": 0.99
+  }
+}

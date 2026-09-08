@@ -1,0 +1,24 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:04:06.188520+00:00",
+  "input_tokens": 148,
+  "output_tokens": 118,
+  "latency_ms": 1199.1071701049805,
+  "prompt_hash": "7d815ab93ffabb55bff796c5f8435474d3fc097e57da99dd546666667f5eda9f",
+  "response": {
+    "intent": "notification",
+    "sensitivity": "confidential",
+    "urgency": "low",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "jordan@ledgerly.tax",
+      "hemkar@acme.io"
+    ],
+    "summary": "Jordan informs Hemkar that Q3 books are closed and a summary PDF will be sent later once reconciliation finishes.",
+    "llm_confidence": 0.99
+  }
+}

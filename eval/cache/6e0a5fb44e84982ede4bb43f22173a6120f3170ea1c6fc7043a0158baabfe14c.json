@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:01:46.782529+00:00",
+  "input_tokens": 586,
+  "output_tokens": 102,
+  "latency_ms": 19835.666179656982,
+  "prompt_hash": "6e0a5fb44e84982ede4bb43f22173a6120f3170ea1c6fc7043a0158baabfe14c",
+  "response": {
+    "actions": [
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Receipts",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Label the email as a receipt for record keeping.",
+        "confidence": 0.95
+      },
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Archive the receipt email as no action is needed.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

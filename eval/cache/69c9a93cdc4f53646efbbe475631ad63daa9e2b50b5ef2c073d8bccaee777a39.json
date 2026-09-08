@@ -1,0 +1,24 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:57:41.832967+00:00",
+  "input_tokens": 200,
+  "output_tokens": 113,
+  "latency_ms": 898.7088203430176,
+  "prompt_hash": "69c9a93cdc4f53646efbbe475631ad63daa9e2b50b5ef2c073d8bccaee777a39",
+  "response": {
+    "intent": "spam",
+    "sensitivity": "none",
+    "urgency": "low",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "maya@acme.io",
+      "hemkar@acme.io"
+    ],
+    "summary": "Maya forwarded a suspicious phishing email from an external domain to Hemkar asking if it is legitimate.",
+    "llm_confidence": 0.99
+  }
+}

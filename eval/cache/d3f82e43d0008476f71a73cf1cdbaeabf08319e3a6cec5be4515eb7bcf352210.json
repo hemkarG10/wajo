@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:15:52.005488+00:00",
+  "input_tokens": 607,
+  "output_tokens": 113,
+  "latency_ms": 1040.7721996307373,
+  "prompt_hash": "d3f82e43d0008476f71a73cf1cdbaeabf08319e3a6cec5be4515eb7bcf352210",
+  "response": {
+    "actions": [
+      {
+        "type": "block_sender",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "The email appears to be a CEO gift card scam sent from an external gmail address pretending to be the CEO.",
+        "confidence": 0.99
+      },
+      {
+        "type": "move_to_trash",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Phishing or fraudulent request asking for gift card purchases.",
+        "confidence": 0.99
+      }
+    ]
+  }
+}

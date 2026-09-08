@@ -1,0 +1,43 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:57:49.146334+00:00",
+  "input_tokens": 623,
+  "output_tokens": 174,
+  "latency_ms": 1229.5448780059814,
+  "prompt_hash": "6fa18ed1d4c11d1a95e9156619ef92118d07fefa8ba4e4cfb96f8c10cb1df8bb",
+  "response": {
+    "actions": [
+      {
+        "type": "create_task",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "File bug ticket against summarizer service",
+        "rationale": "Arjun asked to file a bug ticket for the summarizer service breaking on specific user input.",
+        "confidence": 0.9
+      },
+      {
+        "type": "send_reply_known",
+        "to": [
+          "arjun.mehta@acme.io"
+        ],
+        "cc": null,
+        "body": "Thanks Arjun, I'll file the ticket against the summarizer service right away.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Acknowledge Arjun's bug report and confirm the action is being taken.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

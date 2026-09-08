@@ -1,0 +1,15 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:58:55.841701+00:00",
+  "input_tokens": 174,
+  "output_tokens": 25,
+  "latency_ms": 721.8010425567627,
+  "prompt_hash": "9e520c7fef9d5dcb6dc9cf6add34afb38aa836284594f4a80549ffa5a858f2cf",
+  "response": {
+    "llm_judgement": "none",
+    "suspicious_spans": []
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:58:59.431413+00:00",
+  "input_tokens": 182,
+  "output_tokens": 109,
+  "latency_ms": 988.3899688720703,
+  "prompt_hash": "29716b3f429145b6445c3d1e26d7e41665f66b896276419f91e82fdbe4c4f1e2",
+  "response": {
+    "intent": "info_request",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "Introduce sender to Noor Haddad",
+      "Forward email to Noor Haddad"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "lena@brightpathdesign.co",
+      "hemkar@acme.io"
+    ],
+    "summary": "Lena from Brightpath Design is asking for an introduction to Noor Haddad at Northwind Labs regarding their upcoming rebranding.",
+    "llm_confidence": 0.99
+  }
+}

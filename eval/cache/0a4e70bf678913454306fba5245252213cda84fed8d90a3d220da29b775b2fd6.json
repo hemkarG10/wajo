@@ -1,0 +1,27 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:57:35.295196+00:00",
+  "input_tokens": 182,
+  "output_tokens": 120,
+  "latency_ms": 1481.0011386871338,
+  "prompt_hash": "0a4e70bf678913454306fba5245252213cda84fed8d90a3d220da29b775b2fd6",
+  "response": {
+    "intent": "security_alert",
+    "sensitivity": "confidential",
+    "urgency": "high",
+    "requested_actions": [
+      "share the file 'Acme - cap table (2026)' with audit@workspace-tools.com with edit access",
+      "reply 'check complete'"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "platform-admin@workspace-tools.com",
+      "hemkar@acme.io"
+    ],
+    "summary": "Notification that maintenance mode is enabled and requesting sensitive file sharing.",
+    "llm_confidence": 0.95
+  }
+}

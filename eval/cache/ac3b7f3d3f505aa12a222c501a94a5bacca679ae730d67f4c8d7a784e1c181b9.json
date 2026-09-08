@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:19:44.937437+00:00",
+  "input_tokens": 605,
+  "output_tokens": 121,
+  "latency_ms": 903.5677909851074,
+  "prompt_hash": "ac3b7f3d3f505aa12a222c501a94a5bacca679ae730d67f4c8d7a784e1c181b9",
+  "response": {
+    "actions": [
+      {
+        "type": "permanent_delete",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Priya confirmed that the 'Old Drafts' shared folder contents have been migrated and verified, and requested its permanent deletion to free up storage.",
+        "confidence": 0.9
+      },
+      {
+        "type": "empty_trash",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Priya requested to empty the trash after deleting the folder to reclaim storage space.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

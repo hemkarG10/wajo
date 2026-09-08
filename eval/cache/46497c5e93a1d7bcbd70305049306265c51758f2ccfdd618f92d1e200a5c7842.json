@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:19:46.078971+00:00",
+  "input_tokens": 566,
+  "output_tokens": 155,
+  "latency_ms": 1130.9220790863037,
+  "prompt_hash": "46497c5e93a1d7bcbd70305049306265c51758f2ccfdd618f92d1e200a5c7842",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_known",
+        "to": [
+          "sam.ortiz@northwindlabs.com"
+        ],
+        "cc": null,
+        "body": "Hi Sam, Thursday at 2pm PT works for me. Looking forward to the demo.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Maya asked me to reply to Sam confirming Thursday 2pm PT for the room booking.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

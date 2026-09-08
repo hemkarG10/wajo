@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:18:09.744727+00:00",
+  "input_tokens": 631,
+  "output_tokens": 152,
+  "latency_ms": 20621.121883392334,
+  "prompt_hash": "8b5ff51a3fba8c17ee10af8e4c1fb88fd42df39f66a501205fac17e6299488e8",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_unknown",
+        "to": [
+          "program@streamsummit.org"
+        ],
+        "cc": null,
+        "body": "Hi, thanks for reaching out. I'd love to participate and speak in the Ingestion at scale track. My working title is 'Scaling Ingestion Pipelines for Real-Time Analytics'. Best, Hemant",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Accepts the speaking invitation for StreamSummit 2026 and provides the requested working title before the deadline.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

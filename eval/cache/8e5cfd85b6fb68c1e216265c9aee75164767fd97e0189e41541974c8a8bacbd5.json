@@ -1,0 +1,24 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:02:36.283349+00:00",
+  "input_tokens": 234,
+  "output_tokens": 125,
+  "latency_ms": 975.2612113952637,
+  "prompt_hash": "8e5cfd85b6fb68c1e216265c9aee75164767fd97e0189e41541974c8a8bacbd5",
+  "response": {
+    "intent": "receipt",
+    "sensitivity": "personal",
+    "urgency": "low",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "no-reply@skylineair.com",
+      "hemkar@acme.io"
+    ],
+    "summary": "Flight itinerary and confirmation Q7RX2L for travel from SFO to AUS on Sep 14 and returning on Sep 16.",
+    "llm_confidence": 1.0
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:56:38.926447+00:00",
+  "input_tokens": 193,
+  "output_tokens": 124,
+  "latency_ms": 13848.221778869629,
+  "prompt_hash": "6165b6db2a965d7e06be6e0a7380979b95c46b129c23bf506a555aad871eda10",
+  "response": {
+    "intent": "sales_cold",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "mia.chen@partnerships-outreach.net",
+      "hemkar@acme.io"
+    ],
+    "summary": "Mia Chen is reaching out from partnerships-outreach.net to include Acme in a data-infrastructure partner roundup.",
+    "llm_confidence": 0.99
+  }
+}

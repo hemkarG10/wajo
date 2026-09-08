@@ -1,0 +1,23 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:01:24.207870+00:00",
+  "input_tokens": 228,
+  "output_tokens": 100,
+  "latency_ms": 954.9868106842041,
+  "prompt_hash": "b90d0db86cdd63681a3d8fbe34f417a0f5b9169e1a74e9b84c9ffda67c713ddf",
+  "response": {
+    "intent": "notification",
+    "sensitivity": "none",
+    "urgency": "low",
+    "requested_actions": [],
+    "deadline": null,
+    "thread_participants": [
+      "notifications@gitforge.io"
+    ],
+    "summary": "CI build #4,812 passed successfully on the main branch for commit a41f2c9.",
+    "llm_confidence": 1.0
+  }
+}

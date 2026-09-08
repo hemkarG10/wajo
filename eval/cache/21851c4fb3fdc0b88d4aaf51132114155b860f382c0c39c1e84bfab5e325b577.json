@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:05:02.212324+00:00",
+  "input_tokens": 623,
+  "output_tokens": 94,
+  "latency_ms": 845.80397605896,
+  "prompt_hash": "21851c4fb3fdc0b88d4aaf51132114155b860f382c0c39c1e84bfab5e325b577",
+  "response": {
+    "actions": [
+      {
+        "type": "pay",
+        "to": [
+          "jordan@ledgerly.tax"
+        ],
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": 2150.0,
+        "currency": "USD",
+        "url": null,
+        "subject": null,
+        "rationale": "Approve the regular monthly Nimbus Cloud payment as requested by our accountant Jordan.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

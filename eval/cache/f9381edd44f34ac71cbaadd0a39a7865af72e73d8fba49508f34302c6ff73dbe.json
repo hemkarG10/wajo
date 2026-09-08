@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:00:11.276867+00:00",
+  "input_tokens": 597,
+  "output_tokens": 124,
+  "latency_ms": 1272.5858688354492,
+  "prompt_hash": "f9381edd44f34ac71cbaadd0a39a7865af72e73d8fba49508f34302c6ff73dbe",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_known",
+        "to": [
+          "lena@brightpathdesign.co"
+        ],
+        "cc": null,
+        "body": "Hi Lena, I'd rather not make introductions to Noor right now, but feel free to reach out to them directly. Best, Hemkar",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Decline the request to introduce an unknown recipient while maintaining a polite tone in the user's style.",
+        "confidence": 0.85
+      }
+    ]
+  }
+}

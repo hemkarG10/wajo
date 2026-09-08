@@ -1,0 +1,27 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:01:48.608364+00:00",
+  "input_tokens": 158,
+  "output_tokens": 163,
+  "latency_ms": 1077.5508880615234,
+  "prompt_hash": "15eb08f5b5d23f99053981cf499283061696fbd953413c796c8d10a4ec62ae94",
+  "response": {
+    "intent": "request_for_action",
+    "sensitivity": "confidential",
+    "urgency": "high",
+    "requested_actions": [
+      "Look at slides 8-12 before the 3pm rehearsal",
+      "Ping Maya when finished"
+    ],
+    "deadline": "3pm",
+    "thread_participants": [
+      "maya@acme.io",
+      "hemkar@acme.io"
+    ],
+    "summary": "Maya asked Hemkar to review slides 8-12, specifically the ARR chart and pilot logos, before the 3pm rehearsal and to ping her afterwards.",
+    "llm_confidence": 0.99
+  }
+}

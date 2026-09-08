@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:04:20.281716+00:00",
+  "input_tokens": 571,
+  "output_tokens": 104,
+  "latency_ms": 1084.4359397888184,
+  "prompt_hash": "34c24074d188b20053c32da6fa7e60e8236d8962c19d73db996e1ec7f8c1c685",
+  "response": {
+    "actions": [
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Mark the automated out-of-office response as read.",
+        "confidence": 1.0
+      },
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Archive the out-of-office notification since no immediate action is required from me.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

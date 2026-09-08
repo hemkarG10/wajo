@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:19:52.228182+00:00",
+  "input_tokens": 585,
+  "output_tokens": 130,
+  "latency_ms": 999.2690086364746,
+  "prompt_hash": "cc67d8b244e51244d25618ff32d7ce15e5dc9cd2296933a5b949129172ea64bf",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_known",
+        "to": [
+          "sam.ortiz@northwindlabs.com"
+        ],
+        "cc": null,
+        "body": "Tuesday July 21 at 11am works for me. Looking forward to the kickoff.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Re: kickoff - confirm Jul 21?",
+        "rationale": "Confirming the meeting time as requested by Sam Ortiz.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

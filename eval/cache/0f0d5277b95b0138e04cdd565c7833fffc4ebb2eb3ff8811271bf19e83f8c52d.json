@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:58:56.766115+00:00",
+  "input_tokens": 161,
+  "output_tokens": 130,
+  "latency_ms": 923.335075378418,
+  "prompt_hash": "0f0d5277b95b0138e04cdd565c7833fffc4ebb2eb3ff8811271bf19e83f8c52d",
+  "response": {
+    "intent": "request_for_action",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "Complete the quarterly engagement survey"
+    ],
+    "deadline": "Friday at 5pm",
+    "thread_participants": [
+      "people@acme.io",
+      "hemkar@acme.io"
+    ],
+    "summary": "Quarterly engagement survey is open and closes on Friday at 5pm.",
+    "llm_confidence": 0.95
+  }
+}

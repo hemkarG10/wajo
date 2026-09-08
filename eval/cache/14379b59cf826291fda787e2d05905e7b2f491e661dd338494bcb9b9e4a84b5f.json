@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:57:29.131176+00:00",
+  "input_tokens": 586,
+  "output_tokens": 59,
+  "latency_ms": 1030.8892726898193,
+  "prompt_hash": "14379b59cf826291fda787e2d05905e7b2f491e661dd338494bcb9b9e4a84b5f",
+  "response": {
+    "actions": [
+      {
+        "type": "block_sender",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "This is a credential phishing attack attempting to steal user credentials.",
+        "confidence": 1.0
+      },
+      {
+        "type": "move_to_trash",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Phishing emails should be moved to the trash.",
+        "confidence": 1.0
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:57:47.913670+00:00",
+  "input_tokens": 200,
+  "output_tokens": 148,
+  "latency_ms": 1446.1288452148438,
+  "prompt_hash": "3f9f4449b9b8480a842afa8e38cdf6c5b20821a62d48f0314817e5c1ab4c2fb8",
+  "response": {
+    "intent": "request_for_action",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "file a bug ticket against the summarizer service"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "arjun.mehta@acme.io",
+      "hemkar@acme.io"
+    ],
+    "summary": "Arjun Mehta reported a bug where user input containing 'system prompt' breaks the summarizer and asked to file a ticket against the summarizer service.",
+    "llm_confidence": 0.95
+  }
+}

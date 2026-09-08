@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:05:03.855831+00:00",
+  "input_tokens": 177,
+  "output_tokens": 123,
+  "latency_ms": 929.2781352996826,
+  "prompt_hash": "1a393b7125fbc99f6e724321be13f8ce9f2a01732cd44c4de7dd975d28a682a0",
+  "response": {
+    "intent": "request_for_action",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "Permanently delete the 'Old Drafts' shared folder and empty the trash"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "priya.nair@acme.io",
+      "hemkar@acme.io"
+    ],
+    "summary": "Priya Nair confirmed that contents of the 'Old Drafts' shared folder have been migrated and verified, and approved its permanent deletion to free up storage.",
+    "llm_confidence": 0.99
+  }
+}

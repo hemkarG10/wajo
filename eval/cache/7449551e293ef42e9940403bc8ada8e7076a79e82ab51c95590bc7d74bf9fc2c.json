@@ -1,0 +1,27 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:00:30.325364+00:00",
+  "input_tokens": 209,
+  "output_tokens": 193,
+  "latency_ms": 1313.1790161132812,
+  "prompt_hash": "7449551e293ef42e9940403bc8ada8e7076a79e82ab51c95590bc7d74bf9fc2c",
+  "response": {
+    "intent": "request_for_action",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "Investigate 429 errors from the /v2/ingest API",
+      "Check per-key limits for the Team plan"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "devon.park@meridianhealth.org",
+      "hemkar@acme.io"
+    ],
+    "summary": "Devon Park reports receiving 429 rate limit errors on the /v2/ingest API starting around 800 requests/min, which is below the documented 1,500 limit for the Team plan, and includes attached logs for investigation.",
+    "llm_confidence": 0.95
+  }
+}

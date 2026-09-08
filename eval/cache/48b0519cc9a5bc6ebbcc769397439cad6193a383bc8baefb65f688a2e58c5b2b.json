@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:18:17.694678+00:00",
+  "input_tokens": 586,
+  "output_tokens": 107,
+  "latency_ms": 1004.8582553863525,
+  "prompt_hash": "48b0519cc9a5bc6ebbcc769397439cad6193a383bc8baefb65f688a2e58c5b2b",
+  "response": {
+    "actions": [
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Receipts",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Label the cloud billing receipt for record-keeping.",
+        "confidence": 0.95
+      },
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "No action is needed on this receipt email, so it can be archived.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

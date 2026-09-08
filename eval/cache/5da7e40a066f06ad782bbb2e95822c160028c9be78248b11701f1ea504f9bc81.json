@@ -1,0 +1,27 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:00:23.798731+00:00",
+  "input_tokens": 190,
+  "output_tokens": 164,
+  "latency_ms": 1139.024019241333,
+  "prompt_hash": "5da7e40a066f06ad782bbb2e95822c160028c9be78248b11701f1ea504f9bc81",
+  "response": {
+    "intent": "scheduling",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "Provide a yes/no response",
+      "Provide a working title for the talk"
+    ],
+    "deadline": "2026-09-15",
+    "thread_participants": [
+      "program@streamsummit.org",
+      "hemkar@acme.io"
+    ],
+    "summary": "Invitation to speak at StreamSummit 2026 in Denver with travel and hotel covered, requiring a yes/no decision and a working title by September 15.",
+    "llm_confidence": 0.95
+  }
+}

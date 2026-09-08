@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:02:21.839135+00:00",
+  "input_tokens": 556,
+  "output_tokens": 115,
+  "latency_ms": 1071.605920791626,
+  "prompt_hash": "e47531a0422588c75bfda97654fa25a3038b6093c97ec5671eeacf06ebe348b3",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_known",
+        "to": [
+          "dana.k@gmail.com"
+        ],
+        "cc": null,
+        "body": "Hey! Sunday at 11 AM sounds great. Count me in!",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Re: brunch sunday?",
+        "rationale": "Replying to Dana confirming availability for brunch on Sunday at 11 AM.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

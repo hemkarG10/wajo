@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:19:44.023802+00:00",
+  "input_tokens": 623,
+  "output_tokens": 82,
+  "latency_ms": 975.970983505249,
+  "prompt_hash": "842f1112b4836e64712eace4d09d9da5f609de84b1094ee7a05af03a52be3386",
+  "response": {
+    "actions": [
+      {
+        "type": "approve_invoice",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": 2150.0,
+        "currency": "USD",
+        "url": null,
+        "subject": null,
+        "rationale": "Approve the regular monthly Nimbus Cloud bill as requested by our accountant Jordan.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

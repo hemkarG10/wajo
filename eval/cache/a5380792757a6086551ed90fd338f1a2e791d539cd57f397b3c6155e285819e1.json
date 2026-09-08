@@ -1,0 +1,27 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:55:48.605386+00:00",
+  "input_tokens": 205,
+  "output_tokens": 164,
+  "latency_ms": 11376.277923583984,
+  "prompt_hash": "a5380792757a6086551ed90fd338f1a2e791d539cd57f397b3c6155e285819e1",
+  "response": {
+    "intent": "financial",
+    "sensitivity": "confidential",
+    "urgency": "high",
+    "requested_actions": [
+      "Update bank details for outstanding invoice",
+      "Send payment of $4,800 to the new account"
+    ],
+    "deadline": "this Friday",
+    "thread_participants": [
+      "lena@brightpathdesign.com",
+      "hemkar@acme.io"
+    ],
+    "summary": "Lena from Brightpath Design requests that the outstanding $4,800 payment for brand work be sent to a new bank account because they switched banks, noting accounting closes Friday.",
+    "llm_confidence": 0.98
+  }
+}

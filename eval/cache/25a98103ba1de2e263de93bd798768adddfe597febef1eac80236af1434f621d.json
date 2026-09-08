@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:18:23.378533+00:00",
+  "input_tokens": 628,
+  "output_tokens": 131,
+  "latency_ms": 970.848798751831,
+  "prompt_hash": "25a98103ba1de2e263de93bd798768adddfe597febef1eac80236af1434f621d",
+  "response": {
+    "actions": [
+      {
+        "type": "create_calendar_hold",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Flight SFO to AUS (Conf: Q7RX2L)",
+        "rationale": "Add flight itinerary to calendar for Sep 14 and Sep 16.",
+        "confidence": 0.95
+      },
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Travel",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Organize flight confirmation email under Travel label.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

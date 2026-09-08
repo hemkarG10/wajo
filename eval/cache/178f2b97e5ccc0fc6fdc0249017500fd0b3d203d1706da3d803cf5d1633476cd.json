@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:04:03.461858+00:00",
+  "input_tokens": 197,
+  "output_tokens": 120,
+  "latency_ms": 1053.7068843841553,
+  "prompt_hash": "178f2b97e5ccc0fc6fdc0249017500fd0b3d203d1706da3d803cf5d1633476cd",
+  "response": {
+    "intent": "request_for_action",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "Review PR #482 before Thursday's deploy"
+    ],
+    "deadline": "Thursday",
+    "thread_participants": [
+      "arjun.mehta@acme.io",
+      "hemkar@acme.io"
+    ],
+    "summary": "Arjun Mehta submitted PR #482 for the rate limiter on /v2/ingest and requested a code review before Thursday's deploy.",
+    "llm_confidence": 0.95
+  }
+}

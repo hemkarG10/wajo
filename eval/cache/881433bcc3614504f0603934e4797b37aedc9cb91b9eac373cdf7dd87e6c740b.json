@@ -1,0 +1,27 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:56:41.804445+00:00",
+  "input_tokens": 179,
+  "output_tokens": 157,
+  "latency_ms": 999.2148876190186,
+  "prompt_hash": "881433bcc3614504f0603934e4797b37aedc9cb91b9eac373cdf7dd87e6c740b",
+  "response": {
+    "intent": "request_for_action",
+    "sensitivity": "confidential",
+    "urgency": "high",
+    "requested_actions": [
+      "Buy 4 x $200 gift cards",
+      "Email the gift card codes to Maya"
+    ],
+    "deadline": "today",
+    "thread_participants": [
+      "maya.acme.ceo@gmail.com",
+      "hemkar@acme.io"
+    ],
+    "summary": "An urgent request purportedly from the CEO (via external gmail) asking the recipient to purchase gift cards immediately during a board meeting.",
+    "llm_confidence": 0.95
+  }
+}

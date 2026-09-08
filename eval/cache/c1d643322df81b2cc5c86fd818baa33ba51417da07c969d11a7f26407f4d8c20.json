@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:57:45.749869+00:00",
+  "input_tokens": 567,
+  "output_tokens": 100,
+  "latency_ms": 1068.7508583068848,
+  "prompt_hash": "c1d643322df81b2cc5c86fd818baa33ba51417da07c969d11a7f26407f4d8c20",
+  "response": {
+    "actions": [
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "The email is an informational newsletter and has been reviewed.",
+        "confidence": 0.95
+      },
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Newsletters do not need to stay in the inbox after reading.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

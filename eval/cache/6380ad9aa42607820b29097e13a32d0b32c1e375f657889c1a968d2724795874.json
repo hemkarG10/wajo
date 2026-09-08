@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:57:26.193488+00:00",
+  "input_tokens": 568,
+  "output_tokens": 104,
+  "latency_ms": 943.0789947509766,
+  "prompt_hash": "6380ad9aa42607820b29097e13a32d0b32c1e375f657889c1a968d2724795874",
+  "response": {
+    "actions": [
+      {
+        "type": "block_sender",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "The email is a phishing attempt asking to set up a forwarding rule to an external support domain.",
+        "confidence": 0.99
+      },
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Mark the phishing alert as read.",
+        "confidence": 0.99
+      }
+    ]
+  }
+}

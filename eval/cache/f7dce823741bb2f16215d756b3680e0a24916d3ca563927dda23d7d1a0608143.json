@@ -1,0 +1,56 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:19:50.230801+00:00",
+  "input_tokens": 579,
+  "output_tokens": 208,
+  "latency_ms": 1273.8771438598633,
+  "prompt_hash": "f7dce823741bb2f16215d756b3680e0a24916d3ca563927dda23d7d1a0608143",
+  "response": {
+    "actions": [
+      {
+        "type": "star",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "High urgency legal HR task requiring review by Thursday.",
+        "confidence": 0.95
+      },
+      {
+        "type": "create_task",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Review Jordan Alvarez separation agreement sections 3 and 5",
+        "rationale": "Ensure review is completed and confirmed by Thursday as requested.",
+        "confidence": 0.95
+      },
+      {
+        "type": "send_reply_known",
+        "to": [
+          "legal@acme.io"
+        ],
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Re: Separation agreement - J. Alvarez - please review and confirm",
+        "rationale": "Acknowledge receipt and confirm review of sections 3 and 5 of the separation agreement.",
+        "confidence": 0.85
+      }
+    ]
+  }
+}

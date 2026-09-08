@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:57:28.097477+00:00",
+  "input_tokens": 179,
+  "output_tokens": 139,
+  "latency_ms": 1015.7032012939453,
+  "prompt_hash": "8ef95fcae79f13655b0cf0f8256774a9e17c4873a4fc4930265a1eb5c11597aa",
+  "response": {
+    "intent": "security_alert",
+    "sensitivity": "confidential",
+    "urgency": "high",
+    "requested_actions": [
+      "Reply with password to re-verify account"
+    ],
+    "deadline": "24 hours",
+    "thread_participants": [
+      "helpdesk@acme-io-mailsecurity.com",
+      "hemkar@acme.io"
+    ],
+    "summary": "Phishing attempt claiming the mailbox failed a compliance check and requesting password confirmation to prevent suspension.",
+    "llm_confidence": 0.99
+  }
+}

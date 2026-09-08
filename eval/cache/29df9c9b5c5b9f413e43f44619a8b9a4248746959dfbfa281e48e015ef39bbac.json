@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:19:42.117311+00:00",
+  "input_tokens": 591,
+  "output_tokens": 128,
+  "latency_ms": 1046.5269088745117,
+  "prompt_hash": "29df9c9b5c5b9f413e43f44619a8b9a4248746959dfbfa281e48e015ef39bbac",
+  "response": {
+    "actions": [
+      {
+        "type": "create_task",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Submit August expense report in Ledgerly",
+        "rationale": "The user needs a reminder/task to submit their August expense report by Friday with receipts over $75 attached.",
+        "confidence": 0.95
+      },
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Mark the expense reminder email as read since it has been processed.",
+        "confidence": 0.99
+      }
+    ]
+  }
+}

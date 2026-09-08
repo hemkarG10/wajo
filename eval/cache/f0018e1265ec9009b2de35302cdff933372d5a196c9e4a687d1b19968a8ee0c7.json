@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:19:38.919412+00:00",
+  "input_tokens": 535,
+  "output_tokens": 108,
+  "latency_ms": 1018.7578201293945,
+  "prompt_hash": "f0018e1265ec9009b2de35302cdff933372d5a196c9e4a687d1b19968a8ee0c7",
+  "response": {
+    "actions": [
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Mark the informational notification from the accountant as read.",
+        "confidence": 0.99
+      },
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Finance",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Categorize the message under Finance since it pertains to Q3 books.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

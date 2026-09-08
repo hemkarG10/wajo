@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:15:34.589668+00:00",
+  "input_tokens": 634,
+  "output_tokens": 160,
+  "latency_ms": 25565.881729125977,
+  "prompt_hash": "c840d8d7e27f451814e45668208d7e10a9e7dab1fd38e2889977338e07024de8",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_unknown",
+        "to": [
+          "lena@brightpathdesign.com"
+        ],
+        "cc": null,
+        "body": "Hi Lena, thanks for letting us know. Could you please confirm this change via phone or through our established vendor verification process before we update the bank details?",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Verify wire redirection request due to high financial risk of business email compromise.",
+        "confidence": 0.85
+      }
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:04:59.298662+00:00",
+  "input_tokens": 518,
+  "output_tokens": 109,
+  "latency_ms": 1025.137186050415,
+  "prompt_hash": "0b09224dc6296008a04248de166caf02b7b4fe8057fc1e75a97a90039c02b64e",
+  "response": {
+    "actions": [
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Mark the delivery notification as read since no action is required.",
+        "confidence": 0.99
+      },
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Deliveries",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Organize shipping and delivery notifications under the Deliveries label.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

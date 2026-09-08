@@ -52,15 +52,20 @@ class LlmAdapter:
         self._anthropic_client = None
         self._openai_client = None
         self._openai_compat_client = None
+        self._key_cycle = None
 
     def _get_gemini(self):
-        if self._gemini_client is None:
-            from google import genai
-            key = os.environ.get("GEMINI_API_KEY", "")
-            if not key:
-                raise LLMError("GEMINI_API_KEY not set")
-            self._gemini_client = genai.Client(api_key=key)
-        return self._gemini_client
+        import itertools
+        from google import genai
+        if not hasattr(self, "_key_cycle") or self._key_cycle is None:
+            keys = []
+            if os.environ.get("GEMINI_API_KEY"): keys.append(os.environ["GEMINI_API_KEY"])
+            if os.environ.get("GEMINI_API_KEY_2"): keys.append(os.environ["GEMINI_API_KEY_2"])
+            self._key_cycle = itertools.cycle(keys) if keys else None
+        
+        if self._key_cycle:
+            return genai.Client(api_key=next(self._key_cycle))
+        return genai.Client()
 
     def _get_anthropic(self):
         if self._anthropic_client is None:
@@ -160,7 +165,7 @@ class LlmAdapter:
                         {"role": "user", "content": current_prompt},
                     ],
                     temperature=0,
-                    max_tokens=600,
+                    max_tokens=4000,
                     extra_body={"chat_template_kwargs": {"enable_thinking": False}},
                     response_format={
                         "type": "json_schema",
@@ -207,10 +212,12 @@ class LlmAdapter:
                     temperature=0,
                 ),
             )
+            in_tok = response.usage_metadata.prompt_token_count if response.usage_metadata else 0
+            out_tok = response.usage_metadata.candidates_token_count if response.usage_metadata else 0
             if response.parsed:
-                return response.parsed, 0, 0
+                return response.parsed, in_tok, out_tok
             if response.text:
-                return response_model.model_validate_json(response.text), 0, 0
+                return response_model.model_validate_json(response.text), in_tok, out_tok
             raise LLMError("Empty response from Gemini")
         except Exception as e:
             raise LLMError(f"Gemini call failed: {e}")

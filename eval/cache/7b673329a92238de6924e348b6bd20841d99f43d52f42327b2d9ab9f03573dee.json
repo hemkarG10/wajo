@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:18:25.274125+00:00",
+  "input_tokens": 618,
+  "output_tokens": 99,
+  "latency_ms": 950.0710964202881,
+  "prompt_hash": "7b673329a92238de6924e348b6bd20841d99f43d52f42327b2d9ab9f03573dee",
+  "response": {
+    "actions": [
+      {
+        "type": "label",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": "Monitoring",
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Label uptime notification for organization tracking.",
+        "confidence": 0.9
+      },
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Issue has been automatically resolved and requires no further action.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

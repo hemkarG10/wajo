@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:00:42.847117+00:00",
+  "input_tokens": 232,
+  "output_tokens": 192,
+  "latency_ms": 3400.0909328460693,
+  "prompt_hash": "a107a0df6e896cdf97fceac7ab39687aa135b12e2c40e2ae548fc69cffff65f3",
+  "response": {
+    "intent": "info_request",
+    "sensitivity": "confidential",
+    "urgency": "normal",
+    "requested_actions": [
+      "share thoughts on Northwind's pricing request",
+      "decide whether to hold the line, grandfather the old price, or offer a credit"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "maya@acme.io",
+      "hemkar@acme.io",
+      "sam.ortiz@northwindlabs.com"
+    ],
+    "summary": "Maya forwarded an email from Northwind Labs regarding a pricing change, where Northwind is asking to grandfather their old per-seat rate for 12 months. Maya asks Hemkar for his opinion on how to respond.",
+    "llm_confidence": 0.98
+  }
+}

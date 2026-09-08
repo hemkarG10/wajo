@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:17:23.791388+00:00",
+  "input_tokens": 595,
+  "output_tokens": 155,
+  "latency_ms": 964.8997783660889,
+  "prompt_hash": "6e7fdd37100d996ad703aba272d53547a3c622b7ae71099afee84c0a9fb2e10e",
+  "response": {
+    "actions": [
+      {
+        "type": "save_draft_reply",
+        "to": [
+          "sam.ortiz@northwindlabs.com"
+        ],
+        "cc": null,
+        "body": "Hi Sam, I'll pull together the completed security questionnaire and the SOC 2 bridge letter and send them over before the 9th.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Re: Security review - questionnaire + SOC 2 letter",
+        "rationale": "Draft a reply to Sam Ortiz confirming that the requested security questionnaire and SOC 2 bridge letter will be provided before the deadline.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

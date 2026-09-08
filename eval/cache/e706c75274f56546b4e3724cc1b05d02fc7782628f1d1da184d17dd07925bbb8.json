@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:04:55.274339+00:00",
+  "input_tokens": 159,
+  "output_tokens": 162,
+  "latency_ms": 1082.791805267334,
+  "prompt_hash": "e706c75274f56546b4e3724cc1b05d02fc7782628f1d1da184d17dd07925bbb8",
+  "response": {
+    "intent": "notification",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "Submit August expense report in Ledgerly",
+      "Attach receipts over $75",
+      "Contact Priya Nair if card sync is missing anything"
+    ],
+    "deadline": "Friday",
+    "thread_participants": [
+      "priya.nair@acme.io",
+      "hemkar@acme.io"
+    ],
+    "summary": "Reminder from Priya Nair that August expense reports are due by the end of the day on Friday with receipts over $75 attached.",
+    "llm_confidence": 0.99
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T22:58:55.113624+00:00",
+  "input_tokens": 598,
+  "output_tokens": 53,
+  "latency_ms": 940.4070377349854,
+  "prompt_hash": "2410e2da4656b71e730b5d21e879a3f259e075f4003de48058b5919e5696ae66",
+  "response": {
+    "actions": [
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Cold recruiting outreach that is not relevant right now.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

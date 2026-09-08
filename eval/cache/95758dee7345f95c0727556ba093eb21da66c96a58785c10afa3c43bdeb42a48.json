@@ -1,0 +1,28 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:19:53.131194+00:00",
+  "input_tokens": 613,
+  "output_tokens": 52,
+  "latency_ms": 893.8250541687012,
+  "prompt_hash": "95758dee7345f95c0727556ba093eb21da66c96a58785c10afa3c43bdeb42a48",
+  "response": {
+    "actions": [
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Archive the email after reviewing the sample export.",
+        "confidence": 0.85
+      }
+    ]
+  }
+}

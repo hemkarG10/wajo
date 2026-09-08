@@ -1,0 +1,26 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:05:06.597647+00:00",
+  "input_tokens": 154,
+  "output_tokens": 141,
+  "latency_ms": 973.153829574585,
+  "prompt_hash": "35b8afb89beedc87c03ff4b9d730eea6d0d8d3ba154c71a53cbe1f75a9775e86",
+  "response": {
+    "intent": "request_for_action",
+    "sensitivity": "none",
+    "urgency": "normal",
+    "requested_actions": [
+      "Reply to Sam confirming Thursday 2pm PT"
+    ],
+    "deadline": null,
+    "thread_participants": [
+      "maya@acme.io",
+      "hemkar@acme.io"
+    ],
+    "summary": "Maya asks Hemkar to reply to Sam confirming Thursday at 2pm PT so a room can be booked for the Northwind demo.",
+    "llm_confidence": 0.99
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:05:04.809168+00:00",
+  "input_tokens": 605,
+  "output_tokens": 113,
+  "latency_ms": 950.150728225708,
+  "prompt_hash": "1568bbe82e0d5ade0ac9e1f4519aab546a28d5047b1cb7bb5f16e594b3a8870d",
+  "response": {
+    "actions": [
+      {
+        "type": "permanent_delete",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Priya Nair requested permanent deletion of the 'Old Drafts' shared folder to free up storage space.",
+        "confidence": 0.95
+      },
+      {
+        "type": "empty_trash",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Priya requested emptying the trash after deleting the folder to reclaim storage.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "record",
+  "timestamp": "2026-09-08T23:18:27.317784+00:00",
+  "input_tokens": 623,
+  "output_tokens": 124,
+  "latency_ms": 951.4689445495605,
+  "prompt_hash": "c0dbb7708f45850e43ea92a405fd84cc0af5db247348d63c0111a0410c351e58",
+  "response": {
+    "actions": [
+      {
+        "type": "mark_read",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Mark the PR review request as read.",
+        "confidence": 0.99
+      },
+      {
+        "type": "create_task",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Review PR #482: rate limiter for /v2/ingest",
+        "rationale": "Create a task to review Arjun's PR before Thursday's deploy.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}
