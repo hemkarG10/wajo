@@ -1,0 +1,28 @@
+{
+  "provider": "openai_compat",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "127.0.0.1:1234",
+  "mode": "mock",
+  "timestamp": "2026-09-08T23:32:07.505282+00:00",
+  "input_tokens": 10,
+  "output_tokens": 10,
+  "latency_ms": 10.0,
+  "prompt_hash": "a4c162f52a4a81cfaad5813af1066c2ecec2e8c7e8f408327cc7f83f714e17f7",
+  "response": {
+    "actions": [
+      {
+        "type": "archive",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "test",
+        "confidence": 1.0
+      }
+    ]
+  }
+}

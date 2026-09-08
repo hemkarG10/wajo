@@ -1,0 +1,15 @@
+{
+  "provider": "openai_compat",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "127.0.0.1:1234",
+  "mode": "mock",
+  "timestamp": "2026-09-08T23:32:07.501702+00:00",
+  "input_tokens": 10,
+  "output_tokens": 10,
+  "latency_ms": 10.0,
+  "prompt_hash": "a17deac0f180d8dbaef630e90836b17e1a1b25833aa0942f521ae7e975f6b56e",
+  "response": {
+    "llm_judgement": "none",
+    "suspicious_spans": []
+  }
+}
