@@ -38,17 +38,21 @@ def test_record_replay_keys():
     clock = SimClock(datetime.now(UTC))
     
     mock_responses = {
-        "Analyze the following email": {
-            "sender_class": "unknown", 
-            "intent": "other", 
-            "sensitivity": "none", 
-            "urgency": "normal", 
-            "requested_actions": [], 
-            "summary": "test", 
-            "llm_confidence": 1.0, 
-            "llm_judgement": "none"
+        "# Security Analyzer Prompt": {
+            "llm_judgement": "none",
+            "suspicious_spans": []
         },
-        "Based on the situation": {
+        "# Triage Prompt": {
+            "intent": "other",
+            "sensitivity": "none",
+            "urgency": "normal",
+            "requested_actions": [],
+            "deadline": None,
+            "thread_participants": [],
+            "summary": "test",
+            "llm_confidence": 1.0,
+        },
+        "# Planner Prompt": {
             "actions": [{"type": "archive", "rationale": "test", "confidence": 1.0, "params": {}}]
         }
     }
