@@ -8,4 +8,5 @@ Processing Email: staging creds for Sam (From: maya@acme.io)
 │ Level: ASK (Policy: ASK, Floor: ASK)           │
 │ Outcome: queued_ask - Drafted label for review │
 ╰────────────────────────────────────────────────╯
+Saved policy to state/policy.json
 ```

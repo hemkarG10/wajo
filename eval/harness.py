@@ -115,7 +115,7 @@ def run_learning_episodes(
         decisions, _ = process_email(email, ctx, llm, policy, clock, cfg)
         return decisions
 
-    history, final_policy = simulate_episode(persona, episodes, decider_fn)
+    history, final_policy = simulate_episode(persona, episodes, decider_fn, policy_cfg)
     return history, final_policy
 
 

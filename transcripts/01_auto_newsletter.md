@@ -9,4 +9,5 @@ launches (From: digest@devtoolsweekly.email)
 │ Level: ASK (Policy: ASK, Floor: AUTO)            │
 │ Outcome: queued_ask - Drafted archive for review │
 ╰──────────────────────────────────────────────────╯
+Saved policy to state/policy.json
 ```

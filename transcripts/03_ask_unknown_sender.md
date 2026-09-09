@@ -8,4 +8,5 @@ Processing Email: Quick intro + 20 min? (From: rafael@quietloop.ai)
 │ Level: ASK (Policy: ASK, Floor: AUTO)            │
 │ Outcome: queued_ask - Drafted archive for review │
 ╰──────────────────────────────────────────────────╯
+Saved policy to state/policy.json
 ```

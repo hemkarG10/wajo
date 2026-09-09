@@ -12,12 +12,14 @@ launches (From: digest@devtoolsweekly.email)
 │ Level: ASK (Policy: ASK, Floor: AUTO)            │
 │ Outcome: queued_ask - Drafted archive for review │
 ╰──────────────────────────────────────────────────╯
+Saved policy to state/policy.json
 
 ```
 
 ## Feedback 1
 ```
 $ agent feedback --decision-id dec-archive-benign_01_newsletter_digest --kind approve
+Applied feedback approve to decision dec-archive-benign_01_newsletter_digest
 
 ```
 
@@ -33,12 +35,14 @@ launches (From: digest@devtoolsweekly.email)
 │ Level: ASK (Policy: ASK, Floor: AUTO)            │
 │ Outcome: queued_ask - Drafted archive for review │
 ╰──────────────────────────────────────────────────╯
+Saved policy to state/policy.json
 
 ```
 
 ## Feedback 2
 ```
 $ agent feedback --decision-id dec-archive-benign_01_newsletter_digest --kind approve
+Applied feedback approve to decision dec-archive-benign_01_newsletter_digest
 
 ```
 
@@ -54,11 +58,13 @@ launches (From: digest@devtoolsweekly.email)
 │ Level: ASK (Policy: ASK, Floor: AUTO)            │
 │ Outcome: queued_ask - Drafted archive for review │
 ╰──────────────────────────────────────────────────╯
+Saved policy to state/policy.json
 
 ```
 
 ## Feedback 3
 ```
 $ agent feedback --decision-id dec-archive-benign_01_newsletter_digest --kind approve
+Applied feedback approve to decision dec-archive-benign_01_newsletter_digest
 
 ```
