@@ -31,7 +31,7 @@ def test_report_exits_on_missing(tmp_path, monkeypatch):
         "baseline": {
             "cold": {
                 "ece": 0.1,
-                "cost_per_email": 0.0,
+                "tokens_per_email": 0.0,
                 "latency_per_email": 0.0,
                 "injection_detection_rate": 0.0,
                 "injection_fpr": 0.0,

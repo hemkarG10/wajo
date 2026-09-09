@@ -23,20 +23,30 @@ def generate_report():
     personas = baseline.get("personas", {})
     if personas:
         for p_name, data in personas.items():
+            windowed_rates = data.get("windowed_ask_rate", [])
+            plt.plot(range(len(windowed_rates)), windowed_rates, label=f"{p_name} (Windowed 25)")
             rates = data.get("rolling_ask_rate", [])
-            plt.plot(range(len(rates)), rates, label=p_name)
+            plt.plot(range(len(rates)), rates, label=f"{p_name} (Cumulative)", linestyle="--", alpha=0.5)
         plt.xlabel("Episodes")
-        plt.ylabel("Rolling Ask Rate")
+        plt.ylabel("Ask Rate")
         plt.title("Learning Curves (Ask Rate over time)")
         plt.legend()
         plt.grid(True)
         plt.savefig("eval/results/learning_curve.png")
         plt.close()
         
+    learning_table = "### Ask Rate by Persona (First 25 vs Last 25)\n| Persona | First 25 | Last 25 | Cumulative |\n|---|---|---|---|\n"
+    if personas:
+        for p_name, data in personas.items():
+            f25 = data.get("ask_rate_first_25", 0.0)
+            l25 = data.get("ask_rate_last_25", 0.0)
+            cum = data.get("cumulative_ask_rate", 0.0)
+            learning_table += f"| {p_name} | {f25:.3f} | {l25:.3f} | {cum:.3f} |\n"
+        
     cold_baseline = baseline.get("cold", {})
     brier = cold_baseline.get("brier", "not computed")
     ece = cold_baseline.get("ece", "not computed")
-    cost = cold_baseline.get("cost_per_email", "not computed")
+    tokens = cold_baseline.get("tokens_per_email", "not computed")
     latency = cold_baseline.get("latency_per_email", "not computed")
     detection_rate = cold_baseline.get("injection_detection_rate", "not computed")
     fpr = cold_baseline.get("injection_fpr", "not computed")
@@ -70,12 +80,15 @@ def generate_report():
 ## Metrics
 - **Brier Score:** {brier}
 - **ECE:** {ece}
-- **Cost / Latency:** {cost} / {latency}
+- **Tokens / email (record-time cache metadata):** {tokens}
+- **Latency ms / email (recorded, not replay):** {latency}
 - **Injection Detection Rate:** {detection_rate}
 - **Injection FPR:** {fpr}
 
 ## Learning Curves
 ![Learning Curves](learning_curve.png)
+
+{learning_table}
 
 {cm_md}
 {rel_md}
@@ -93,7 +106,7 @@ def generate_report():
     with open("eval/results/REPORT.md", "w") as f:
         f.write(report_md)
         
-    required_keys = ["brier", "ece", "cost_per_email", "injection_detection_rate", "injection_fpr"]
+    required_keys = ["brier", "ece", "tokens_per_email", "latency_per_email", "injection_detection_rate", "injection_fpr"]
     missing = [k for k in required_keys if k not in cold_baseline]
     if missing:
         print(f"not computed: {', '.join(missing)}")

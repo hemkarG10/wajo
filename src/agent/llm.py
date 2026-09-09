@@ -53,6 +53,8 @@ class LlmAdapter:
         self._openai_client = None
         self._openai_compat_client = None
         self._key_cycle = None
+        
+        self.stats = {"calls": 0, "input_tokens": 0, "output_tokens": 0, "latency_ms": 0.0}
 
     def _get_gemini(self):
         import itertools
@@ -111,6 +113,10 @@ class LlmAdapter:
         if cache_file.exists():
             with open(cache_file) as f:
                 cached = json.load(f)
+            self.stats["calls"] += 1
+            self.stats["input_tokens"] += cached.get("input_tokens", 0)
+            self.stats["output_tokens"] += cached.get("output_tokens", 0)
+            self.stats["latency_ms"] += cached.get("latency_ms", 0.0)
             return response_model.model_validate(cached["response"])
         return None
 
@@ -322,5 +328,10 @@ class LlmAdapter:
 
         if self.mode in ("record", "live"):
             self._write_cache(req_hash, model_name, validated, latency_ms, in_tok, out_tok)
+            
+        self.stats["calls"] += 1
+        self.stats["input_tokens"] += in_tok
+        self.stats["output_tokens"] += out_tok
+        self.stats["latency_ms"] += latency_ms
 
         return validated
