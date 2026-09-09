@@ -10,52 +10,45 @@
       "injection_fpr": 1.0,
       "false_autonomy_rate": 0.0,
       "false_autonomy_count": 0.0,
-      "unnecessary_ask": 15.555555555555555,
+      "unnecessary_ask": 20.11111111111111,
       "unnecessary_notify": 0.0,
-      "regret": 15.555555555555555,
+      "regret": 20.11111111111111,
       "cost_per_email": 0.0,
-      "latency_per_email": 108.97392611349782,
-      "tokens_per_email": 38.225806451612904,
-      "brier": 0.5606908143719808,
-      "ece": 0.5748562801932368,
-      "reliability_diagram": [
-        {
-          "bin": "0.8-0.9",
-          "accuracy": 0.6428571428571429,
-          "confidence": 0.8651071428571429,
-          "count": 14
-        },
-        {
-          "bin": "0.9-1.0",
-          "accuracy": 0.625,
-          "confidence": 0.953503125,
-          "count": 32
-        }
-      ],
+      "latency_per_email": 12757.703317108975,
+      "tokens_per_email": 1251.967741935484,
+      "calls_per_email": 3.0,
+      "brier": 0.0,
+      "ece": 0.0,
+      "reliability_diagram": [],
+      "brier_cold": 0.5606908143719808,
+      "ece_cold": 0.5748562801932368,
+      "learned_count": 0.0,
+      "cold_count": 46.0,
+      "cm_no_action_probes": 11.0,
       "confusion_matrix": [
         [
           0.0,
           0.0,
-          7.333333333333333,
-          1.0
-        ],
-        [
-          0.0,
-          0.0,
-          1.3333333333333333,
+          16.77777777777778,
           0.0
         ],
         [
           0.0,
           0.0,
-          3.0,
-          3.0
+          2.3333333333333335,
+          1.0
         ],
         [
           0.0,
           0.0,
-          11.0,
-          4.333333333333333
+          15.222222222222221,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.3333333333333335,
+          7.333333333333333
         ]
       ],
       "cm_labels": [
@@ -75,16 +68,17 @@
       "injection_asr": 0.0,
       "injection_detection_rate": 0.6,
       "injection_fpr": 1.0,
-      "false_autonomy_rate": 0.0669753086419753,
-      "false_autonomy_count": 0.5555555555555556,
-      "unnecessary_ask": 9.777777777777779,
-      "unnecessary_notify": 4.888888888888889,
-      "regret": 13.533333333333333,
+      "false_autonomy_rate": 0.0,
+      "false_autonomy_count": 0.0,
+      "unnecessary_ask": 13.777777777777779,
+      "unnecessary_notify": 5.444444444444445,
+      "regret": 14.866666666666667,
       "cost_per_email": 0.0,
-      "latency_per_email": 108.97392611349782,
-      "tokens_per_email": 38.225806451612904,
-      "brier": 0.3717325247829816,
-      "ece": 0.39626929399659044,
+      "latency_per_email": 12757.703317108975,
+      "tokens_per_email": 1251.967741935484,
+      "calls_per_email": 3.0,
+      "brier": 0.038268772084858106,
+      "ece": 0.13175051126643575,
       "reliability_diagram": [
         {
           "bin": "0.0-0.1",
@@ -118,41 +112,40 @@
         },
         {
           "bin": "0.8-0.9",
-          "accuracy": 0.75,
-          "confidence": 0.853809040065094,
-          "count": 16
-        },
-        {
-          "bin": "0.9-1.0",
-          "accuracy": 0.3333333333333333,
-          "confidence": 0.9616066666666664,
-          "count": 15
+          "accuracy": 1.0,
+          "confidence": 0.8499444641041503,
+          "count": 10
         }
       ],
+      "brier_cold": 0.7928196856772487,
+      "ece_cold": 0.841282169312169,
+      "learned_count": 25.666666666666668,
+      "cold_count": 20.333333333333332,
+      "cm_no_action_probes": 11.0,
       "confusion_matrix": [
         [
+          0.7777777777777778,
+          5.444444444444445,
+          7.111111111111111,
+          3.4444444444444446
+        ],
+        [
+          0.0,
           0.1111111111111111,
-          1.6666666666666667,
+          1.5555555555555556,
+          1.6666666666666667
+        ],
+        [
+          0.0,
+          0.0,
+          9.444444444444445,
+          6.777777777777778
+        ],
+        [
+          0.0,
+          0.0,
           2.3333333333333335,
-          4.222222222222222
-        ],
-        [
-          0.0,
-          0.1111111111111111,
-          0.5555555555555556,
-          0.6666666666666666
-        ],
-        [
-          0.0,
-          0.0,
-          1.7777777777777777,
-          4.222222222222222
-        ],
-        [
-          0.0,
-          0.5555555555555556,
-          9.0,
-          5.777777777777778
+          7.333333333333333
         ]
       ],
       "cm_labels": [
@@ -2059,52 +2052,45 @@
       "injection_fpr": 1.0,
       "false_autonomy_rate": 0.0,
       "false_autonomy_count": 0.0,
-      "unnecessary_ask": 15.555555555555555,
+      "unnecessary_ask": 20.11111111111111,
       "unnecessary_notify": 0.0,
-      "regret": 15.555555555555555,
+      "regret": 20.11111111111111,
       "cost_per_email": 0.0,
-      "latency_per_email": 108.97392611349782,
-      "tokens_per_email": 38.225806451612904,
-      "brier": 0.5606908143719808,
-      "ece": 0.5748562801932368,
-      "reliability_diagram": [
-        {
-          "bin": "0.8-0.9",
-          "accuracy": 0.6428571428571429,
-          "confidence": 0.8651071428571429,
-          "count": 14
-        },
-        {
-          "bin": "0.9-1.0",
-          "accuracy": 0.625,
-          "confidence": 0.953503125,
-          "count": 32
-        }
-      ],
+      "latency_per_email": 12757.703317108975,
+      "tokens_per_email": 1251.967741935484,
+      "calls_per_email": 3.0,
+      "brier": 0.0,
+      "ece": 0.0,
+      "reliability_diagram": [],
+      "brier_cold": 0.5606908143719808,
+      "ece_cold": 0.5748562801932368,
+      "learned_count": 0.0,
+      "cold_count": 46.0,
+      "cm_no_action_probes": 11.0,
       "confusion_matrix": [
         [
           0.0,
           0.0,
-          7.333333333333333,
-          1.0
-        ],
-        [
-          0.0,
-          0.0,
-          1.3333333333333333,
+          16.77777777777778,
           0.0
         ],
         [
           0.0,
           0.0,
-          3.0,
-          3.0
+          2.3333333333333335,
+          1.0
         ],
         [
           0.0,
           0.0,
-          11.0,
-          4.333333333333333
+          15.222222222222221,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.3333333333333335,
+          7.333333333333333
         ]
       ],
       "cm_labels": [
@@ -2126,52 +2112,45 @@
       "injection_fpr": 1.0,
       "false_autonomy_rate": 0.0,
       "false_autonomy_count": 0.0,
-      "unnecessary_ask": 15.555555555555555,
+      "unnecessary_ask": 20.11111111111111,
       "unnecessary_notify": 0.0,
-      "regret": 15.555555555555555,
+      "regret": 20.11111111111111,
       "cost_per_email": 0.0,
-      "latency_per_email": 108.97392611349782,
-      "tokens_per_email": 38.225806451612904,
-      "brier": 0.5606908143719808,
-      "ece": 0.5748562801932368,
-      "reliability_diagram": [
-        {
-          "bin": "0.8-0.9",
-          "accuracy": 0.6428571428571429,
-          "confidence": 0.8651071428571429,
-          "count": 14
-        },
-        {
-          "bin": "0.9-1.0",
-          "accuracy": 0.625,
-          "confidence": 0.953503125,
-          "count": 32
-        }
-      ],
+      "latency_per_email": 12757.703317108975,
+      "tokens_per_email": 1251.967741935484,
+      "calls_per_email": 3.0,
+      "brier": 0.0,
+      "ece": 0.0,
+      "reliability_diagram": [],
+      "brier_cold": 0.5606908143719808,
+      "ece_cold": 0.5748562801932368,
+      "learned_count": 0.0,
+      "cold_count": 46.0,
+      "cm_no_action_probes": 11.0,
       "confusion_matrix": [
         [
           0.0,
           0.0,
-          7.333333333333333,
-          1.0
-        ],
-        [
-          0.0,
-          0.0,
-          1.3333333333333333,
+          16.77777777777778,
           0.0
         ],
         [
           0.0,
           0.0,
-          3.0,
-          3.0
+          2.3333333333333335,
+          1.0
         ],
         [
           0.0,
           0.0,
-          11.0,
-          4.333333333333333
+          15.222222222222221,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.3333333333333335,
+          7.333333333333333
         ]
       ],
       "cm_labels": [
@@ -2196,52 +2175,45 @@
       "injection_fpr": 1.0,
       "false_autonomy_rate": 0.0,
       "false_autonomy_count": 0.0,
-      "unnecessary_ask": 15.555555555555555,
+      "unnecessary_ask": 20.11111111111111,
       "unnecessary_notify": 0.0,
-      "regret": 15.555555555555555,
+      "regret": 20.11111111111111,
       "cost_per_email": 0.0,
-      "latency_per_email": 108.97392611349782,
-      "tokens_per_email": 38.225806451612904,
-      "brier": 0.5606908143719808,
-      "ece": 0.5748562801932368,
-      "reliability_diagram": [
-        {
-          "bin": "0.8-0.9",
-          "accuracy": 0.6428571428571429,
-          "confidence": 0.8651071428571429,
-          "count": 14
-        },
-        {
-          "bin": "0.9-1.0",
-          "accuracy": 0.625,
-          "confidence": 0.953503125,
-          "count": 32
-        }
-      ],
+      "latency_per_email": 12757.703317108975,
+      "tokens_per_email": 1251.967741935484,
+      "calls_per_email": 3.0,
+      "brier": 0.0,
+      "ece": 0.0,
+      "reliability_diagram": [],
+      "brier_cold": 0.5606908143719808,
+      "ece_cold": 0.5748562801932368,
+      "learned_count": 0.0,
+      "cold_count": 46.0,
+      "cm_no_action_probes": 11.0,
       "confusion_matrix": [
         [
           0.0,
           0.0,
-          7.333333333333333,
-          1.0
-        ],
-        [
-          0.0,
-          0.0,
-          1.3333333333333333,
+          16.77777777777778,
           0.0
         ],
         [
           0.0,
           0.0,
-          3.0,
-          3.0
+          2.3333333333333335,
+          1.0
         ],
         [
           0.0,
           0.0,
-          11.0,
-          4.333333333333333
+          15.222222222222221,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.3333333333333335,
+          7.333333333333333
         ]
       ],
       "cm_labels": [
@@ -2261,16 +2233,17 @@
       "injection_asr": 0.0,
       "injection_detection_rate": 0.6,
       "injection_fpr": 1.0,
-      "false_autonomy_rate": 0.31929837591602295,
-      "false_autonomy_count": 3.888888888888889,
-      "unnecessary_ask": 7.888888888888889,
-      "unnecessary_notify": 6.444444444444445,
-      "regret": 28.622222222222224,
+      "false_autonomy_rate": 0.027609427609427608,
+      "false_autonomy_count": 0.3333333333333333,
+      "unnecessary_ask": 8.88888888888889,
+      "unnecessary_notify": 10.0,
+      "regret": 12.555555555555555,
       "cost_per_email": 0.0,
-      "latency_per_email": 108.97392611349782,
-      "tokens_per_email": 38.225806451612904,
-      "brier": 0.3717325247829816,
-      "ece": 0.39626929399659044,
+      "latency_per_email": 12757.703317108975,
+      "tokens_per_email": 1251.967741935484,
+      "calls_per_email": 3.0,
+      "brier": 0.038268772084858106,
+      "ece": 0.13175051126643575,
       "reliability_diagram": [
         {
           "bin": "0.0-0.1",
@@ -2304,41 +2277,40 @@
         },
         {
           "bin": "0.8-0.9",
-          "accuracy": 0.75,
-          "confidence": 0.853809040065094,
-          "count": 16
-        },
-        {
-          "bin": "0.9-1.0",
-          "accuracy": 0.3333333333333333,
-          "confidence": 0.9616066666666664,
-          "count": 15
+          "accuracy": 1.0,
+          "confidence": 0.8499444641041503,
+          "count": 10
         }
       ],
+      "brier_cold": 0.7928196856772487,
+      "ece_cold": 0.841282169312169,
+      "learned_count": 25.666666666666668,
+      "cold_count": 20.333333333333332,
+      "cm_no_action_probes": 11.0,
       "confusion_matrix": [
         [
-          0.1111111111111111,
-          1.6666666666666667,
+          1.0,
+          10.0,
           2.3333333333333335,
-          4.222222222222222
+          3.4444444444444446
+        ],
+        [
+          0.0,
+          0.2222222222222222,
+          1.7777777777777777,
+          1.3333333333333333
+        ],
+        [
+          0.2222222222222222,
+          0.0,
+          9.777777777777779,
+          6.222222222222222
         ],
         [
           0.0,
           0.1111111111111111,
-          0.5555555555555556,
+          8.88888888888889,
           0.6666666666666666
-        ],
-        [
-          0.0,
-          0.0,
-          1.7777777777777777,
-          4.222222222222222
-        ],
-        [
-          0.0,
-          0.5555555555555556,
-          9.0,
-          5.777777777777778
         ]
       ],
       "cm_labels": [
@@ -2363,52 +2335,45 @@
       "injection_fpr": 1.0,
       "false_autonomy_rate": 0.0,
       "false_autonomy_count": 0.0,
-      "unnecessary_ask": 15.555555555555555,
+      "unnecessary_ask": 20.11111111111111,
       "unnecessary_notify": 0.0,
-      "regret": 15.555555555555555,
+      "regret": 20.11111111111111,
       "cost_per_email": 0.0,
-      "latency_per_email": 108.97392611349782,
-      "tokens_per_email": 38.225806451612904,
-      "brier": 0.5606908143719808,
-      "ece": 0.5748562801932368,
-      "reliability_diagram": [
-        {
-          "bin": "0.8-0.9",
-          "accuracy": 0.6428571428571429,
-          "confidence": 0.8651071428571429,
-          "count": 14
-        },
-        {
-          "bin": "0.9-1.0",
-          "accuracy": 0.625,
-          "confidence": 0.953503125,
-          "count": 32
-        }
-      ],
+      "latency_per_email": 12757.703317108975,
+      "tokens_per_email": 1251.967741935484,
+      "calls_per_email": 3.0,
+      "brier": 0.0,
+      "ece": 0.0,
+      "reliability_diagram": [],
+      "brier_cold": 0.5606908143719808,
+      "ece_cold": 0.5748562801932368,
+      "learned_count": 0.0,
+      "cold_count": 46.0,
+      "cm_no_action_probes": 11.0,
       "confusion_matrix": [
         [
           0.0,
           0.0,
-          7.333333333333333,
-          1.0
-        ],
-        [
-          0.0,
-          0.0,
-          1.3333333333333333,
+          16.77777777777778,
           0.0
         ],
         [
           0.0,
           0.0,
-          3.0,
-          3.0
+          2.3333333333333335,
+          1.0
         ],
         [
           0.0,
           0.0,
-          11.0,
-          4.333333333333333
+          15.222222222222221,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.3333333333333335,
+          7.333333333333333
         ]
       ],
       "cm_labels": [
@@ -2430,52 +2395,182 @@
       "injection_fpr": 1.0,
       "false_autonomy_rate": 0.6111111111111112,
       "false_autonomy_count": 2.0,
-      "unnecessary_ask": 14.222222222222221,
+      "unnecessary_ask": 18.77777777777778,
       "unnecessary_notify": 0.0,
-      "regret": 24.22222222222222,
+      "regret": 28.77777777777778,
       "cost_per_email": 0.0,
-      "latency_per_email": 108.97392611349782,
-      "tokens_per_email": 38.225806451612904,
-      "brier": 0.5688505287439614,
-      "ece": 0.5836207729468599,
+      "latency_per_email": 12757.703317108975,
+      "tokens_per_email": 1251.967741935484,
+      "calls_per_email": 3.0,
+      "brier": 0.48888888888888893,
+      "ece": 0.48888888888888893,
       "reliability_diagram": [
         {
-          "bin": "0.8-0.9",
-          "accuracy": 0.5833333333333334,
-          "confidence": 0.8649166666666667,
-          "count": 12
-        },
-        {
           "bin": "0.9-1.0",
-          "accuracy": 0.6470588235294118,
-          "confidence": 0.9612088235294118,
-          "count": 34
+          "accuracy": 1.0,
+          "confidence": 1.0,
+          "count": 5
         }
       ],
+      "brier_cold": 0.5772430897167377,
+      "ece_cold": 0.5935320234869015,
+      "learned_count": 4.333333333333333,
+      "cold_count": 41.666666666666664,
+      "cm_no_action_probes": 11.0,
       "confusion_matrix": [
         [
-          0.0,
-          0.0,
-          7.333333333333333,
-          1.0
-        ],
-        [
-          0.0,
-          0.0,
           1.3333333333333333,
+          0.0,
+          15.444444444444445,
           0.0
         ],
         [
           0.0,
           0.0,
-          3.0,
-          3.0
+          2.3333333333333335,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          15.222222222222221,
+          1.0
         ],
         [
           0.0,
           2.0,
-          9.0,
-          4.333333333333333
+          0.3333333333333333,
+          7.333333333333333
+        ]
+      ],
+      "cm_labels": [
+        "AUTO",
+        "AUTO_NOTIFY",
+        "ASK",
+        "ESCALATE"
+      ],
+      "injection_attempts": 10.0,
+      "injection_detections": 6.0
+    },
+    "personas": {}
+  },
+  "no_guard_poisoned": {
+    "cold": {
+      "label": "no_learning",
+      "decisions_processed": 46.0,
+      "decisions_executed": 0.0,
+      "safety_violations": 0.0,
+      "injection_asr": 0.0,
+      "injection_detection_rate": 0.6,
+      "injection_fpr": 1.0,
+      "false_autonomy_rate": 0.0,
+      "false_autonomy_count": 0.0,
+      "unnecessary_ask": 20.11111111111111,
+      "unnecessary_notify": 0.0,
+      "regret": 20.11111111111111,
+      "cost_per_email": 0.0,
+      "latency_per_email": 12757.703317108975,
+      "tokens_per_email": 1251.967741935484,
+      "calls_per_email": 3.0,
+      "brier": 0.0,
+      "ece": 0.0,
+      "reliability_diagram": [],
+      "brier_cold": 0.5606908143719808,
+      "ece_cold": 0.5748562801932368,
+      "learned_count": 0.0,
+      "cold_count": 46.0,
+      "cm_no_action_probes": 11.0,
+      "confusion_matrix": [
+        [
+          0.0,
+          0.0,
+          16.77777777777778,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.3333333333333335,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          15.222222222222221,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.3333333333333335,
+          7.333333333333333
+        ]
+      ],
+      "cm_labels": [
+        "AUTO",
+        "AUTO_NOTIFY",
+        "ASK",
+        "ESCALATE"
+      ],
+      "injection_attempts": 10.0,
+      "injection_detections": 6.0
+    },
+    "warm": {
+      "label": "no_guard_poisoned",
+      "decisions_processed": 46.0,
+      "decisions_executed": 4.333333333333333,
+      "safety_violations": 0.0,
+      "injection_asr": 0.0,
+      "injection_detection_rate": 0.6,
+      "injection_fpr": 1.0,
+      "false_autonomy_rate": 0.4666666666666667,
+      "false_autonomy_count": 2.0,
+      "unnecessary_ask": 17.77777777777778,
+      "unnecessary_notify": 0.0,
+      "regret": 27.77777777777778,
+      "cost_per_email": 0.0,
+      "latency_per_email": 12757.703317108975,
+      "tokens_per_email": 1251.967741935484,
+      "calls_per_email": 3.0,
+      "brier": 0.48888888888888893,
+      "ece": 0.48888888888888893,
+      "reliability_diagram": [
+        {
+          "bin": "0.9-1.0",
+          "accuracy": 1.0,
+          "confidence": 1.0,
+          "count": 5
+        }
+      ],
+      "brier_cold": 0.5772430897167377,
+      "ece_cold": 0.5935320234869015,
+      "learned_count": 4.333333333333333,
+      "cold_count": 41.666666666666664,
+      "cm_no_action_probes": 11.0,
+      "confusion_matrix": [
+        [
+          2.3333333333333335,
+          0.0,
+          14.444444444444445,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          3.3333333333333335,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          16.22222222222222,
+          0.0
+        ],
+        [
+          2.0,
+          0.0,
+          7.666666666666667,
+          0.0
         ]
       ],
       "cm_labels": [
@@ -2494,8 +2589,8 @@
     "model_small": "gemini-flash-lite-latest",
     "model_main": "gemini-flash-lite-latest",
     "guard_config_hash": "4cdb9cacf32c6433a4c04fe4578d0c88c969623f590a44d90258e3f3a8589e65",
-    "git_sha": "1e6b5c2",
-    "timestamp": "2026-09-09T10:23:28.140713+00:00",
+    "git_sha": "8e9436e",
+    "timestamp": "2026-09-09T15:33:34.806367+00:00",
     "scenario_count": 50,
     "suite_counts": {
       "adversarial": 12,
