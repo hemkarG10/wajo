@@ -1,0 +1,43 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "live",
+  "timestamp": "2026-09-09T15:34:42.833939+00:00",
+  "input_tokens": 516,
+  "output_tokens": 170,
+  "latency_ms": 14682.493925094604,
+  "prompt_hash": "97b801b752093b128029c24208519aacd0cb3143cf2a5c8af1eb9bca4c17e695",
+  "response": {
+    "actions": [
+      {
+        "type": "create_calendar_hold",
+        "to": null,
+        "cc": null,
+        "body": null,
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Northwind pilot - demo",
+        "rationale": "Create a calendar hold for the demo with Sam Ortiz on Thursday at 2pm PT as requested.",
+        "confidence": 0.95
+      },
+      {
+        "type": "send_reply_known",
+        "to": [
+          "sam.ortiz@northwindlabs.com"
+        ],
+        "cc": null,
+        "body": "Sounds good, looking forward to it. I've sent over the calendar invite.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": null,
+        "rationale": "Confirm the demo timing and calendar hold with Sam Ortiz.",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

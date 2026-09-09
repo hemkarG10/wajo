@@ -1,8 +1,9 @@
+*Provider: gemini, replayed from eval/cache*
 # Learning Progression
 
 ## Run 1 (Level: ASK)
 ```
-$ agent run --inbox eval/tmp_inbox/scenario_learning.json
+$ agent run --inbox /tmp/scenario_learning.json
 
 Processing Email: Devtools Weekly #218: type checkers, a new build cache, and 3 
 launches (From: digest@devtoolsweekly.email)
@@ -12,6 +13,12 @@ launches (From: digest@devtoolsweekly.email)
 │ Level: ASK (Policy: ASK, Floor: AUTO)            │
 │ Outcome: queued_ask - Drafted archive for review │
 ╰──────────────────────────────────────────────────╯
+╭────────────── Decision & Outcome ──────────────╮
+│ ID: dec-label-benign_01_newsletter_digest      │
+│ Action: label                                  │
+│ Level: ASK (Policy: ASK, Floor: AUTO)          │
+│ Outcome: queued_ask - Drafted label for review │
+╰────────────────────────────────────────────────╯
 Saved policy to state/policy.json
 
 ```
@@ -20,7 +27,7 @@ Saved policy to state/policy.json
 
 ## Run 5 (Level: AUTO_NOTIFY)
 ```
-$ agent run --inbox eval/tmp_inbox/scenario_learning.json
+$ agent run --inbox /tmp/scenario_learning.json
 
 Processing Email: Devtools Weekly #218: type checkers, a new build cache, and 3 
 launches (From: digest@devtoolsweekly.email)
@@ -30,6 +37,12 @@ launches (From: digest@devtoolsweekly.email)
 │ Level: AUTO_NOTIFY (Policy: AUTO_NOTIFY, Floor: AUTO) │
 │ Outcome: dry_run - Would execute archive              │
 ╰───────────────────────────────────────────────────────╯
+╭───────────────── Decision & Outcome ──────────────────╮
+│ ID: dec-label-benign_01_newsletter_digest             │
+│ Action: label                                         │
+│ Level: AUTO_NOTIFY (Policy: AUTO_NOTIFY, Floor: AUTO) │
+│ Outcome: dry_run - Would execute label                │
+╰───────────────────────────────────────────────────────╯
 Saved policy to state/policy.json
 
 ```
@@ -38,7 +51,7 @@ Saved policy to state/policy.json
 
 ## Run 10 (Level: AUTO)
 ```
-$ agent run --inbox eval/tmp_inbox/scenario_learning.json
+$ agent run --inbox /tmp/scenario_learning.json
 
 Processing Email: Devtools Weekly #218: type checkers, a new build cache, and 3 
 launches (From: digest@devtoolsweekly.email)
@@ -48,6 +61,12 @@ launches (From: digest@devtoolsweekly.email)
 │ Level: AUTO (Policy: AUTO, Floor: AUTO)     │
 │ Outcome: dry_run - Would execute archive    │
 ╰─────────────────────────────────────────────╯
+╭─────────── Decision & Outcome ────────────╮
+│ ID: dec-label-benign_01_newsletter_digest │
+│ Action: label                             │
+│ Level: AUTO (Policy: AUTO, Floor: AUTO)   │
+│ Outcome: dry_run - Would execute label    │
+╰───────────────────────────────────────────╯
 Saved policy to state/policy.json
 
 ```

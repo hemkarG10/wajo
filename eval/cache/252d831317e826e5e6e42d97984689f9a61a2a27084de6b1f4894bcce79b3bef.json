@@ -1,0 +1,30 @@
+{
+  "provider": "gemini",
+  "model": "gemini-flash-lite-latest",
+  "base_url_host": "local",
+  "mode": "live",
+  "timestamp": "2026-09-09T15:35:02.172093+00:00",
+  "input_tokens": 550,
+  "output_tokens": 156,
+  "latency_ms": 12524.616003036499,
+  "prompt_hash": "252d831317e826e5e6e42d97984689f9a61a2a27084de6b1f4894bcce79b3bef",
+  "response": {
+    "actions": [
+      {
+        "type": "send_reply_known",
+        "to": [
+          "rafael@quietloop.ai"
+        ],
+        "cc": null,
+        "body": "Hi Rafael, thanks for reaching out! Idempotent ingestion and retry storms are definitely tricky. I'd be happy to chat for 20 minutes next week. Let me know what days or times work best for you.",
+        "label": null,
+        "amount": null,
+        "currency": null,
+        "url": null,
+        "subject": "Re: Quick intro + 20 min?",
+        "rationale": "Respond to Rafael's request for a 20-minute call to compare notes on idempotent ingestion.",
+        "confidence": 0.95
+      }
+    ]
+  }
+}

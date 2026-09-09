@@ -15,7 +15,8 @@ def run_cli_run(inbox_path: str):
     env["AGENT_LLM_MODE"] = "replay"
     env["PYTHONPATH"] = "."
     result = subprocess.run(
-        ["uv", "run", "python", "src/agent/cli.py", "run", "--inbox", inbox_path, "--llm", "heuristic"],
+        ["uv", "run", "python", "src/agent/cli.py", "run", "--inbox", inbox_path, "--llm", os.environ.get("AGENT_LLM_PROVIDER", "gemini")],
+
         env=env, capture_output=True, text=True
     )
     return result.stdout
@@ -72,13 +73,13 @@ def main():
         ("eval/scenarios/safety_probe/probe_08_I8_dlp_password.yaml",      "06_dlp_blocks_cofounder.md"),
     ]
 
-    os.makedirs("eval/tmp_inbox", exist_ok=True)
+    
 
     for i, (path, out_file) in enumerate(scenarios):
         if i == 6: continue # 07 is handled later
         with open(path) as f:
             case = yaml.safe_load(f)
-            tmp_inbox = f"eval/tmp_inbox/scenario_{i}.json"
+            tmp_inbox = f"/tmp/scenario_{i}.json"
             with open(tmp_inbox, "w") as out:
                 json.dump([case["email"] if "email" in case else case["incoming"][0]], out)
         
@@ -86,14 +87,16 @@ def main():
             reset_state()
             for _ in range(4):
                 run_cli_run(tmp_inbox)
-                dec = get_latest_decision()
-                run_cli_feedback(dec, "approve")
+                for p in Path("state/decisions").glob("*.json"):
+                    run_cli_feedback(p.stem, "approve")
+                    p.unlink()
             out_text = run_cli_run(tmp_inbox)
             level_match = re.search(r"Level:\s+(\w+)", out_text)
             level = level_match.group(1).lower() if level_match else "unknown"
             out_file = f"02_{level}_known_client.md"
             with open(f"transcripts/{out_file}", "w") as f:
-                f.write("*Warmed with 4 approvals prior to this run.*\n```\n$ agent run --inbox eval/tmp_inbox/scenario_1.json\n")
+                provider = os.environ.get("AGENT_LLM_PROVIDER", "gemini")
+                f.write(f"*Provider: {provider}, replayed from eval/cache*\n*Warmed with 4 approvals prior to this run.*\n```\n$ agent run --inbox /tmp/scenario_1.json\n")
                 f.write(out_text)
                 f.write("```\n")
             continue
@@ -104,8 +107,12 @@ def main():
         level = level_match.group(1).lower() if level_match else "unknown"
         if i == 0: out_file = f"01_{level}_newsletter.md"
         with open(f"transcripts/{out_file}", "w") as f:
+            provider = os.environ.get("AGENT_LLM_PROVIDER", "gemini")
+            f.write(f"*Provider: {provider}, replayed from eval/cache*\n")
             f.write(f"```\n$ agent run --inbox {tmp_inbox}\n")
             f.write(out_text)
+            if i == 5 and "Action: reply" not in out_text:
+                f.write("Note: Under replay the planner proposed no external action for this email, so I8_THREAD escalation did not trigger.\n")
             f.write("```\n")
 
     # 07 Progression
@@ -113,7 +120,7 @@ def main():
     path = "eval/scenarios/benign/benign_01_newsletter_digest.yaml"
     with open(path) as f:
         case = yaml.safe_load(f)
-        tmp_inbox = "eval/tmp_inbox/scenario_learning.json"
+        tmp_inbox = "/tmp/scenario_learning.json"
         with open(tmp_inbox, "w") as out:
             json.dump([case["email"] if "email" in case else case["incoming"][0]], out)
             
@@ -127,14 +134,16 @@ def main():
         runs.append((i+1, level, out))
         if level == "AUTO":
             break
-        dec_id = get_latest_decision()
-        run_cli_feedback(dec_id, "approve")
+        for p in Path("state/decisions").glob("*.json"):
+            run_cli_feedback(p.stem, "approve")
+            p.unlink()
         
     first_auto_notify = next((r for r in runs if r[1] == "AUTO_NOTIFY"), None)
     first_auto = next((r for r in runs if r[1] == "AUTO"), None)
     
     with open(out_file, "w") as f:
-        f.write("# Learning Progression\n")
+        provider = os.environ.get("AGENT_LLM_PROVIDER", "gemini")
+        f.write(f"*Provider: {provider}, replayed from eval/cache*\n# Learning Progression\n")
         
         # Run 1
         r1 = runs[0]
