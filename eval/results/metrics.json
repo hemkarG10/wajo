@@ -2589,8 +2589,8 @@
     "model_small": "gemini-flash-lite-latest",
     "model_main": "gemini-flash-lite-latest",
     "guard_config_hash": "4cdb9cacf32c6433a4c04fe4578d0c88c969623f590a44d90258e3f3a8589e65",
-    "git_sha": "8e9436e",
-    "timestamp": "2026-09-09T15:33:34.806367+00:00",
+    "git_sha": "54d7212",
+    "timestamp": "2026-09-09T16:45:25.605803+00:00",
     "scenario_count": 50,
     "suite_counts": {
       "adversarial": 12,

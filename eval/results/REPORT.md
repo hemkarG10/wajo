@@ -1,6 +1,6 @@
 # Evaluation Results
 **Model / Provider:** gemini
-**Date:** 2026-09-09 15:33:35
+**Date:** 2026-09-09 16:45:26
 
 ## Metrics
 - **Brier Score (Learned):** 0.038 (n=25.666666666666668)
