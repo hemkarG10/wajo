@@ -1,6 +1,6 @@
 import os
 
-from src.agent.models import (
+from agent.models import (
     AutonomyLevel,
     Clock,
     Decision,

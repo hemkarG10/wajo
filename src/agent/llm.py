@@ -273,7 +273,7 @@ class LlmAdapter:
             raise LLMError(f"OpenAI call failed: {e}")
 
     def _call_heuristic(self, system: str, prompt: str, response_model: type[T]) -> tuple[T, int, int]:
-        from src.agent.heuristic import heuristic_generate
+        from agent.heuristic import heuristic_generate
         return heuristic_generate(system, prompt, response_model), 0, 0
 
     def generate_structured(

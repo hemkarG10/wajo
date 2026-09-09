@@ -1,5 +1,5 @@
-from src.agent.models import EmailMessage, Provenance
-from src.agent.planner import _derive_provenance
+from agent.models import EmailMessage, Provenance
+from agent.planner import _derive_provenance
 
 
 def test_planner_provenance():

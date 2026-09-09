@@ -18,10 +18,10 @@ def test_guard_imports():
     for node in ast.walk(tree):
         if isinstance(node, ast.Import):
             for alias in node.names:
-                if alias.name.startswith("src.agent.learn") or "learn" in alias.name:
+                if alias.name.startswith("agent.learn") or "learn" in alias.name:
                     disallowed_imports.append(alias.name)
         elif isinstance(node, ast.ImportFrom):
-            if node.module and (node.module.startswith("src.agent.learn") or "learn" in node.module):
+            if node.module and (node.module.startswith("agent.learn") or "learn" in node.module):
                 disallowed_imports.append(node.module)
 
     assert not disallowed_imports, f"guard.py has disallowed imports: {disallowed_imports}"
@@ -34,3 +34,11 @@ def test_no_disable_guard():
         if "disable_guard" in text:
             violating_files.append(str(file))
     assert not violating_files, f"disable_guard found in {violating_files}"
+
+
+def test_production_package_does_not_import_src_namespace():
+    violating_files = []
+    for file in Path("src/agent").rglob("*.py"):
+        if "src.agent" in file.read_text():
+            violating_files.append(str(file))
+    assert not violating_files, f"installed package imports src namespace: {violating_files}"

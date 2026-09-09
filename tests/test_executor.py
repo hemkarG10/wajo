@@ -1,7 +1,7 @@
 from datetime import UTC, datetime
 
-from src.agent.execute import Executor
-from src.agent.models import (
+from agent.execute import Executor
+from agent.models import (
     AutonomyLevel,
     Decision,
     ProposedAction,

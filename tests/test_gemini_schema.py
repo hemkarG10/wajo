@@ -1,5 +1,5 @@
-from src.agent.models import InjectionSignals, Situation, TriageOutput
-from src.agent.planner import PlannerOut
+from agent.models import InjectionSignals, Situation, TriageOutput
+from agent.planner import PlannerOut
 
 
 def test_no_additional_properties_in_schema():

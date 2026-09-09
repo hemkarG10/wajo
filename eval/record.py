@@ -17,10 +17,10 @@ load_dotenv()
 
 import yaml
 
+from agent.llm import LlmAdapter
+from agent.models import EmailMessage, SimClock
+from agent.pipeline import process_email
 from eval.context import scenario_ctx
-from src.agent.llm import LlmAdapter
-from src.agent.models import EmailMessage, SimClock
-from src.agent.pipeline import process_email
 
 
 def main():

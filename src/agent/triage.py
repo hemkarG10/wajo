@@ -1,8 +1,8 @@
 from datetime import datetime
 from pathlib import Path
 
-from src.agent.llm import LlmAdapter
-from src.agent.models import (
+from agent.llm import LlmAdapter
+from agent.models import (
     EmailMessage,
     InjectionJudgement,
     SenderClass,

@@ -1,7 +1,7 @@
 from hypothesis import given
 from hypothesis import strategies as st
 
-from src.agent.models import AutonomyLevel
+from agent.models import AutonomyLevel
 
 
 @given(st.sampled_from(list(AutonomyLevel)), st.sampled_from(list(AutonomyLevel)))
@@ -18,7 +18,7 @@ with open("config/actions.yaml") as f:
 with open("config/guard.yaml") as f:
     GUARD_CFG = yaml.safe_load(f)
 
-from src.agent.models import Intent, SenderClass, Sensitivity
+from agent.models import Intent, SenderClass, Sensitivity
 
 
 @given(
@@ -31,10 +31,10 @@ from src.agent.models import Intent, SenderClass, Sensitivity
 def test_learned_policy_cannot_bypass_floor(action_type: str, sender_class: SenderClass, intent: Intent, sensitivity: Sensitivity, inj_score: float):
     from datetime import UTC, datetime
 
-    from src.agent.decide import make_decision
-    from src.agent.guard import floor
-    from src.agent.learn.rules import RulesEngine
-    from src.agent.models import (
+    from agent.decide import make_decision
+    from agent.guard import floor
+    from agent.learn.rules import RulesEngine
+    from agent.models import (
         EmailMessage,
         InjectionSignals,
         ProposedAction,

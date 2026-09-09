@@ -3,8 +3,8 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from src.agent.llm import LlmAdapter
-from src.agent.models import EmailMessage, ProposedAction, Provenance, Situation
+from agent.llm import LlmAdapter
+from agent.models import EmailMessage, ProposedAction, Provenance, Situation
 
 
 class PlannerAction(BaseModel):

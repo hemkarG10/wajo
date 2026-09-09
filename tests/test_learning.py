@@ -2,10 +2,10 @@ import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
 
-from src.agent.learn.feedback import process_feedback
-from src.agent.learn.rules import RulesEngine
-from src.agent.learn.store import load_policy, save_policy
-from src.agent.models import (
+from agent.learn.feedback import process_feedback
+from agent.learn.rules import RulesEngine
+from agent.learn.store import load_policy, save_policy
+from agent.models import (
     AutonomyLevel,
     Decision,
     Feedback,
@@ -72,8 +72,8 @@ def test_load_missing_policy():
     assert load_policy("does_not_exist.json") == {}
 
 def test_backoff_buckets():
-    from src.agent.decide import make_decision
-    from src.agent.models import InjectionSignals, Intent, SenderClass, Situation
+    from agent.decide import make_decision
+    from agent.models import InjectionSignals, Intent, SenderClass, Situation
     
     policy = {}
     rules = RulesEngine()
@@ -109,7 +109,7 @@ def test_backoff_buckets():
         thread_participants=[], summary="", llm_confidence=1.0
     )
     
-    from src.agent.models import EmailMessage
+    from agent.models import EmailMessage
     email = EmailMessage(
         id="test", thread_id="test", from_addr="a@b.c", to=["c@d.e"], cc=[], subject="test", body_text="test", body_html=None, headers={}, attachments=[], received_at=now
     )
@@ -148,3 +148,54 @@ def test_single_noisy_reject_does_not_reset_trust():
     assert data["alpha"] == 5.5
     # beta increases by 1
     assert data["beta"] == 2.0
+
+
+def test_escalation_feedback_moves_trust_in_the_correct_direction():
+    now = datetime.now(UTC)
+    rules = RulesEngine()
+    decision = Decision(
+        id="d1",
+        msg_id="m1",
+        action=ProposedAction(
+            type="archive",
+            params={},
+            provenance={},
+            rationale="",
+            confidence=1.0,
+        ),
+        level=AutonomyLevel.ESCALATE,
+        policy_level=AutonomyLevel.ESCALATE,
+        floor=AutonomyLevel.AUTO,
+        floor_reasons=[],
+        policy_reason={"bucket": "archive_newsletter_newsletter"},
+        guard_config_hash="",
+        created_at=now,
+    )
+    cfg = {"half_life_days": 14.0, "lcb_confidence": 0.80}
+
+    right_policy = {}
+    process_feedback(
+        Feedback(decision_id="d1", kind="escalate_was_right", at=now),
+        decision,
+        right_policy,
+        rules,
+        now,
+        cfg,
+    )
+    overkill_policy = {}
+    process_feedback(
+        Feedback(decision_id="d1", kind="escalate_was_overkill", at=now),
+        decision,
+        overkill_policy,
+        rules,
+        now,
+        cfg,
+    )
+
+    right = right_policy["archive_newsletter_newsletter"]
+    overkill = overkill_policy["archive_newsletter_newsletter"]
+    assert right["alpha"] == 1.0
+    assert right["beta"] == 2.0
+    assert overkill["alpha"] == 2.0
+    assert overkill["beta"] == 1.0
+    assert right["lcb"] < overkill["lcb"]

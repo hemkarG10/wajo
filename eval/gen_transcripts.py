@@ -7,7 +7,7 @@ from pathlib import Path
 
 import yaml
 
-from src.agent.models import AutonomyLevel
+from agent.models import AutonomyLevel
 
 
 def run_cli_run(inbox_path: str):

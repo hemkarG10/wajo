@@ -1,7 +1,7 @@
 from datetime import UTC, datetime
 
-from src.agent.decide import make_decision, policy_level
-from src.agent.models import (
+from agent.decide import make_decision, policy_level
+from agent.models import (
     AutonomyLevel,
     EmailMessage,
     InjectionSignals,
@@ -63,7 +63,7 @@ def test_make_decision_clamps_to_floor():
     registry = {"pay": {"external": True, "money": True, "floor": "ESCALATE"}}
     guard_cfg = {"dlp_patterns": [], "stale_days": 30}
     
-    from src.agent.models import SimClock
+    from agent.models import SimClock
     clock = SimClock(email.received_at)
 
     dec = make_decision(sit, email, act, inj, registry, guard_cfg, clock=clock)

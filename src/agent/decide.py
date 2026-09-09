@@ -2,8 +2,8 @@ import hashlib
 import json
 from typing import Any
 
-from src.agent.guard import floor
-from src.agent.models import (
+from agent.guard import floor
+from agent.models import (
     AutonomyLevel,
     Clock,
     Decision,

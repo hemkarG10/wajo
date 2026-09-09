@@ -25,6 +25,9 @@ jobs:
       
     - name: Run linter
       run: make lint
+
+    - name: Verify installable package and CLI
+      run: make package-check
       
     - name: Run tests
       run: make test

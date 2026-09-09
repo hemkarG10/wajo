@@ -1,6 +1,6 @@
 """Heuristic provider: rule-based classification with no LLM calls.
 
-Used as the default provider for eval and as a fallback.
+Used for the no-key demo, smoke evaluation, and deterministic fallback behavior.
 Exposes heuristic_generate(system, prompt, response_model) -> BaseModel
 so llm.py can delegate to it.
 """
@@ -9,7 +9,7 @@ from typing import TypeVar
 
 from pydantic import BaseModel
 
-from src.agent.models import (
+from agent.models import (
     EmailMessage,
     Intent,
     SenderClass,
@@ -40,7 +40,18 @@ INTENT_KEYWORDS: dict[str, list[str]] = {
     "notification": ["notification", "alert:", "system maintenance", "update:", "status change", "reminder:"],
     "financial": ["invoice", "payment due", "wire transfer", "bank account", "billing", "pay ", "amount due"],
     "security_alert": ["password", "verify your", "suspicious activity", "security alert", "unauthorized", "login attempt", "two-factor", "2fa"],
-    "legal_hr": ["legal notice", "compliance", "subpoena", "human resources", "employment", "termination", "nda", "contract review"],
+    "legal_hr": [
+        "legal notice",
+        "compliance",
+        "subpoena",
+        "human resources",
+        "employment",
+        "termination",
+        "nda",
+        "contract review",
+        "separation agreement",
+        "outside counsel",
+    ],
     "request_for_action": ["please review", "can you", "could you", "action required", "request:", "need you to", "sign the", "approve the"],
     "sales_cold": ["demo", "free trial", "limited offer", "exclusive deal", "pricing", "enterprise plan", "scale your"],
     "social": ["happy birthday", "congratulations", "invitation", "party", "dinner", "drinks", "catch up"],

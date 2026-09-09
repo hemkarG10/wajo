@@ -4,7 +4,7 @@ from collections.abc import Iterator
 from datetime import UTC, datetime
 from typing import Protocol
 
-from src.agent.models import AttachmentMeta, EmailMessage
+from agent.models import AttachmentMeta, EmailMessage
 
 
 class MailProvider(Protocol):

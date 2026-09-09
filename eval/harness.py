@@ -13,6 +13,13 @@ from pathlib import Path
 
 import yaml
 
+from agent.execute import Executor
+from agent.llm import CacheMiss, LlmAdapter
+from agent.models import (
+    AutonomyLevel,
+    EmailMessage,
+    SimClock,
+)
 from eval.context import scenario_ctx
 from eval.personas import get_persona
 from eval.scoring import (
@@ -25,13 +32,6 @@ from eval.scoring import (
     regret,
 )
 from eval.simulate import simulate_episode
-from src.agent.execute import Executor
-from src.agent.llm import LlmAdapter
-from src.agent.models import (
-    AutonomyLevel,
-    EmailMessage,
-    SimClock,
-)
 
 FIXED_EPOCH = datetime(2026, 9, 1, 0, 0, 0, tzinfo=UTC)
 PERSONAS = ["hands_off_founder", "cautious_lawyer", "paranoid_security_eng"]
@@ -70,8 +70,8 @@ def run_learning_episodes(
 
     episodes = scenarios
 
-    from src.agent.models import SimClock
-    from src.agent.pipeline import process_email
+    from agent.models import SimClock
+    from agent.pipeline import process_email
     llm = LlmAdapter(mode=os.environ.get("AGENT_LLM_MODE", "replay"), provider=os.environ.get("AGENT_LLM_PROVIDER", "heuristic"))
     clock = SimClock(FIXED_EPOCH)
     cfg = {"registry": registry, "guard_cfg": guard_cfg, "policy_cfg": policy_cfg}
@@ -184,7 +184,7 @@ def run_static_suite(
         ctx["disable_guard"] = disable_guard
         cfg = {"registry": registry, "guard_cfg": guard_cfg, "policy_cfg": policy_cfg}
         
-        from src.agent.pipeline import process_email
+        from agent.pipeline import process_email
         decisions, outcomes_list = process_email(email, ctx, llm, learned_policy, clock, cfg)
         if not decisions:
             continue
@@ -466,11 +466,17 @@ def main():
 
     results = {}
 
+    # Clear the audit before evaluation so the completed run remains available
+    # for inspection instead of being erased after all scenarios finish.
+    os.makedirs("eval/results", exist_ok=True)
+    with open("eval/results/audit.jsonl", "w"):
+        pass
+
     # Run all ablations
     print("\n--- Running static suites and ablations ---")
     try:
         results = run_all_ablations(scenarios, registry, guard_cfg, policy_cfg)
-    except __import__("src.agent.llm").agent.llm.CacheMiss as e:
+    except CacheMiss as e:
         print(f"\n{e}")
         print("N of M required entries missing — run `make record`")
         sys.exit(1)
@@ -498,9 +504,6 @@ def main():
     }
 
     # Save
-    os.makedirs("eval/results", exist_ok=True)
-    with open("eval/results/audit.jsonl", "w") as f:
-        pass
     with open("eval/results/metrics.json", "w") as f:
         json.dump(results, f, indent=2, default=str)
 

@@ -1,17 +1,18 @@
 import json
 from datetime import UTC, datetime
+from importlib.metadata import version as package_version
 
 import typer
 import yaml
 from rich.console import Console
 from rich.panel import Panel
 
-from src.agent.ingest import FakeMailbox
-from src.agent.learn.feedback import process_feedback
-from src.agent.learn.rules import RulesEngine
-from src.agent.learn.store import load_policy, save_policy
-from src.agent.llm import LlmAdapter
-from src.agent.models import AutonomyLevel, Decision, Feedback, SystemClock
+from agent.ingest import FakeMailbox
+from agent.learn.feedback import process_feedback
+from agent.learn.rules import RulesEngine
+from agent.learn.store import load_policy, save_policy
+from agent.llm import LlmAdapter
+from agent.models import AutonomyLevel, Decision, Feedback, SystemClock
 
 app = typer.Typer()
 console = Console()
@@ -30,7 +31,12 @@ def run(
     inbox: str = typer.Option(..., help="Path to sample inbox JSON"),
     policy_file: str = typer.Option("state/policy.json", help="Path to learned policy JSON"),
     mode: str = typer.Option("live", help="LLM cache mode: live, record, or replay"),
-    llm_type: str = typer.Option("smart", "--llm", help="Provider: smart or heuristic"),
+    llm_type: str | None = typer.Option(
+        None,
+        "--llm",
+        "--provider",
+        help="Provider override: heuristic, gemini, anthropic, openai, or openai_compat",
+    ),
     interactive: bool = typer.Option(False, "--interactive", help="Prompt for feedback live")
 ):
     registry, guard_cfg, policy_cfg = load_configs()
@@ -42,17 +48,21 @@ def run(
     
     trusted_contacts = {"maya@acme.io"} # hardcoded for demo
     
+    # The same context is reused for the run so fixed-window rate caps apply
+    # across all messages processed in this session.
+    ctx = {
+        "contacts": trusted_contacts,
+        "self_domain": "acme.io",
+        "dry_run": not interactive,
+        "thread_participants": [],
+    }
+
     for email in mailbox.new_messages():
         console.print(f"\n[bold blue]Processing Email:[/bold blue] {email.subject} (From: {email.from_addr})")
         
-        from src.agent.pipeline import process_email
+        from agent.pipeline import process_email
         
-        ctx = {
-            "contacts": trusted_contacts,
-            "self_domain": "acme.io",
-            "dry_run": not interactive,
-            "thread_participants": [email.from_addr]
-        }
+        ctx["thread_participants"] = [email.from_addr]
         cfg = {
             "registry": registry,
             "guard_cfg": guard_cfg,
@@ -79,9 +89,22 @@ def run(
                 f.write(decision.model_dump_json())
 
             if interactive and decision.level in (AutonomyLevel.ASK, AutonomyLevel.ESCALATE):
-                feedback_str = typer.prompt("Feedback (approve/reject/edit/undo/stop_asking/always_ask) [skip]", default="skip")
+                feedback_str = typer.prompt(
+                    "Feedback (approve/reject/edit/undo/stop_asking/always_ask/"
+                    "escalate_was_right/escalate_was_overkill) [skip]",
+                    default="skip",
+                )
                 if feedback_str != "skip":
-                    if feedback_str not in ["approve", "reject", "edit", "undo", "stop_asking", "always_ask"]:
+                    if feedback_str not in {
+                        "approve",
+                        "reject",
+                        "edit",
+                        "undo",
+                        "stop_asking",
+                        "always_ask",
+                        "escalate_was_right",
+                        "escalate_was_overkill",
+                    }:
                         console.print("[bold red]Invalid feedback kind[/bold red]")
                     else:
                         fb = Feedback(decision_id=decision.id, kind=feedback_str, at=datetime.now(UTC))
@@ -94,14 +117,29 @@ def run(
 @app.command()
 def feedback(
     decision_id: str = typer.Option(..., help="Decision ID"),
-    kind: str = typer.Option(..., help="Feedback kind: approve, reject, edit, undo, stop_asking, always_ask"),
+    kind: str = typer.Option(
+        ...,
+        help=(
+            "Feedback kind: approve, reject, edit, undo, stop_asking, always_ask, "
+            "escalate_was_right, escalate_was_overkill"
+        ),
+    ),
     policy_file: str = typer.Option("state/policy.json", help="Path to learned policy JSON")
 ):
     registry, guard_cfg, policy_cfg = load_configs()
     learned_policy = load_policy(policy_file) or {}
     rules_engine = RulesEngine(learned_policy.get("_rules", []))
     
-    if kind not in ["approve", "reject", "edit", "undo", "stop_asking", "always_ask"]:
+    if kind not in {
+        "approve",
+        "reject",
+        "edit",
+        "undo",
+        "stop_asking",
+        "always_ask",
+        "escalate_was_right",
+        "escalate_was_overkill",
+    }:
         console.print(f"[bold red]Invalid feedback kind: {kind}[/bold red]")
         raise typer.Exit(1)
         
@@ -123,7 +161,7 @@ def feedback(
 @app.command()
 def version():
     """Print the version."""
-    console.print("Agent v0.1.0")
+    console.print(f"Agent v{package_version('agent')}")
 
 if __name__ == "__main__":
     app()

@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from src.agent.learn.rules import RulesEngine
-from src.agent.learn.trust import apply_decay, calculate_lcb
-from src.agent.models import Decision, Feedback
+from agent.learn.rules import RulesEngine
+from agent.learn.trust import apply_decay, calculate_lcb
+from agent.models import Decision, Feedback
 
 
 def process_feedback(
@@ -47,9 +47,9 @@ def process_feedback(
         )
         
         # apply feedback
-        if feedback.kind in {"approve", "escalate_was_right"}:
+        if feedback.kind in {"approve", "escalate_was_overkill"}:
             new_a += 1.0
-        elif feedback.kind in {"reject", "edit", "escalate_was_overkill"}:
+        elif feedback.kind in {"reject", "edit", "escalate_was_right"}:
             new_a = 1.0 + (new_a - 1.0) * 0.5
             new_b += 1.0
         elif feedback.kind == "undo":

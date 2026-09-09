@@ -4,18 +4,18 @@ from datetime import UTC, datetime
 
 import yaml
 
-from src.agent.decide import make_decision
-from src.agent.execute import Executor
-from src.agent.injection import scan
-from src.agent.learn.rules import RulesEngine
-from src.agent.llm import LlmAdapter
-from src.agent.models import (
+from agent.decide import make_decision
+from agent.execute import Executor
+from agent.injection import scan
+from agent.learn.rules import RulesEngine
+from agent.llm import LlmAdapter
+from agent.models import (
     AutonomyLevel,
     EmailMessage,
     SimClock,
 )
-from src.agent.planner import propose_actions
-from src.agent.triage import extract_situation
+from agent.planner import propose_actions
+from agent.triage import extract_situation
 
 
 def run_debug_dump():

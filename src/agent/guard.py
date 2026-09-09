@@ -3,7 +3,7 @@ import re
 from datetime import UTC, datetime
 from typing import Any
 
-from src.agent.models import (
+from agent.models import (
     AutonomyLevel,
     EmailMessage,
     InjectionSignals,
@@ -33,6 +33,16 @@ def _email_matches_dlp(email: EmailMessage, patterns: list[str]) -> bool:
         if re.search(pat, text):
             return True
     return False
+
+
+def _rate_metric_applies(metric: str, action: ProposedAction, action_def: dict[str, Any]) -> bool:
+    """Return whether a configured counter applies to this proposed action."""
+    if metric == "AUTO_NOTIFY_sends_per_hour":
+        return bool(action_def.get("external"))
+    if metric == "AUTO_archives_per_hour":
+        return action.type == "archive"
+    # Unknown counter names fail closed instead of silently disabling a cap.
+    return True
 
 
 def floor(
@@ -102,8 +112,15 @@ def floor(
             current_floor = max(current_floor, AutonomyLevel.ESCALATE)
             reasons.append("I5")
 
-    # I6 Suspected injection freezes outbound
-    if injection.score >= 0.5 or injection.llm_judgement == "likely":
+    # I6 Any positive injection signal freezes outbound. This intentionally
+    # matches eval.scoring.check_detection: a signal cannot be counted as
+    # detected while still being allowed to steer an autonomous external act.
+    injection_detected = (
+        injection.score >= 0.5
+        or bool(injection.heuristic_hits)
+        or injection.llm_judgement in {"suspicious", "likely"}
+    )
+    if injection_detected:
         if is_external:
             current_floor = max(current_floor, AutonomyLevel.ESCALATE)
         else:
@@ -145,7 +162,10 @@ def floor(
         
     rate_caps = guard_config.get("rate_caps", {})
     for metric, limit in rate_caps.items():
-        if recent_action_counts.get(metric, 0) > limit:
+        if (
+            _rate_metric_applies(metric, action, action_def)
+            and recent_action_counts.get(metric, 0) >= limit
+        ):
             current_floor = max(current_floor, AutonomyLevel.ASK)
             reasons.append("I9")
 

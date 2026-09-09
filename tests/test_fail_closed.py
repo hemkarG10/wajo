@@ -1,7 +1,7 @@
 from datetime import UTC, datetime
 
-from src.agent.llm import LLMError
-from src.agent.models import AutonomyLevel, Decision, EmailMessage, ProposedAction
+from agent.llm import LLMError
+from agent.models import AutonomyLevel, Decision, EmailMessage, ProposedAction
 
 
 def test_planner_fail_closed():

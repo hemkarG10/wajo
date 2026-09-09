@@ -1,6 +1,6 @@
 import re
 
-from src.agent.models import EmailMessage, InjectionSignals
+from agent.models import EmailMessage, InjectionSignals
 
 HEURISTIC_PATTERNS = [
     r"(?i)ignore\s+previous\s+instructions",

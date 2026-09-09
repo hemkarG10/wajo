@@ -2,7 +2,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Literal
 
-from src.agent.models import ProposedAction, Situation
+from agent.models import ProposedAction, Situation
 
 
 @dataclass

@@ -11,10 +11,10 @@ from pathlib import Path
 
 import yaml
 
+from agent.llm import LlmAdapter, LLMError
+from agent.models import EmailMessage, SimClock
+from agent.pipeline import process_email
 from eval.context import scenario_ctx
-from src.agent.llm import LlmAdapter, LLMError
-from src.agent.models import EmailMessage, SimClock
-from src.agent.pipeline import process_email
 
 
 def _make_caching_mock(mock_responses: dict, cache_dir: Path) -> LlmAdapter:

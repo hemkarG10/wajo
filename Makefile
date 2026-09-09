@@ -1,4 +1,4 @@
-.PHONY: setup test lint eval eval-smoke record run transcripts clean-clone-check
+.PHONY: setup test lint package-check eval eval-smoke record record-check run transcripts clean-clone-check dist
 
 setup:
 	uv sync
@@ -7,33 +7,38 @@ setup:
 export
 
 test:
-	PYTHONPATH=. uv run pytest tests/ -v
+	uv run pytest tests/ -v
 
 lint:
 	uv run ruff check .
 
+package-check:
+	uv build
+	uv run agent version
+	uv run agent --help > /dev/null
+
 run:
-	PYTHONPATH=. uv run python src/agent/cli.py run --inbox sample_inbox.json --mode replay
+	uv run agent run --inbox sample_inbox.json --mode live --llm heuristic
 
 record:
-	PYTHONPATH=. uv run python -u eval/record.py --rpm 0
+	AGENT_LLM_MODE=record uv run python -u -m eval.record --rpm 0
 
 record-check:
-	PYTHONPATH=. uv run python eval/record.py --check
+	uv run python -m eval.record --check
 
 eval-smoke:
-	AGENT_LLM_PROVIDER=heuristic PYTHONPATH=. uv run python eval/harness.py
-	PYTHONPATH=. uv run python eval/report.py
+	AGENT_LLM_PROVIDER=heuristic AGENT_LLM_MODE=replay uv run python -m eval.harness
+	uv run python -m eval.report
 
 eval:
-	PYTHONPATH=. uv run python eval/harness.py
-	PYTHONPATH=. uv run python eval/report.py
+	AGENT_LLM_PROVIDER=gemini AGENT_LLM_MODE=replay AGENT_MODEL_SMALL=gemini-flash-lite-latest AGENT_MODEL_MAIN=gemini-flash-lite-latest uv run python -m eval.harness
+	uv run python -m eval.report
 
 transcripts:
-	PYTHONPATH=. uv run python eval/gen_transcripts.py
+	AGENT_LLM_PROVIDER=gemini AGENT_LLM_MODE=replay AGENT_MODEL_SMALL=gemini-flash-lite-latest AGENT_MODEL_MAIN=gemini-flash-lite-latest uv run python -m eval.gen_transcripts
 
 clean-clone-check:
-	cd /tmp && rm -rf wajo_clean && git clone $(PWD) wajo_clean && cd wajo_clean && env -i PATH=$(PATH) HOME=$(HOME) make setup && make test && make eval
+	audit_dir=$$(mktemp -d /tmp/wajo-clean.XXXXXX) && git archive HEAD | tar -x -C $$audit_dir && cd $$audit_dir && env -i PATH=$(PATH) HOME=$(HOME) make setup && make lint && make package-check && make test && make run && make eval
 
 dist:
-	git archive --format=zip -o /tmp/wajo-submission.zip HEAD
+	git archive --format=zip -o wajo-submission.zip HEAD

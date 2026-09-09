@@ -13,9 +13,9 @@ from datetime import UTC, datetime
 import yaml
 
 from eval.context import scenario_ctx
-from src.agent.llm import CacheMiss, LlmAdapter
-from src.agent.models import EmailMessage, SimClock
-from src.agent.pipeline import process_email
+from agent.llm import CacheMiss, LlmAdapter
+from agent.models import EmailMessage, SimClock
+from agent.pipeline import process_email
 
 FIXED_EPOCH = datetime(2026, 9, 1, tzinfo=UTC)
 registry = yaml.safe_load(open("config/actions.yaml"))

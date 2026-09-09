@@ -2,7 +2,7 @@
 import json
 from datetime import UTC, datetime
 
-from src.agent.heuristic import (
+from agent.heuristic import (
     classify_intent,
     classify_sender,
     classify_sensitivity,
@@ -10,14 +10,14 @@ from src.agent.heuristic import (
     heuristic_generate,
     heuristic_scan,
 )
-from src.agent.models import (
+from agent.models import (
     EmailMessage,
     Intent,
     SenderClass,
     Sensitivity,
     TriageOutput,
 )
-from src.agent.planner import PlannerOut
+from agent.planner import PlannerOut
 
 
 def _make_email(**kwargs) -> EmailMessage:
@@ -80,6 +80,14 @@ def test_intent_financial():
 def test_intent_security():
     email = _make_email(subject="Security Alert", body_text="Suspicious activity detected on your account.")
     assert classify_intent(email) == Intent.SECURITY_ALERT
+
+
+def test_intent_separation_agreement_is_legal_hr():
+    email = _make_email(
+        subject="Separation agreement",
+        body_text="Please review before outside counsel finalizes it.",
+    )
+    assert classify_intent(email) == Intent.LEGAL_HR
 
 
 def test_intent_spam():
@@ -202,7 +210,7 @@ Body: Newsletter content.
 
 def test_proposal_confidence_never_one():
     """No heuristic proposal has confidence == 1.0."""
-    from src.agent.heuristic import PROPOSAL_TABLE
+    from agent.heuristic import PROPOSAL_TABLE
     for key, proposals in PROPOSAL_TABLE.items():
         for p in proposals:
             assert p["confidence"] < 1.0, f"confidence=1.0 in {key}: {p}"

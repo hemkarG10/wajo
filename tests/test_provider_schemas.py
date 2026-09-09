@@ -6,8 +6,8 @@ OpenAI strict mode: no additionalProperties, every optional as X | None
 """
 import json
 
-from src.agent.models import TriageOutput
-from src.agent.planner import PlannerAction, PlannerOut
+from agent.models import TriageOutput
+from agent.planner import PlannerAction, PlannerOut
 
 SCHEMAS = [TriageOutput, PlannerOut, PlannerAction]
 
