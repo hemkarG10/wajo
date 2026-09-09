@@ -18,3 +18,4 @@ state/
 *.log
 config/learned_policy.json
 HANDOFF.txt
+eval/results/audit.jsonl
