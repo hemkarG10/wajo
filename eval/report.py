@@ -1,7 +1,6 @@
 import json
 import os
 import sys
-from datetime import UTC, datetime
 
 
 def generate_report():
@@ -11,6 +10,8 @@ def generate_report():
         
     with open("eval/results/metrics.json", "r") as f:
         metrics = json.load(f)
+
+    metadata = metrics.get("_metadata", {})
         
     baseline = metrics.get("baseline", {})
     no_learning = metrics.get("no_learning", {})
@@ -75,12 +76,11 @@ def generate_report():
         fpr_str = f"{fpr:.2f} ({fpr_count}/2 look-alike emails; a false positive costs one extra ask, never an action)"
     else:
         fpr_str = "not computed"
-    provider = os.environ.get("AGENT_LLM_PROVIDER", "qwen2.5-coder-7b-instruct")
-    mode = os.environ.get("AGENT_LLM_MODE", "mock")
-    if provider == "heuristic":
-        provider = "Heuristic Fallback / Mock Cache"
-    elif provider == "openai_compat":
-        provider = "Qwen 2.5 Coder (via LM-Studio)"
+    provider = metadata.get("provider", "unknown")
+    model_small = metadata.get("model_small", "unknown")
+    model_main = metadata.get("model_main", "unknown")
+    recorded_at = metadata.get("timestamp", "unknown")
+    git_sha = metadata.get("git_sha", "unknown")
         
     cm = warm_baseline.get("confusion_matrix", [])
     labels = warm_baseline.get("cm_labels", [])
@@ -89,7 +89,7 @@ def generate_report():
         cm_md += "| Expected \\ Predicted | " + " | ".join(labels) + " |\n"
         cm_md += "|---|---" + "|---" * (len(labels)-1) + "|\n"
         for i, row in enumerate(cm):
-            cm_md += f"| **{labels[i]}** | " + " | ".join(map(str, row)) + " |\n"
+            cm_md += f"| **{labels[i]}** | " + " | ".join(f"{value:.2f}" for value in row) + " |\n"
     cm_md += f"\ndangerous action never proposed by planner: {int(cm_no_action)} of {probe_count} (nothing to escalate; must_not_execute violations for these: 0)\n"
 
             
@@ -99,13 +99,21 @@ def generate_report():
         for r in rel:
             rel_md += f"| {r['bin']} | {r['accuracy']:.3f} | {r['confidence']:.3f} | {r['count']} |\n"
 
+    def value(section: dict, key: str) -> str:
+        raw = section.get("warm", {}).get(key, "not computed")
+        return raw if isinstance(raw, str) else f"{raw:.3f}"
+
     report_md = f"""# Evaluation Results
-**Model / Provider:** {provider}
-**Date:** {datetime.now(UTC).strftime('%Y-%m-%d %H:%M:%S')}
+
+- **Provider:** {provider}
+- **Models:** {model_small} / {model_main}
+- **Recorded at:** {recorded_at}
+- **Evaluated code revision:** `{git_sha}`
+- **Protocol:** 3 personas × 3 deterministic seeds; fractional counts below are means across those nine runs.
 
 ## Metrics
-- **Brier Score (Learned):** {brier if isinstance(brier, str) else f'{brier:.3f}'} (n={learned_count})
-- **Brier Score (Cold):** {brier_cold if isinstance(brier_cold, str) else f'{brier_cold:.3f}'} (n={cold_count})
+- **Brier Score (Learned):** {brier if isinstance(brier, str) else f'{brier:.3f}'} (mean n={learned_count:.1f})
+- **Brier Score (Cold):** {brier_cold if isinstance(brier_cold, str) else f'{brier_cold:.3f}'} (mean n={cold_count:.1f})
 - **ECE (Learned):** {ece if isinstance(ece, str) else f'{ece:.3f}'}
 - **ECE (Cold):** {ece_cold if isinstance(ece_cold, str) else f'{ece_cold:.3f}'}
 - **Tokens / email (record-time cache metadata):** {tokens if isinstance(tokens, str) else f'{tokens:.1f}'}
@@ -128,11 +136,11 @@ Cold-start s is planner × LLM confidence — a classification confidence, not a
 
 | Ablation | Provider | Safety Violations | Injection ASR | False Autonomy | Regret |
 |---|---|---|---|---|---|
-| Baseline | {provider} | {baseline.get('warm', {}).get('safety_violations', "not computed")} | {baseline.get('warm', {}).get('injection_asr', "not computed")} | {baseline.get('warm', {}).get('false_autonomy_rate', "not computed")} | {baseline.get('warm', {}).get('regret', "not computed")} |
-| No Learning | {provider} | {no_learning.get('warm', {}).get('safety_violations', "not computed")} | {no_learning.get('warm', {}).get('injection_asr', "not computed")} | {no_learning.get('warm', {}).get('false_autonomy_rate', "not computed")} | {no_learning.get('warm', {}).get('regret', "not computed")} |
-| No Guard Clamp | {provider} | {no_guard.get('warm', {}).get('safety_violations', "not computed")} | {no_guard.get('warm', {}).get('injection_asr', "not computed")} | {no_guard.get('warm', {}).get('false_autonomy_rate', "not computed")} | {no_guard.get('warm', {}).get('regret', "not computed")} |
-| Poisoned | {provider} | {poisoned.get('warm', {}).get('safety_violations', "not computed")} | {poisoned.get('warm', {}).get('injection_asr', "not computed")} | {poisoned.get('warm', {}).get('false_autonomy_rate', "not computed")} | {poisoned.get('warm', {}).get('regret', "not computed")} |
-| No Guard + Poisoned | {provider} | {no_guard_poisoned.get('warm', {}).get('safety_violations', "not computed")} | {no_guard_poisoned.get('warm', {}).get('injection_asr', "not computed")} | {no_guard_poisoned.get('warm', {}).get('false_autonomy_rate', "not computed")} | {no_guard_poisoned.get('warm', {}).get('regret', "not computed")} |
+| Baseline | {provider} | {value(baseline, 'safety_violations')} | {value(baseline, 'injection_asr')} | {value(baseline, 'false_autonomy_rate')} | {value(baseline, 'regret')} |
+| No Learning | {provider} | {value(no_learning, 'safety_violations')} | {value(no_learning, 'injection_asr')} | {value(no_learning, 'false_autonomy_rate')} | {value(no_learning, 'regret')} |
+| No Guard Clamp | {provider} | {value(no_guard, 'safety_violations')} | {value(no_guard, 'injection_asr')} | {value(no_guard, 'false_autonomy_rate')} | {value(no_guard, 'regret')} |
+| Poisoned | {provider} | {value(poisoned, 'safety_violations')} | {value(poisoned, 'injection_asr')} | {value(poisoned, 'false_autonomy_rate')} | {value(poisoned, 'regret')} |
+| No Guard + Poisoned | {provider} | {value(no_guard_poisoned, 'safety_violations')} | {value(no_guard_poisoned, 'injection_asr')} | {value(no_guard_poisoned, 'false_autonomy_rate')} | {value(no_guard_poisoned, 'regret')} |
 """
     
     with open("eval/results/REPORT.md", "w") as f:

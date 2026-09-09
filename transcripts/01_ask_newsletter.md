@@ -1,20 +1,19 @@
-*Provider: gemini, replayed from eval/cache*
-```
-$ agent run --inbox /tmp/scenario_0.json
+*Provider: gemini; deterministic replay from `eval/cache/`.*
+*Cold start: no approval history.*
 
-Processing Email: Devtools Weekly #218: type checkers, a new build cache, and 3 
-launches (From: digest@devtoolsweekly.email)
-╭─────────────── Decision & Outcome ───────────────╮
-│ ID: dec-archive-benign_01_newsletter_digest      │
-│ Action: archive                                  │
-│ Level: ASK (Policy: ASK, Floor: AUTO)            │
-│ Outcome: queued_ask - Drafted archive for review │
-╰──────────────────────────────────────────────────╯
-╭────────────── Decision & Outcome ──────────────╮
-│ ID: dec-label-benign_01_newsletter_digest      │
-│ Action: label                                  │
-│ Level: ASK (Policy: ASK, Floor: AUTO)          │
-│ Outcome: queued_ask - Drafted label for review │
-╰────────────────────────────────────────────────╯
-Saved policy to state/policy.json
+```text
+Scenario: benign_01_newsletter_digest
+Decision: dec-archive-benign_01_newsletter_digest
+Action: archive
+Level: ASK (Policy: ASK, Floor: AUTO)
+Floor reasons: none
+Policy bucket: archive_newsletter_newsletter
+Outcome: held (queued_ask)
+
+Decision: dec-label-benign_01_newsletter_digest
+Action: label
+Level: ASK (Policy: ASK, Floor: AUTO)
+Floor reasons: none
+Policy bucket: label_newsletter_newsletter
+Outcome: held (queued_ask)
 ```

@@ -1,13 +1,12 @@
-*Provider: gemini, replayed from eval/cache*
-```
-$ agent run --inbox /tmp/scenario_2.json
+*Provider: gemini; deterministic replay from `eval/cache/`.*
+*Ambiguous request from an unknown sender.*
 
-Processing Email: Quick intro + 20 min? (From: rafael@quietloop.ai)
-╭─────────────────── Decision & Outcome ────────────────────╮
-│ ID: dec-send_reply_known-ambig_01_unknown_founder_call    │
-│ Action: send_reply_known                                  │
-│ Level: ASK (Policy: ASK, Floor: AUTO_NOTIFY)              │
-│ Outcome: queued_ask - Drafted send_reply_known for review │
-╰───────────────────────────────────────────────────────────╯
-Saved policy to state/policy.json
+```text
+Scenario: ambig_01_unknown_founder_call
+Decision: dec-send_reply_unknown-ambig_01_unknown_founder_call
+Action: send_reply_unknown
+Level: ASK (Policy: ASK, Floor: ASK)
+Floor reasons: BASE_REGISTRY, I3
+Policy bucket: send_reply_unknown_unknown_scheduling
+Outcome: held (queued_ask)
 ```

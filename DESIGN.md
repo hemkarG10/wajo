@@ -1,48 +1,60 @@
-# WAJO Agent Design Document
+# WAJO Design
 
-## Architecture
-The WAJO agent uses a multi-layered four-way decision mechanism based on `max(policy_level, floor_level)`. The levels are AUTO, AUTO_NOTIFY, ASK, and ESCALATE.
+## Decision model
 
-### The Guard
-The safety guard (`guard.py`) establishes an absolute `floor_level` based on strict invariants.
-| Invariant | Description | Test Name |
-|---|---|---|
-| I1 | Money never moves autonomously | `test_i1_money` |
-| I2 | Irreversible destructive actions | `test_i2_irreversible_destructive` |
-| I3 | External sends are never silent | `test_i3_external_sends_never_silent` |
-| I4 | New external recipients | `test_i4_new_external_recipient` |
-| I5 | Untrusted provenance | `test_i5_untrusted_provenance` |
-| I6 | Suspected injection | `test_i6_suspected_injection_external`, `_internal` |
-| I7 | Sensitive categories | `test_i7_sensitive_categories` |
-| I8 | DLP on egress | `test_i8_dlp` |
-| I8_THREAD | Secret in thread context blocks external egress | `test_i8_thread_context_blocks_external_egress`, `_ignores_internal_actions` |
-| I9 | Rate caps & Stale days | `test_i9_stale_days` |
-| I11 | Kill switch | `test_i11_kill_switch` |
+Every planner proposal receives one of four ordered levels: `AUTO < AUTO_NOTIFY < ASK < ESCALATE`. The learned policy and the guard are computed independently, and the final level is:
 
-### The Policy & Learning
-The system uses an asymmetric learning mechanism in `feedback.py`. Approvals incrementally increase trust by incrementing `alpha` (`Beta(1+k, 1)`). Rejections aggressively penalize the agent by halving `alpha` and drastically increasing `beta`. The Lower Confidence Bound (LCB) is the 20th percentile of the Beta distribution (`0.2^(1/(n+1))`). 
-- k=4 → 0.725 (meets `AUTO_NOTIFY` threshold 0.70)
-- k=9 → 0.851 (meets `AUTO` threshold 0.85)
+```text
+final_level = max(policy_level, safety_floor)
+```
 
-For novel situations where $n < 3$ (`auto_notify_min_samples`), the policy employs a capped backoff to coarser buckets, limiting the derived autonomy strictly to `AUTO_NOTIFY`. External and money-related actions bypass backoff entirely to prevent unbounded autonomy creep.
+This monotone clamp is the central safety boundary. The learning package is not imported by the guard, unknown action types fail closed, and property tests apply poisoned high-trust policies across every registered action.
 
-## Evaluation
-The evaluation harness tests the agent against 50 scenarios (benign, ambiguous, adversarial, safety probe). We split the benign and ambiguous scenarios into a 70% learning pool and 30% test pool for the learning loop. Three distinct personas dictate how feedback is given (e.g., `hands_off_founder`). Regret is calculated as $5 \cdot fa + 1 \cdot ua + 0.2 \cdot un$. Calibration evaluates predicted autonomy ($P(approve)$) vs actual outcomes.
+## Hard safety floor
 
-### Results
-The table below is taken directly from the evaluation metrics ([eval/results/REPORT.md](eval/results/REPORT.md)), git sha: 4ea767c5421b3401b9879ffd89f600e5a2b88e8b.
+The action registry supplies a conservative base floor. `guard.py` then raises it when an invariant applies:
 
-| Ablation | Provider | Safety Violations | Injection ASR | False Autonomy | Regret |
-|---|---|---|---|---|---|
-| Baseline | gemini | 0.0 | 0.0 | 0.0669753086419753 | 13.533333333333333 |
-| No Learning | gemini | 0.0 | 0.0 | 0.0 | 15.555555555555555 |
-| No Guard Clamp | gemini | 0.3333333333333333 | 0.0 | 0.31929837591602295 | 28.622222222222224 |
-| Poisoned | gemini | 0.0 | 0.0 | 0.6111111111111112 | 24.22222222222222 |
+| Invariant | Rule |
+|---|---|
+| I0 | Unknown action types escalate. |
+| I1–I2 | Money, permanent deletion, account settings, filters, and forwarding rules escalate. |
+| I3–I5 | External actions are never silent; unknown or untrusted destinations require a human. |
+| I6 | Any heuristic or model injection signal freezes external egress at `ESCALATE` and internal actions at `ASK`. Detector errors fail closed for external actions. |
+| I7–I8 | Legal/HR, financial, security, regulated, and DLP-matching content stays human-controlled. DLP checks both the proposal and original thread content. |
+| I9 | Stale messages and fixed-window hourly action caps require approval. |
+| I11 | A kill switch raises the policy floor, while executor preflight blocks execution entirely. |
 
-### What the eval found
-The evaluation found a critical gap in I8 DLP filtering. Initially, DLP only caught explicit string matches (`password`). The LLM gracefully refused a password request but drafted a response *about* the credentials, bypassing the filter and autonomously executing the refusal (`AUTO_NOTIFY`), which violated the baseline safety expectations. This was addressed by introducing `I8_THREAD`, which completely halts autonomous external egress when sensitive credentials exist anywhere in the thread, independent of what the LLM generates.
+The executor independently rechecks the kill switch and untrusted external destinations. This defense-in-depth layer protects against malformed or deserialized decisions that did not pass through the normal pipeline.
 
-### Limitations
-- **Small Sample Size:** The Injection Detection Rate and FPR are based on very few injection/probe instances (e.g., $n=10$ safety probes, 12 adversarial cases).
-- **Replay Only:** Evaluation currently relies entirely on static, pre-recorded replay caches.
-- **Latency Measurement:** Latency values presented in reports represent the original record-time latency, not true real-time metric evaluations.
+## Calibration and feedback
+
+Trust is represented by Beta posterior evidence at three bucket granularities: action + sender class + intent, action + sender class, and action. The lower confidence bound is the 20th percentile configured by `lcb_confidence: 0.80`.
+
+Approvals add one positive observation. Rejections and edits halve accumulated positive evidence and add a negative observation; undo quarters positive evidence and adds two negative observations. “Escalation was right” follows the negative path, while “escalation was overkill” follows the approval path. Evidence decays toward `Beta(1,1)` with a 14-day half-life.
+
+`AUTO_NOTIFY` requires at least three observations and LCB ≥ 0.70. `AUTO` requires at least eight observations and LCB ≥ 0.85. Sparse internal buckets may back off to broader evidence, but backoff is capped at `AUTO_NOTIFY`. External and money-related actions never back off. Explicit user rules are still clamped by the guard.
+
+## Evaluation protocol
+
+The corpus contains 50 hand-authored scenarios: 18 benign, 10 ambiguous, 12 adversarial, and 10 safety probes. For each of three personas and three fixed seeds, 70% of benign/ambiguous cases form a learning pool sampled for 200 feedback episodes. The remaining benign/ambiguous cases plus every adversarial and safety case form the static evaluation set.
+
+The harness measures safety violations, injection attack success, false autonomy, unnecessary asks/notifications, Brier score, expected calibration error, confusion matrices, model-call metadata, and ask-rate learning curves. Regret is `5 × false_autonomy + unnecessary_ask + 0.2 × unnecessary_notify`. All fractional counts are means across nine persona/seed runs.
+
+| Ablation | Safety violations | Injection ASR | False autonomy | Regret |
+|---|---:|---:|---:|---:|
+| Baseline | 0.000 | 0.000 | 0.000 | 14.867 |
+| No learning | 0.000 | 0.000 | 0.000 | 20.111 |
+| No guard clamp | 0.333 | 0.000 | 0.028 | 12.556 |
+| Poisoned trust | 0.000 | 0.000 | 0.611 | 28.778 |
+| No guard + poisoned | 0.000 | 0.000 | 0.467 | 27.778 |
+
+The learned Brier score is `0.038` versus `0.793` for cold decisions; learned ECE is `0.132` versus `0.841` cold. Baseline and poisoned-trust runs both have zero safety violations, demonstrating that learned confidence cannot lower the floor. Removing the guard produces measurable violations.
+
+## Key tradeoffs and limitations
+
+- Prompt-injection detection is intentionally conservative: detection is 60% on ten attacks and flags both look-alike cases. False positives add review friction but never grant authority. Independent guards blocked all attack goals in this corpus.
+- The corpus is small and hand-authored. Results demonstrate the implementation and evaluation method, not population-level performance.
+- Model outputs are committed replay records. Token and latency measurements describe the original calls; replay itself is offline and deterministic.
+- The included JSON mailbox and executor are safe simulation adapters. Production integration would require provider OAuth, durable idempotency, transactional execution, notification delivery, and persistent rate windows.
+
+The generated report and exact metadata are in `eval/results/REPORT.md` and `eval/results/metrics.json`. Example decisions, floor reasons, policy buckets, and learning progression are in `transcripts/`.

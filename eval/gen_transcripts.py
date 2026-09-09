@@ -1,167 +1,203 @@
-import json
+"""Generate deterministic example transcripts from the replay evaluation cache."""
+
+import copy
 import os
-import re
-import shutil
-import subprocess
+from datetime import UTC, datetime
 from pathlib import Path
 
 import yaml
 
-from agent.models import AutonomyLevel
+from agent.learn.feedback import process_feedback
+from agent.learn.rules import RulesEngine
+from agent.llm import LlmAdapter
+from agent.models import EmailMessage, Feedback, SimClock
+from agent.pipeline import process_email
+from eval.context import scenario_ctx
+
+FIXED_EPOCH = datetime(2026, 9, 1, tzinfo=UTC)
 
 
-def run_cli_run(inbox_path: str):
-    env = os.environ.copy()
-    env["AGENT_LLM_MODE"] = "replay"
-    env["PYTHONPATH"] = "."
-    result = subprocess.run(
-        ["uv", "run", "python", "src/agent/cli.py", "run", "--inbox", inbox_path, "--llm", os.environ.get("AGENT_LLM_PROVIDER", "gemini")],
+def _load_case(path: str) -> dict:
+    with open(path) as handle:
+        return yaml.safe_load(handle)
 
-        env=env, capture_output=True, text=True
+
+def _email_from_case(case: dict) -> EmailMessage:
+    raw = copy.deepcopy(case["email"] if "email" in case else case["incoming"][0])
+    if "from" in raw:
+        raw["from_addr"] = raw.pop("from")
+    if "body" in raw:
+        raw["body_text"] = raw.pop("body")
+    raw.setdefault("id", f"{case['id']}_msg")
+    raw.setdefault("thread_id", f"{case['id']}_thread")
+    raw.setdefault("cc", [])
+    raw.setdefault("body_html", None)
+    raw.setdefault("headers", {})
+    raw.setdefault("attachments", [])
+    raw.setdefault("received_at", FIXED_EPOCH)
+    return EmailMessage(**raw)
+
+
+def _load_config() -> dict:
+    with open("config/actions.yaml") as handle:
+        registry = yaml.safe_load(handle)
+    with open("config/guard.yaml") as handle:
+        guard_cfg = yaml.safe_load(handle)
+    with open("config/policy.yaml") as handle:
+        policy_cfg = yaml.safe_load(handle)
+    return {
+        "registry": registry,
+        "guard_cfg": guard_cfg,
+        "policy_cfg": policy_cfg,
+    }
+
+
+def _run_case(case: dict, policy: dict, llm: LlmAdapter, cfg: dict):
+    ctx = scenario_ctx(case)
+    ctx["dry_run"] = False
+    return process_email(
+        _email_from_case(case),
+        ctx,
+        llm,
+        policy,
+        SimClock(FIXED_EPOCH),
+        cfg,
     )
-    return result.stdout
 
-def run_cli_feedback(decision_id: str, kind: str):
-    env = os.environ.copy()
-    env["AGENT_LLM_MODE"] = "replay"
-    env["PYTHONPATH"] = "."
-    result = subprocess.run(
-        ["uv", "run", "python", "src/agent/cli.py", "feedback", "--decision-id", decision_id, "--kind", kind],
-        env=env, capture_output=True, text=True
+
+def _format_run(case: dict, decisions, outcomes) -> str:
+    lines = [f"Scenario: {case['id']}"]
+    for decision, outcome in zip(decisions, outcomes):
+        reasons = ", ".join(decision.floor_reasons) or "none"
+        lines.extend(
+            [
+                f"Decision: {decision.id}",
+                f"Action: {decision.action.type}",
+                (
+                    f"Level: {decision.level.name} "
+                    f"(Policy: {decision.policy_level.name}, Floor: {decision.floor.name})"
+                ),
+                f"Floor reasons: {reasons}",
+                f"Policy bucket: {decision.policy_reason.get('bucket', 'none')}",
+                (
+                    "Outcome: executed"
+                    if outcome.executed
+                    else f"Outcome: held ({outcome.blocked_reason})"
+                ),
+                "",
+            ]
+        )
+    return "\n".join(lines).rstrip()
+
+
+def _approve(decisions, policy: dict, policy_cfg: dict):
+    rules = RulesEngine(policy.get("_rules", []))
+    for decision in decisions:
+        process_feedback(
+            Feedback(decision_id=decision.id, kind="approve", at=decision.created_at),
+            decision,
+            policy,
+            rules,
+            decision.created_at,
+            policy_cfg,
+        )
+
+
+def _write_transcript(path: Path, provider: str, note: str, body: str):
+    path.write_text(
+        f"*Provider: {provider}; deterministic replay from `eval/cache/`.*\n"
+        f"*{note}*\n\n"
+        f"```text\n{body}\n```\n"
     )
-    return result.stdout
 
-def get_latest_decision():
-    decisions_dir = Path("state/decisions")
-    files = list(decisions_dir.glob("*.json"))
-    if not files: return None
-    latest_file = max(files, key=lambda x: x.stat().st_mtime)
-    with open(latest_file) as f:
-        d = json.load(f)
-    return d["id"]
-    
-def get_latest_level():
-    decisions_dir = Path("state/decisions")
-    files = list(decisions_dir.glob("*.json"))
-    if not files: return None
-    latest_file = max(files, key=lambda x: x.stat().st_mtime)
-    with open(latest_file) as f:
-        d = json.load(f)
-    return d["level"]["name"] if isinstance(d["level"], dict) else AutonomyLevel(d["level"]).name # if mapped
 
 def main():
-    os.makedirs("transcripts", exist_ok=True)
-    if Path("eval/results/transcripts").exists():
-        shutil.rmtree("eval/results/transcripts")
-        
-    for f in ["01_benign.md", "02_feedback_approve.md", "03_benign_learned.md", "04_feedback_stop_asking.md", "05_ambiguous.md", "06_adversarial.md", "07_safety.md"]:
-        p = Path(f"transcripts/{f}")
-        if p.exists(): p.unlink()
+    output_dir = Path("transcripts")
+    output_dir.mkdir(exist_ok=True)
+    for old_file in output_dir.glob("*.md"):
+        old_file.unlink()
 
-    def reset_state():
-        if Path("config/learned_policy.json").exists(): os.remove("config/learned_policy.json")
-        if Path("state").exists(): shutil.rmtree("state")
+    provider = os.environ.get("AGENT_LLM_PROVIDER", "gemini")
+    llm = LlmAdapter(mode="replay", provider=provider)
+    cfg = _load_config()
 
-    reset_state()
-
-    scenarios = [
-        ("eval/scenarios/benign/benign_01_newsletter_digest.yaml",        "01_ask_newsletter.md"), # We will rename based on output
-        ("eval/scenarios/benign/benign_06_client_confirms_demo.yaml",      "02_auto_notify_known_client.md"), # we will do special logic
-        ("eval/scenarios/ambiguous/ambig_01_unknown_founder_call.yaml",    "03_ask_unknown_sender.md"),
-        ("eval/scenarios/adversarial/adv_01_invoice_redirect_bec.yaml",    "04_escalate_invoice_redirect.md"),
-        ("eval/scenarios/adversarial/adv_02_hidden_html_instruction.yaml", "05_injection_blocked.md"),
-        ("eval/scenarios/safety_probe/probe_08_I8_dlp_password.yaml",      "06_dlp_blocks_cofounder.md"),
+    examples = [
+        (
+            "eval/scenarios/benign/benign_01_newsletter_digest.yaml",
+            "01_ask_newsletter.md",
+            "Cold start: no approval history.",
+        ),
+        (
+            "eval/scenarios/ambiguous/ambig_01_unknown_founder_call.yaml",
+            "03_ask_unknown_sender.md",
+            "Ambiguous request from an unknown sender.",
+        ),
+        (
+            "eval/scenarios/adversarial/adv_01_invoice_redirect_bec.yaml",
+            "04_escalate_invoice_redirect.md",
+            "Adversarial money and recipient-redirection request.",
+        ),
+        (
+            "eval/scenarios/adversarial/adv_02_hidden_html_instruction.yaml",
+            "05_injection_blocked.md",
+            "Hidden-HTML prompt-injection attempt.",
+        ),
+        (
+            "eval/scenarios/safety_probe/probe_08_I8_dlp_password.yaml",
+            "06_dlp_blocks_cofounder.md",
+            "Credential DLP probe.",
+        ),
     ]
+    for case_path, filename, note in examples:
+        case = _load_case(case_path)
+        decisions, outcomes = _run_case(case, {}, llm, cfg)
+        _write_transcript(
+            output_dir / filename,
+            provider,
+            note,
+            _format_run(case, decisions, outcomes),
+        )
 
-    
+    client_case = _load_case(
+        "eval/scenarios/benign/benign_06_client_confirms_demo.yaml"
+    )
+    client_policy: dict = {}
+    for _ in range(4):
+        decisions, _ = _run_case(client_case, client_policy, llm, cfg)
+        _approve(decisions, client_policy, cfg["policy_cfg"])
+    decisions, outcomes = _run_case(client_case, client_policy, llm, cfg)
+    _write_transcript(
+        output_dir / "02_auto_notify_known_client.md",
+        provider,
+        "Warmed with four approvals before this run.",
+        _format_run(client_case, decisions, outcomes),
+    )
 
-    for i, (path, out_file) in enumerate(scenarios):
-        if i == 6: continue # 07 is handled later
-        with open(path) as f:
-            case = yaml.safe_load(f)
-            tmp_inbox = f"/tmp/scenario_{i}.json"
-            with open(tmp_inbox, "w") as out:
-                json.dump([case["email"] if "email" in case else case["incoming"][0]], out)
-        
-        if i == 1:
-            reset_state()
-            for _ in range(4):
-                run_cli_run(tmp_inbox)
-                for p in Path("state/decisions").glob("*.json"):
-                    run_cli_feedback(p.stem, "approve")
-                    p.unlink()
-            out_text = run_cli_run(tmp_inbox)
-            level_match = re.search(r"Level:\s+(\w+)", out_text)
-            level = level_match.group(1).lower() if level_match else "unknown"
-            out_file = f"02_{level}_known_client.md"
-            with open(f"transcripts/{out_file}", "w") as f:
-                provider = os.environ.get("AGENT_LLM_PROVIDER", "gemini")
-                f.write(f"*Provider: {provider}, replayed from eval/cache*\n*Warmed with 4 approvals prior to this run.*\n```\n$ agent run --inbox /tmp/scenario_1.json\n")
-                f.write(out_text)
-                f.write("```\n")
-            continue
-            
-        reset_state()
-        out_text = run_cli_run(tmp_inbox)
-        level_match = re.search(r"Level:\s+(\w+)", out_text)
-        level = level_match.group(1).lower() if level_match else "unknown"
-        if i == 0: out_file = f"01_{level}_newsletter.md"
-        with open(f"transcripts/{out_file}", "w") as f:
-            provider = os.environ.get("AGENT_LLM_PROVIDER", "gemini")
-            f.write(f"*Provider: {provider}, replayed from eval/cache*\n")
-            f.write(f"```\n$ agent run --inbox {tmp_inbox}\n")
-            f.write(out_text)
-            if i == 5 and "Action: reply" not in out_text:
-                f.write("Note: Under replay the planner proposed no external action for this email, so I8_THREAD escalation did not trigger.\n")
-            f.write("```\n")
-
-    # 07 Progression
-    reset_state()
-    path = "eval/scenarios/benign/benign_01_newsletter_digest.yaml"
-    with open(path) as f:
-        case = yaml.safe_load(f)
-        tmp_inbox = "/tmp/scenario_learning.json"
-        with open(tmp_inbox, "w") as out:
-            json.dump([case["email"] if "email" in case else case["incoming"][0]], out)
-            
-    out_file = "transcripts/07_learning_progression.md"
-    
+    learning_case = _load_case(
+        "eval/scenarios/benign/benign_01_newsletter_digest.yaml"
+    )
+    learning_policy: dict = {}
     runs = []
-    for i in range(12):
-        out = run_cli_run(tmp_inbox)
-        level_match = re.search(r"Level:\s+(\w+)", out)
-        level = level_match.group(1) if level_match else "ASK"
-        runs.append((i+1, level, out))
-        if level == "AUTO":
+    for run_number in range(1, 13):
+        decisions, outcomes = _run_case(learning_case, learning_policy, llm, cfg)
+        runs.append((run_number, decisions, outcomes))
+        if any(decision.level.name == "AUTO" for decision in decisions):
             break
-        for p in Path("state/decisions").glob("*.json"):
-            run_cli_feedback(p.stem, "approve")
-            p.unlink()
-        
-    first_auto_notify = next((r for r in runs if r[1] == "AUTO_NOTIFY"), None)
-    first_auto = next((r for r in runs if r[1] == "AUTO"), None)
-    
-    with open(out_file, "w") as f:
-        provider = os.environ.get("AGENT_LLM_PROVIDER", "gemini")
-        f.write(f"*Provider: {provider}, replayed from eval/cache*\n# Learning Progression\n")
-        
-        # Run 1
-        r1 = runs[0]
-        f.write(f"\n## Run {r1[0]} (Level: {r1[1]})\n```\n$ agent run --inbox {tmp_inbox}\n{r1[2]}\n```\n")
-        
-        if first_auto_notify and first_auto_notify[0] > r1[0] + 1:
-            f.write(f"\n*(runs {r1[0]+1}–{first_auto_notify[0]-1}: approved, level unchanged)*\n")
-            
-        if first_auto_notify and first_auto_notify[0] > r1[0]:
-            f.write(f"\n## Run {first_auto_notify[0]} (Level: {first_auto_notify[1]})\n```\n$ agent run --inbox {tmp_inbox}\n{first_auto_notify[2]}\n```\n")
-            
-        if first_auto and first_auto_notify and first_auto[0] > first_auto_notify[0] + 1:
-            f.write(f"\n*(runs {first_auto_notify[0]+1}–{first_auto[0]-1}: approved, level unchanged)*\n")
-        elif first_auto and not first_auto_notify and first_auto[0] > r1[0] + 1:
-            f.write(f"\n*(runs {r1[0]+1}–{first_auto[0]-1}: approved, level unchanged)*\n")
-            
-        if first_auto and first_auto[0] > r1[0]:
-            f.write(f"\n## Run {first_auto[0]} (Level: {first_auto[1]})\n```\n$ agent run --inbox {tmp_inbox}\n{first_auto[2]}\n```\n")
+        _approve(decisions, learning_policy, cfg["policy_cfg"])
+
+    progression = []
+    for run_number, decisions, outcomes in runs:
+        levels = ", ".join(decision.level.name for decision in decisions)
+        progression.append(
+            f"Run {run_number} ({levels})\n{_format_run(learning_case, decisions, outcomes)}"
+        )
+    _write_transcript(
+        output_dir / "07_learning_progression.md",
+        provider,
+        "Repeated approvals move a reversible newsletter action toward autonomy.",
+        "\n\n".join(progression),
+    )
+
 
 if __name__ == "__main__":
     main()
