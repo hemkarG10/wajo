@@ -2493,9 +2493,9 @@
     "provider": "gemini",
     "model_small": "gemini-flash-lite-latest",
     "model_main": "gemini-flash-lite-latest",
-    "guard_config_hash": "1df85030c18bf3afa4e2594eed359101aa650ce4dd863f4bdd85ed4ef1240f67",
-    "git_sha": "27f128a",
-    "timestamp": "2026-09-09T07:33:58.255034+00:00",
+    "guard_config_hash": "4cdb9cacf32c6433a4c04fe4578d0c88c969623f590a44d90258e3f3a8589e65",
+    "git_sha": "b6ff18d",
+    "timestamp": "2026-09-09T08:18:14.930215+00:00",
     "scenario_count": 50,
     "suite_counts": {
       "adversarial": 12,
