@@ -14,3 +14,7 @@ eval/audit/
 eval/results/audit.jsonl
 record.log
 state/
+
+*.log
+config/learned_policy.json
+HANDOFF.txt

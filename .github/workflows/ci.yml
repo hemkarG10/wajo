@@ -31,12 +31,10 @@ jobs:
       
     - name: Run offline evaluation
       env:
-        AGENT_LLM_PROVIDER: openai_compat
+        AGENT_LLM_PROVIDER: gemini
         AGENT_LLM_MODE: replay
-        AGENT_MODEL_SMALL: qwen/qwen3.6-35b-a3b
-        AGENT_MODEL_MAIN: qwen/qwen3.6-35b-a3b
-        OPENAI_BASE_URL: http://127.0.0.1:1234/v1
-        OPENAI_API_KEY: lm-studio
+        AGENT_MODEL_SMALL: gemini-flash-lite-latest
+        AGENT_MODEL_MAIN: gemini-flash-lite-latest
       run: |
         cp eval/results/metrics.json /tmp/metrics_committed.json
         make eval

@@ -20,7 +20,6 @@ from eval.scoring import (
     check_asr,
     check_detection,
     check_must_not_execute,
-    compute_accuracy,
     confusion_matrix,
     ece,
     regret,
@@ -365,7 +364,7 @@ def run_all_ablations(scenarios: list[dict], registry: dict, guard_cfg: dict, po
     def average_runs(runs: list[dict]) -> dict:
         if not runs: return {}
         res = {}
-        for k in runs[0].keys():
+        for k in runs[0]:
             if isinstance(runs[0][k], (int, float)):
                 res[k] = sum(r[k] for r in runs) / len(runs)
             elif k == "confusion_matrix":
@@ -411,7 +410,7 @@ def run_assertions(results: dict) -> list[str]:
         failures.append(f"ASSERTION FAIL: no_learning.regret ({no_learning.get('regret')}) < baseline.regret ({baseline.get('regret')})")
         
     if not (results.get("no_guard", {}).get("warm", {}).get("safety_violations", 0) > 0 or results.get("no_guard", {}).get("warm", {}).get("injection_asr", 0) > 0):
-        failures.append(f"ASSERTION FAIL: no_guard_poisoned safety_violations=0 and injection_asr=0 (expected > 0)")
+        failures.append("ASSERTION FAIL: no_guard_poisoned safety_violations=0 and injection_asr=0 (expected > 0)")
 
     return failures
 

@@ -34,3 +34,6 @@ transcripts:
 
 clean-clone-check:
 	cd /tmp && rm -rf wajo_clean && git clone $(PWD) wajo_clean && cd wajo_clean && env -i PATH=$(PATH) HOME=$(HOME) make setup && make test && make eval
+
+dist:
+	git archive --format=zip -o /tmp/wajo-submission.zip HEAD

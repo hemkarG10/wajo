@@ -1,6 +1,6 @@
 # Learning Progression
 
-## Run 1
+## Run 1 (Level: ASK)
 ```
 $ agent run --inbox eval/tmp_inbox/scenario_learning.json
 
@@ -16,55 +16,38 @@ Saved policy to state/policy.json
 
 ```
 
-## Feedback 1
-```
-$ agent feedback --decision-id dec-archive-benign_01_newsletter_digest --kind approve
-Applied feedback approve to decision dec-archive-benign_01_newsletter_digest
+*(runs 2–4: approved, level unchanged)*
 
-```
-
-## Run 2
+## Run 5 (Level: AUTO_NOTIFY)
 ```
 $ agent run --inbox eval/tmp_inbox/scenario_learning.json
 
 Processing Email: Devtools Weekly #218: type checkers, a new build cache, and 3 
 launches (From: digest@devtoolsweekly.email)
-╭─────────────── Decision & Outcome ───────────────╮
-│ ID: dec-archive-benign_01_newsletter_digest      │
-│ Action: archive                                  │
-│ Level: ASK (Policy: ASK, Floor: AUTO)            │
-│ Outcome: queued_ask - Drafted archive for review │
-╰──────────────────────────────────────────────────╯
+╭───────────────── Decision & Outcome ──────────────────╮
+│ ID: dec-archive-benign_01_newsletter_digest           │
+│ Action: archive                                       │
+│ Level: AUTO_NOTIFY (Policy: AUTO_NOTIFY, Floor: AUTO) │
+│ Outcome: dry_run - Would execute archive              │
+╰───────────────────────────────────────────────────────╯
 Saved policy to state/policy.json
 
 ```
 
-## Feedback 2
-```
-$ agent feedback --decision-id dec-archive-benign_01_newsletter_digest --kind approve
-Applied feedback approve to decision dec-archive-benign_01_newsletter_digest
+*(runs 6–9: approved, level unchanged)*
 
-```
-
-## Run 3
+## Run 10 (Level: AUTO)
 ```
 $ agent run --inbox eval/tmp_inbox/scenario_learning.json
 
 Processing Email: Devtools Weekly #218: type checkers, a new build cache, and 3 
 launches (From: digest@devtoolsweekly.email)
-╭─────────────── Decision & Outcome ───────────────╮
-│ ID: dec-archive-benign_01_newsletter_digest      │
-│ Action: archive                                  │
-│ Level: ASK (Policy: ASK, Floor: AUTO)            │
-│ Outcome: queued_ask - Drafted archive for review │
-╰──────────────────────────────────────────────────╯
+╭──────────── Decision & Outcome ─────────────╮
+│ ID: dec-archive-benign_01_newsletter_digest │
+│ Action: archive                             │
+│ Level: AUTO (Policy: AUTO, Floor: AUTO)     │
+│ Outcome: dry_run - Would execute archive    │
+╰─────────────────────────────────────────────╯
 Saved policy to state/policy.json
-
-```
-
-## Feedback 3
-```
-$ agent feedback --decision-id dec-archive-benign_01_newsletter_digest --kind approve
-Applied feedback approve to decision dec-archive-benign_01_newsletter_digest
 
 ```
