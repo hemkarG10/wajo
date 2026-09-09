@@ -85,7 +85,7 @@ def policy_level(
             level = AutonomyLevel.AUTO
         elif s >= policy_cfg["auto_notify_threshold"] and n >= policy_cfg["auto_notify_min_samples"]:
             level = AutonomyLevel.AUTO_NOTIFY
-        elif s >= policy_cfg["ask_threshold"]:
+        elif s >= policy_cfg.get("ask_threshold", 0.40):
             level = AutonomyLevel.ASK
         else:
             level = AutonomyLevel.ESCALATE

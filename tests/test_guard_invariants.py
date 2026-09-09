@@ -184,6 +184,27 @@ def test_i8_dlp(mock_registry, mock_guard_cfg):
     assert "I8" in reasons
 
 
+def test_i8_thread_context_blocks_external_egress(mock_registry, mock_guard_cfg):
+    sit = _make_sit()
+    email = _make_email(body_text="Here is my password: x")
+    act = _make_action("send_reply_known", params={"body": "Thanks!"})
+    inj = _make_inj()
+    level, reasons = floor(sit, email, act, inj, mock_registry, mock_guard_cfg)
+    assert level == AutonomyLevel.ESCALATE
+    assert "I8_THREAD" in reasons
+
+
+def test_i8_thread_context_ignores_internal_actions(mock_registry, mock_guard_cfg):
+    sit = _make_sit()
+    email = _make_email(body_text="Here is my password: x")
+    act = _make_action("archive")
+    inj = _make_inj()
+    level, reasons = floor(sit, email, act, inj, mock_registry, mock_guard_cfg)
+    # archive is internal (external: false) and its floor is AUTO. It should remain AUTO.
+    assert level == AutonomyLevel.AUTO
+    assert "I8_THREAD" not in reasons
+
+
 def test_i9_stale_days(mock_registry, mock_guard_cfg):
     now = datetime.now(UTC)
     situation = _make_sit()

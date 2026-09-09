@@ -26,6 +26,15 @@ def _check_dlp(action: ProposedAction, patterns: list[str]) -> bool:
     return False
 
 
+def _email_matches_dlp(email: EmailMessage, patterns: list[str]) -> bool:
+    """Check email subject and body against DLP regex patterns."""
+    text = (email.subject or "") + "\n" + (email.body_text or "") + "\n" + (email.body_html or "")
+    for pat in patterns:
+        if re.search(pat, text):
+            return True
+    return False
+
+
 def floor(
     situation: Situation,
     email: EmailMessage,
@@ -122,6 +131,11 @@ def floor(
     if is_external and _check_dlp(action, guard_config.get("dlp_patterns", [])):
         current_floor = max(current_floor, AutonomyLevel.ESCALATE)
         reasons.append("I8")
+
+    # I8 extended: a thread that already contains a secret gets no autonomous egress, regardless of what the drafted reply says — the eval caught a reply *about* credentials executing at AUTO_NOTIFY.
+    if is_external and _email_matches_dlp(email, guard_config.get("dlp_patterns", [])):
+        current_floor = max(current_floor, AutonomyLevel.ESCALATE)
+        reasons.append("I8_THREAD")
 
     # I9 Rate caps (stale days check and frequency limits)
     stale_days = guard_config.get("stale_days", 30)
