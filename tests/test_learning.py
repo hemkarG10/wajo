@@ -123,3 +123,28 @@ def test_backoff_buckets():
     )
     
     assert dec2.policy_level in (AutonomyLevel.AUTO, AutonomyLevel.AUTO_NOTIFY)
+
+def test_single_noisy_reject_does_not_reset_trust():
+    policy = {"archive_newsletter_newsletter": {"n": 10, "alpha": 10.0, "beta": 1.0}}
+    rules = RulesEngine()
+    now = datetime.now(UTC)
+    
+    dec = Decision(
+        id="d1", msg_id="m1",
+        action=ProposedAction(type="archive", params={}, provenance={}, rationale="", confidence=1.0),
+        level=AutonomyLevel.ASK, policy_level=AutonomyLevel.ASK, floor=AutonomyLevel.AUTO,
+        floor_reasons=[],
+        policy_reason={"bucket": "archive_newsletter_newsletter"},
+        guard_config_hash="",
+        created_at=now
+    )
+    
+    fb = Feedback(decision_id="d1", kind="reject", at=now)
+    process_feedback(fb, dec, policy, rules, now, {"half_life_days": 14.0, "lcb_confidence": 0.95})
+    
+    assert "archive_newsletter_newsletter" in policy
+    data = policy["archive_newsletter_newsletter"]
+    # 1.0 + (10.0 - 1.0) * 0.5 = 5.5
+    assert data["alpha"] == 5.5
+    # beta increases by 1
+    assert data["beta"] == 2.0

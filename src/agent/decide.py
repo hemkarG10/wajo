@@ -19,7 +19,8 @@ def policy_level(
     action: ProposedAction, 
     learned_policy: dict | None = None,
     rules: Any = None,
-    policy_cfg: dict | None = None
+    policy_cfg: dict | None = None,
+    action_def: dict | None = None
 ) -> tuple[AutonomyLevel, dict]:
     """
     Compute policy level using learned weights (if available) and the thresholds in config/policy.yaml.
@@ -33,6 +34,9 @@ def policy_level(
             "ask_threshold": 0.40
         }
         
+    if action_def is None:
+        action_def = {}
+
     bucket_fine = f"{action.type}_{situation.sender_class.value}_{situation.intent.value}"
     bucket_med = f"{action.type}_{situation.sender_class.value}"
     bucket_coarse = f"{action.type}"
@@ -41,20 +45,26 @@ def policy_level(
     policy_data = learned_policy.get(bucket_fine)
     
     min_samples_for_backoff = policy_cfg.get("auto_notify_min_samples", 2)
+    is_backoff = False
+
+    can_backoff = not (action_def.get("external") or action_def.get("money"))
     
-    if not policy_data or policy_data.get("n", 0) < min_samples_for_backoff:
+    if can_backoff and (not policy_data or policy_data.get("n", 0) < min_samples_for_backoff):
         med_data = learned_policy.get(bucket_med)
         if med_data and med_data.get("n", 0) >= min_samples_for_backoff:
             bucket = bucket_med
             policy_data = med_data
+            is_backoff = True
         else:
             coarse_data = learned_policy.get(bucket_coarse)
             if coarse_data and coarse_data.get("n", 0) >= min_samples_for_backoff:
                 bucket = bucket_coarse
                 policy_data = coarse_data
+                is_backoff = True
                 
     if not policy_data:
         policy_data = learned_policy.get(bucket_fine, {"n": 0, "alpha": 1.0, "beta": 1.0, "lcb": 0.0})
+        is_backoff = False
     
     n = policy_data.get("n", 0)
     lcb = policy_data.get("lcb", 0.0)
@@ -79,6 +89,9 @@ def policy_level(
             level = AutonomyLevel.ASK
         else:
             level = AutonomyLevel.ESCALATE
+            
+        if is_backoff and level == AutonomyLevel.AUTO:
+            level = AutonomyLevel.AUTO_NOTIFY
         
     reason = {
         "bucket": bucket,
@@ -86,7 +99,8 @@ def policy_level(
         "lcb": lcb,
         "s": s,
         "llm_conf": situation.llm_confidence,
-        "planner_conf": action.confidence
+        "planner_conf": action.confidence,
+        "backoff": is_backoff
     }
     return level, reason
 
@@ -104,7 +118,14 @@ def make_decision(
     policy_cfg: dict | None = None,
     is_paused: bool = False,
 ) -> Decision:
-    pol_level, pol_reason = policy_level(situation, action, learned_policy=learned_policy, rules=rules, policy_cfg=policy_cfg)
+    action_def = registry.get(action.type, {})
+    pol_level, pol_reason = policy_level(
+        situation, action, 
+        learned_policy=learned_policy, 
+        rules=rules, 
+        policy_cfg=policy_cfg, 
+        action_def=action_def
+    )
     
     now = clock.now()
     grd_level, grd_reasons = floor(

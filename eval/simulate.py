@@ -1,17 +1,18 @@
 import random
 
 from eval.personas import Persona
+from src.agent.learn.feedback import process_feedback
+from src.agent.learn.rules import RulesEngine
 from src.agent.models import AutonomyLevel, Feedback
 
 
-def simulate_episode(persona: Persona, dataset: list[dict], decider_fn):
+def simulate_episode(persona: Persona, dataset: list[dict], decider_fn, policy_cfg: dict):
     """
     Simulates a learning episode for a given persona over a dataset of emails.
     decider_fn: Callable[[Situation, list[ProposedAction], dict], list[Decision]]
     """
     history_log = []
     current_policy = {}
-    from src.agent.learn.rules import RulesEngine
     rules = RulesEngine()
     
     for case in dataset:
@@ -20,7 +21,6 @@ def simulate_episode(persona: Persona, dataset: list[dict], decider_fn):
             continue
         sit = decisions[0].situation
         for dec in decisions:
-            print(f"DEBUG: Msg={sit.msg_id}, Action={dec.action.type}, Level={dec.level.name}")
             is_noise = random.random() < persona.noise
             
             feedback_kind = None
@@ -55,8 +55,7 @@ def simulate_episode(persona: Persona, dataset: list[dict], decider_fn):
                     kind=feedback_kind,
                     at=dec.created_at
                 )
-                from src.agent.learn.feedback import process_feedback
-                process_feedback(feedback_obj, dec, current_policy, rules, dec.created_at, {"half_life_days": 14.0})
+                process_feedback(feedback_obj, dec, current_policy, rules, dec.created_at, policy_cfg)
                 
             history_log.append({
                 "msg_id": sit.msg_id,

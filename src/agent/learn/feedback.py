@@ -3,8 +3,6 @@ from datetime import datetime
 from src.agent.learn.rules import RulesEngine
 from src.agent.learn.trust import apply_decay, calculate_lcb
 from src.agent.models import Decision, Feedback
-
-
 def process_feedback(
     feedback: Feedback, 
     decision: Decision, 
@@ -13,6 +11,11 @@ def process_feedback(
     now: datetime, 
     policy_cfg: dict
 ):
+    """
+    Process feedback with an asymmetric update: approvals accumulate linearly; 
+    a rejection halves accumulated trust, an undo quarters it — robust to a 
+    single noisy reject, unlearns within two real ones.
+    """
     if not decision.situation:
         # fallback if situation is somehow missing (e.g. from MockDecision)
         buckets = [decision.policy_reason.get("bucket")]
@@ -44,10 +47,12 @@ def process_feedback(
         # apply feedback
         if feedback.kind in {"approve", "escalate_was_right"}:
             new_a += 1.0
-        elif feedback.kind in {"edit", "reject", "undo", "escalate_was_overkill"}:
-            # Backoff: reset alpha on rejection to quickly drop trust
-            new_a = 1.0
+        elif feedback.kind in {"reject", "edit", "escalate_was_overkill"}:
+            new_a = 1.0 + (new_a - 1.0) * 0.5
             new_b += 1.0
+        elif feedback.kind == "undo":
+            new_a = 1.0 + (new_a - 1.0) * 0.25
+            new_b += 2.0
         elif feedback.kind == "stop_asking":
             rules.add_rule(bucket, "stop_asking")
         elif feedback.kind == "always_ask":

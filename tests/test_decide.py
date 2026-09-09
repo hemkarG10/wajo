@@ -91,13 +91,13 @@ def test_policy_level_with_learned_policy():
     level, _ = policy_level(sit, act, learned_policy={})
     assert level == AutonomyLevel.ASK
     
-    # 2. History with n=2, lcb=0.8 -> AUTO_NOTIFY
-    learned_policy = {"archive_known_contact_newsletter": {"n": 2, "lcb": 0.8}}
+    # 2. History with n=3, lcb=0.8 -> AUTO_NOTIFY
+    learned_policy = {"archive_known_contact_newsletter": {"n": 3, "lcb": 0.8}}
     level, _ = policy_level(sit, act, learned_policy=learned_policy)
     assert level == AutonomyLevel.AUTO_NOTIFY
     
-    # 3. History with n=5, lcb=0.95 -> AUTO
-    learned_policy = {"archive_known_contact_newsletter": {"n": 5, "lcb": 0.95}}
+    # 3. History with n=8, lcb=0.95 -> AUTO
+    learned_policy = {"archive_known_contact_newsletter": {"n": 8, "lcb": 0.95}}
     level, _ = policy_level(sit, act, learned_policy=learned_policy)
     assert level == AutonomyLevel.AUTO
     
@@ -105,3 +105,44 @@ def test_policy_level_with_learned_policy():
     learned_policy = {"archive_known_contact_newsletter": {"n": 10, "lcb": 0.3}}
     level, _ = policy_level(sit, act, learned_policy=learned_policy)
     assert level == AutonomyLevel.ESCALATE
+
+def test_backoff_never_grants_auto():
+    sit = Situation(
+        msg_id="test",
+        sender_class=SenderClass.KNOWN_CONTACT,
+        intent=Intent.NEWSLETTER,
+        sensitivity=Sensitivity.NONE,
+        urgency="normal",
+        requested_actions=[],
+        deadline=None,
+        thread_participants=[],
+        summary="Test",
+        llm_confidence=1.0
+    )
+    act = ProposedAction(type="archive", params={}, provenance={}, rationale="test", confidence=1.0)
+    learned_policy = {"archive": {"n": 10, "lcb": 0.95}}
+    
+    level, reason = policy_level(sit, act, learned_policy=learned_policy)
+    assert level == AutonomyLevel.AUTO_NOTIFY
+    assert reason["backoff"] is True
+
+def test_external_action_never_backs_off():
+    sit = Situation(
+        msg_id="test",
+        sender_class=SenderClass.KNOWN_CONTACT,
+        intent=Intent.NEWSLETTER,
+        sensitivity=Sensitivity.NONE,
+        urgency="normal",
+        requested_actions=[],
+        deadline=None,
+        thread_participants=[],
+        summary="Test",
+        llm_confidence=1.0
+    )
+    act = ProposedAction(type="reply", params={}, provenance={}, rationale="test", confidence=1.0)
+    learned_policy = {"reply": {"n": 10, "lcb": 0.95}}
+    action_def = {"external": True}
+    
+    level, reason = policy_level(sit, act, learned_policy=learned_policy, action_def=action_def)
+    assert level == AutonomyLevel.ASK
+    assert reason["backoff"] is False

@@ -31,3 +31,24 @@ dev = [
     "pytest>=9.1.1",
     "ruff>=0.16.6",
 ]
+
+[tool.ruff]
+exclude = ["patches/", "scripts/", ".venv/"]
+
+[tool.ruff.lint]
+ignore = [
+    "BLE001",   # blind except — intentional in LLM provider wrappers
+    "SIM115",   # open without context manager — acceptable in scripts/tests
+    "SIM102",   # collapsible-if — readability preference
+    "PLW1510",  # subprocess.run without check — we handle returncode manually
+    "F841",     # unused variable — some are kept for clarity
+    "RUF059",   # unused unpacked variable
+    "DTZ005",   # datetime.now without tz — only in heuristic test helper
+    "PIE810",   # multiple startswith — readability preference
+    "UP047",    # non-PEP695 generic — not yet migrating
+    "FURB162",  # fromisoformat replace Z — backwards compat
+    "FURB192",  # sorted vs min — readability preference
+    "B023",     # function uses loop variable — intentional in validator
+    "PERF102",  # dict iterator — negligible perf impact
+    "S112",     # try-except-continue — intentional
+]

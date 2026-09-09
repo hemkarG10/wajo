@@ -11,7 +11,7 @@ from src.agent.learn.feedback import process_feedback
 from src.agent.learn.rules import RulesEngine
 from src.agent.learn.store import load_policy, save_policy
 from src.agent.llm import LlmAdapter
-from src.agent.models import AutonomyLevel, Feedback, SystemClock, Decision
+from src.agent.models import AutonomyLevel, Decision, Feedback, SystemClock
 
 app = typer.Typer()
 console = Console()
@@ -28,7 +28,7 @@ def load_configs():
 @app.command()
 def run(
     inbox: str = typer.Option(..., help="Path to sample inbox JSON"),
-    policy_file: str = typer.Option(None, help="Path to learned policy JSON"),
+    policy_file: str = typer.Option("state/policy.json", help="Path to learned policy JSON"),
     mode: str = typer.Option("live", help="LLM cache mode: live, record, or replay"),
     llm_type: str = typer.Option("smart", "--llm", help="Provider: smart or heuristic"),
     interactive: bool = typer.Option(False, "--interactive", help="Prompt for feedback live")
@@ -88,15 +88,14 @@ def run(
                         process_feedback(fb, decision, learned_policy, rules_engine, datetime.now(UTC), policy_cfg)
 
     learned_policy["_rules"] = rules_engine.rules
-    if policy_file:
-        save_policy(learned_policy, policy_file)
-        console.print(f"[bold green]Saved policy to {policy_file}[/bold green]")
+    save_policy(learned_policy, policy_file)
+    console.print(f"[bold green]Saved policy to {policy_file}[/bold green]")
         
 @app.command()
 def feedback(
     decision_id: str = typer.Option(..., help="Decision ID"),
     kind: str = typer.Option(..., help="Feedback kind: approve, reject, edit, undo, stop_asking, always_ask"),
-    policy_file: str = typer.Option("config/learned_policy.json", help="Path to learned policy JSON")
+    policy_file: str = typer.Option("state/policy.json", help="Path to learned policy JSON")
 ):
     registry, guard_cfg, policy_cfg = load_configs()
     learned_policy = load_policy(policy_file) or {}
