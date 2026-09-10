@@ -2,8 +2,8 @@
 
 - **Provider:** gemini
 - **Models:** gemini-flash-lite-latest / gemini-flash-lite-latest
-- **Recorded at:** 2026-09-09T18:35:39.309932+00:00
-- **Evaluated code revision:** `195fcd2`
+- **Recorded at:** 2026-09-10T03:03:37.192518+00:00
+- **Evaluated code revision:** `1193b0f`
 - **Protocol:** 3 personas × 3 deterministic seeds; fractional counts below are means across those nine runs.
 
 ## Metrics
