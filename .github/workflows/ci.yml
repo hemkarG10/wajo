@@ -46,13 +46,15 @@ jobs:
       run: |
         jq -S 'del(._metadata.timestamp, ._metadata.git_sha)' /tmp/metrics_committed.json > /tmp/old.json
         jq -S 'del(._metadata.timestamp, ._metadata.git_sha)' eval/results/metrics.json > /tmp/new.json
-        diff -u /tmp/old.json /tmp/new.json
+        diff -u /tmp/old.json /tmp/new.json > eval/results/drift_diff.txt || (cat eval/results/drift_diff.txt && exit 1)
 
     - name: Build submission artifact
       run: make dist
+      if: always()
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
+      if: always()
       with:
         name: eval-results
         path: |
