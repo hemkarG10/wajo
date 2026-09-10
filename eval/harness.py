@@ -503,9 +503,18 @@ def main():
         "suite_counts": suite_counts,
     }
 
+    def round_floats(obj):
+        if isinstance(obj, float):
+            return round(obj, 5)
+        elif isinstance(obj, dict):
+            return {k: round_floats(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [round_floats(v) for v in obj]
+        return obj
+
     # Save
     with open("eval/results/metrics.json", "w") as f:
-        json.dump(results, f, indent=2, default=str)
+        json.dump(round_floats(results), f, indent=2, default=str)
 
     print("\nEval finished. Results saved to eval/results/metrics.json")
 
