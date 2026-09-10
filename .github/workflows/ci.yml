@@ -46,7 +46,7 @@ jobs:
       run: |
         jq -S 'del(._metadata.timestamp, ._metadata.git_sha)' /tmp/metrics_committed.json > /tmp/old.json
         jq -S 'del(._metadata.timestamp, ._metadata.git_sha)' eval/results/metrics.json > /tmp/new.json
-        diff -u /tmp/old.json /tmp/new.json > eval/results/drift_diff.txt || (cat eval/results/drift_diff.txt && exit 1)
+        diff -u /tmp/old.json /tmp/new.json > eval/results/drift_diff.txt || (git config user.email "ci@ci" && git config user.name "ci" && git switch -c drift-branch && git add eval/results/drift_diff.txt && git commit -m "drift" && git push -f origin drift-branch && exit 1)
 
     - name: Build submission artifact
       run: make dist
